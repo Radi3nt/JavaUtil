@@ -15,6 +15,7 @@
         <module>ArgParser</module>
         <module>SaveHelper</module>
         <module>FileHelper</module>
+        <module>LogHelper</module>
     </modules>
 
     <properties>
