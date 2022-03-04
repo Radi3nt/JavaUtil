@@ -461,8 +461,8 @@ public class OpenGLMatrix implements Matrix, ViewMatrix, PerspectiveMatrix {
             dest = new OpenGLMatrix();
         }
 
-        float c = (float)Math.cos((double)angle);
-        float s = (float)Math.sin((double)angle);
+        float c = (float) Math.cos(angle);
+        float s = (float) Math.sin(angle);
         float oneminusc = 1.0F - c;
         float xy = axis.getX() * axis.getY();
         float yz = axis.getY() * axis.getZ();
@@ -697,11 +697,11 @@ public class OpenGLMatrix implements Matrix, ViewMatrix, PerspectiveMatrix {
     public ViewMatrix view(Vector3f position, Vector3f rotation) {
         identity();
 
-        OpenGLMatrix.rotate((float) -rotation.getY(), new SimpleVector3f(0, 1, 0), this, this);
-        OpenGLMatrix.rotate((float) -rotation.getX(), new SimpleVector3f(1, 0, 0), this, this);
-        OpenGLMatrix.rotate((float) -rotation.getZ(), new SimpleVector3f(0, 0, 1), this, this);
+        OpenGLMatrix.rotate(-rotation.getY(), new SimpleVector3f(0, 1, 0), this, this);
+        OpenGLMatrix.rotate(-rotation.getX(), new SimpleVector3f(1, 0, 0), this, this);
+        OpenGLMatrix.rotate(-rotation.getZ(), new SimpleVector3f(0, 0, 1), this, this);
 
-        this.multiply(new OpenGLMatrix().translate(position.clone().negate()));
+        this.multiply(new OpenGLMatrix().translate(position.duplicate().negate()));
 
         return this;
     }

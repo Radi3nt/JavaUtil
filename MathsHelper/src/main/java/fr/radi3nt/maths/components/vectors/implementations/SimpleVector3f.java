@@ -116,7 +116,7 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
-    public Vector3f clone() {
+    public Vector3f duplicate() {
         return new SimpleVector3f(x, y, z);
     }
 

@@ -73,53 +73,13 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         return rotate(value, axis, this, this);
     }
 
-    @Override
-    public Matrix rotation(Vector3f rotation) {
-        float x = (float) rotation.getX();
-        float y = (float) rotation.getY();
-        float z = (float) rotation.getZ();
-
-        float sinX = (float)Math.sin(x);
-        float sinY = (float)Math.sin(y);
-        float sinZ = (float)Math.sin(z);
-
-        float cosX = (float)Math.cos(x);
-        float cosY = (float)Math.cos(y);
-        float cosZ = (float)Math.cos(z);
-
-        final float sinXsinY = sinX * sinY;
-        final float cosXsinY = cosX * sinY;
-
-        m[0][0] = cosY * cosZ;
-        m[0][1] = cosY * sinZ;
-        m[0][2] = -sinY;
-        m[0][3] = 0f;
-
-        m[1][0] = sinXsinY * cosZ - cosX * sinZ;
-        m[1][1] = sinXsinY * sinZ + cosX * cosZ;
-        m[1][2] = sinX * cosY;
-        m[1][3] = 0f;
-
-        m[2][0] = cosXsinY * cosZ + sinX * sinZ;
-        m[2][1] = cosXsinY * sinZ - sinX * cosZ;
-        m[2][2] = cosX * cosY;
-        m[2][3] = 0f;
-
-        m[3][0] = 0f;
-        m[3][1] = 0f;
-        m[3][2] = 0f;
-        m[3][3] = 1f;
-
-        return this;
-    }
-
     public static Matrix rotate(float angle, Vector3f axis, Matrix src, Matrix dest) {
         if (dest == null) {
             dest = new ArrayMatrix();
         }
 
-        float c = (float)Math.cos((double)angle);
-        float s = (float)Math.sin((double)angle);
+        float c = (float) Math.cos(angle);
+        float s = (float) Math.sin(angle);
         float oneminusc = 1.0F - c;
         float xy = axis.getX() * axis.getY();
         float yz = axis.getY() * axis.getZ();
@@ -157,6 +117,46 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         dest.set(1, 2, t12);
         dest.set(1, 3, t13);
         return dest;
+    }
+
+    @Override
+    public Matrix rotation(Vector3f rotation) {
+        float x = rotation.getX();
+        float y = rotation.getY();
+        float z = rotation.getZ();
+
+        float sinX = (float) Math.sin(x);
+        float sinY = (float) Math.sin(y);
+        float sinZ = (float) Math.sin(z);
+
+        float cosX = (float) Math.cos(x);
+        float cosY = (float) Math.cos(y);
+        float cosZ = (float) Math.cos(z);
+
+        final float sinXsinY = sinX * sinY;
+        final float cosXsinY = cosX * sinY;
+
+        m[0][0] = cosY * cosZ;
+        m[0][1] = cosY * sinZ;
+        m[0][2] = -sinY;
+        m[0][3] = 0f;
+
+        m[1][0] = sinXsinY * cosZ - cosX * sinZ;
+        m[1][1] = sinXsinY * sinZ + cosX * cosZ;
+        m[1][2] = sinX * cosY;
+        m[1][3] = 0f;
+
+        m[2][0] = cosXsinY * cosZ + sinX * sinZ;
+        m[2][1] = cosXsinY * sinZ - sinX * cosZ;
+        m[2][2] = cosX * cosY;
+        m[2][3] = 0f;
+
+        m[3][0] = 0f;
+        m[3][1] = 0f;
+        m[3][2] = 0f;
+        m[3][3] = 1f;
+
+        return this;
     }
 
     @Override
