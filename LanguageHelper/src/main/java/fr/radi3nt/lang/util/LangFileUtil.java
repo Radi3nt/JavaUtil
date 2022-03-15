@@ -88,7 +88,7 @@ public final class LangFileUtil { //todo do it all again
                 loadTranslationsRec(newPath, member.getValue(), keys);
             }
         } else if (!jsonValue.isNull()) {
-            keys.put(currentPath, jsonValue.asString());
+            keys.put(currentPath.toLowerCase(), jsonValue.asString());
         }
         return keys;
     }
