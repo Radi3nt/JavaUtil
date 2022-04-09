@@ -2,8 +2,6 @@ package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.vectors.Vector2i;
 
-import java.util.Objects;
-
 public class SimpleVector2i implements Vector2i {
 
     private int x;
@@ -42,14 +40,20 @@ public class SimpleVector2i implements Vector2i {
     }
 
     @Override
+    public void set(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+
+    @Override
     public Vector2i add(Vector2i vector3f) {
         return add(vector3f.getX(), vector3f.getY());
     }
 
     @Override
     public Vector2i add(int x, int y) {
-        this.setX(this.getX()+x);
-        this.setY(this.getY()+y);
+        this.setX(this.getX() + x);
+        this.setY(this.getY() + y);
         return this;
     }
 
@@ -145,6 +149,6 @@ public class SimpleVector2i implements Vector2i {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return x * 371 + y;
     }
 }
