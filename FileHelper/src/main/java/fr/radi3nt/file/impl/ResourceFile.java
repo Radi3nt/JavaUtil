@@ -53,7 +53,7 @@ public class ResourceFile implements ReadableFile {
 	}
 
 	public InputStream getInputStream() {
-		return Class.class.getResourceAsStream(path);
+		return ResourceFile.class.getResourceAsStream(path);
 	}
 
 	public BufferedReader getReader() {
