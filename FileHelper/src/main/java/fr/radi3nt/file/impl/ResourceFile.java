@@ -56,17 +56,6 @@ public class ResourceFile implements ReadableFile {
 		return ResourceFile.class.getResourceAsStream(path);
 	}
 
-	public BufferedReader getReader() {
-		try {
-			InputStreamReader isr = new InputStreamReader(getInputStream());
-			BufferedReader reader = new BufferedReader(isr);
-			return reader;
-		} catch (Exception e) {
-			System.err.println("Couldn't get reader for " + path);
-			throw e;
-		}
-	}
-
 	public String getName() {
 		return name;
 	}
