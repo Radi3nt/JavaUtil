@@ -1,6 +1,7 @@
-package fr.radi3nt.updater;
+package fr.radi3nt.updater.util;
 
 import fr.radi3nt.file.files.WritableFile;
+import fr.radi3nt.updater.api.JavaUpdater;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

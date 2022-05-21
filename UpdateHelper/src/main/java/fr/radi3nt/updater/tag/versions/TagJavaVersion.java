@@ -1,6 +1,4 @@
-package fr.radi3nt.updater;
-
-import fr.radi3nt.updater.versions.JavaVersion;
+package fr.radi3nt.updater.tag.versions;
 
 public class TagJavaVersion implements JavaVersion {
 

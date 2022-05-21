@@ -1,8 +1,8 @@
-package fr.radi3nt.updater.git;
+package fr.radi3nt.updater.url;
 
-import fr.radi3nt.updater.git.interpreter.VersionInterpreter;
-import fr.radi3nt.updater.update.JavaUpdate;
-import fr.radi3nt.updater.update.UpdateProvider;
+import fr.radi3nt.updater.api.VersionInterpreter;
+import fr.radi3nt.updater.tag.update.JavaUpdate;
+import fr.radi3nt.updater.tag.update.UpdateProvider;
 
 public class SimpleVersionInterpreter<T extends JavaUpdate> implements VersionInterpreter {
 

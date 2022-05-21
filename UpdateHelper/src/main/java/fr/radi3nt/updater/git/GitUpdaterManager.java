@@ -1,12 +1,13 @@
-package fr.radi3nt.updater;
+package fr.radi3nt.updater.git;
 
 import fr.radi3nt.file.files.WritableFile;
-import fr.radi3nt.updater.git.GitHubChecker;
-import fr.radi3nt.updater.git.GitInfo;
-import fr.radi3nt.updater.git.SimpleVersionInterpreter;
-import fr.radi3nt.updater.git.URLUpdater;
-import fr.radi3nt.updater.update.GitUpdate;
-import fr.radi3nt.updater.versions.JavaVersion;
+import fr.radi3nt.updater.api.JavaChecker;
+import fr.radi3nt.updater.api.JavaUpdater;
+import fr.radi3nt.updater.api.UpdateManager;
+import fr.radi3nt.updater.tag.update.GitUpdate;
+import fr.radi3nt.updater.tag.versions.JavaVersion;
+import fr.radi3nt.updater.url.SimpleVersionInterpreter;
+import fr.radi3nt.updater.url.URLUpdater;
 
 public class GitUpdaterManager implements UpdateManager {
 

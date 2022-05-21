@@ -1,4 +1,4 @@
-package fr.radi3nt.updater.versions;
+package fr.radi3nt.updater.tag.versions;
 
 public interface JavaVersion {
 

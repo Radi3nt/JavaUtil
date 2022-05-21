@@ -1,6 +1,6 @@
-package fr.radi3nt.updater;
+package fr.radi3nt.updater.api;
 
-import fr.radi3nt.updater.versions.JavaVersion;
+import fr.radi3nt.updater.tag.versions.JavaVersion;
 
 public interface UpdateManager {
 

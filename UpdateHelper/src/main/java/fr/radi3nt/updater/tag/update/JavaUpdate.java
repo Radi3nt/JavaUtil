@@ -1,4 +1,4 @@
-package fr.radi3nt.updater.update;
+package fr.radi3nt.updater.tag.update;
 
 public interface JavaUpdate {
 

@@ -1,6 +1,6 @@
-package fr.radi3nt.updater.git.interpreter;
+package fr.radi3nt.updater.api;
 
-import fr.radi3nt.updater.update.JavaUpdate;
+import fr.radi3nt.updater.tag.update.JavaUpdate;
 
 public interface VersionInterpreter {
 

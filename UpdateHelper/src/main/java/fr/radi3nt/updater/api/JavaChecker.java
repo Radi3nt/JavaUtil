@@ -1,6 +1,6 @@
-package fr.radi3nt.updater;
+package fr.radi3nt.updater.api;
 
-import fr.radi3nt.updater.update.JavaUpdate;
+import fr.radi3nt.updater.tag.update.JavaUpdate;
 
 public interface JavaChecker {
 

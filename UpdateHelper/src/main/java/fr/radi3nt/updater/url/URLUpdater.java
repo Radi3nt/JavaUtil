@@ -1,8 +1,8 @@
-package fr.radi3nt.updater.git;
+package fr.radi3nt.updater.url;
 
 import fr.radi3nt.file.files.WritableFile;
-import fr.radi3nt.updater.ReadableByteChannelUpdater;
-import fr.radi3nt.updater.update.URLUpdate;
+import fr.radi3nt.updater.tag.update.URLUpdate;
+import fr.radi3nt.updater.util.ReadableByteChannelUpdater;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -1,5 +1,7 @@
 package fr.radi3nt.updater;
 
+import fr.radi3nt.updater.api.UpdateManager;
+
 public class UpdateInstaller {
 
     private final UpdateManager updateManager;

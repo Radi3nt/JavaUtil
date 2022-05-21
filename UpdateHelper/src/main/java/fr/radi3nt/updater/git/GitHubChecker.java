@@ -1,7 +1,8 @@
 package fr.radi3nt.updater.git;
 
-import fr.radi3nt.updater.JavaChecker;
-import fr.radi3nt.updater.update.URLUpdate;
+import fr.radi3nt.updater.api.JavaChecker;
+import fr.radi3nt.updater.tag.update.URLUpdate;
+import fr.radi3nt.updater.url.SimpleVersionInterpreter;
 import fr.radi3nt.updater.util.StreamUtil;
 
 import java.io.IOException;
