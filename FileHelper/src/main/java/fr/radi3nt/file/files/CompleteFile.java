@@ -10,7 +10,4 @@ public interface CompleteFile extends WritableFile, ReadableFile {
 
     RandomAccessFile getRandomAccessFile(FileAccess fileAccess) throws FileNotFoundException;
 
-    void create() throws IOException;
-    boolean isCreated();
-
 }

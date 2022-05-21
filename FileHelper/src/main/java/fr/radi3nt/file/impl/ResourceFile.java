@@ -3,6 +3,7 @@ package fr.radi3nt.file.impl;
 import fr.radi3nt.file.files.ReadableFile;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -60,5 +61,20 @@ public class ResourceFile implements ReadableFile {
 		return name;
 	}
 
+	@Override
+	public boolean isCreated() {
+		InputStream inputStream = getInputStream();
 
+		boolean exists = inputStream!=null;
+
+		if (exists) {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		return exists;
+	}
 }

@@ -22,6 +22,11 @@ public class NioFile implements CompleteFile {
     }
 
     @Override
+    public void delete() throws IOException {
+        Files.deleteIfExists(path);
+    }
+
+    @Override
     public boolean isCreated() {
         return Files.exists(path);
     }
@@ -39,5 +44,9 @@ public class NioFile implements CompleteFile {
     @Override
     public RandomAccessFile getRandomAccessFile(FileAccess fileAccess) throws FileNotFoundException {
         return new RandomAccessFile(path.toFile(), fileAccess.getStringId());
+    }
+
+    public Path getPath() {
+        return path;
     }
 }
