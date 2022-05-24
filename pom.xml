@@ -17,6 +17,7 @@
         <module>FileHelper</module>
         <module>LogHelper</module>
         <module>UpdateHelper</module>
+        <module>TimingHelper</module>
     </modules>
 
     <properties>
