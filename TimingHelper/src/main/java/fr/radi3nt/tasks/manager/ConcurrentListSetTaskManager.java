@@ -30,6 +30,32 @@ public class ConcurrentListSetTaskManager implements TaskManager {
         }
     }
 
+    public void update(int maxTasks) {
+
+        int currentTasks = 0;
+
+        for (ManagerTask gLTask : queuedTasks) {
+            if (currentTasks>=maxTasks)
+                break;
+
+            try {
+                gLTask.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            queuedTasks.remove(gLTask);
+            currentTasks++;
+        }
+
+        for (ManagerTask persistentTask : persistentTasks) {
+            try {
+                persistentTask.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void addTask(ManagerTask ManagerTask) {
         queuedTasks.add(ManagerTask);
