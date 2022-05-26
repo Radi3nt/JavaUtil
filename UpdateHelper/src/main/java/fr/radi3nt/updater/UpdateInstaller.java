@@ -29,7 +29,7 @@ public class UpdateInstaller {
     }
 
     private void update() {
-        System.out.println("Updating client...");
+        System.out.println("Updating application...");
         updateManager.createUpdater().update();
         wasUpdated = true;
     }
