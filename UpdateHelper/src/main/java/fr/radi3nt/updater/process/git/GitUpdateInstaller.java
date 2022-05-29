@@ -11,6 +11,7 @@ import fr.radi3nt.updater.util.JsonUtil;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Path;
@@ -87,14 +88,14 @@ public class GitUpdateInstaller {
         }
     }
 
-    public boolean install() {
+    public boolean install(PrintStream error, PrintStream info) {
         fetchReleases(gitFetcher);
 
         GitRelease latestInBranch = getLatestInBranch(branch, gitFetcher.getReleases());
 
         if (latestInBranch==null) {
-            System.out.println("Current branch has no release");
-            System.out.println("Exiting program...");
+            error.println("Current branch has no release");
+            error.println("Exiting program...");
             return false;
         }
 
@@ -110,8 +111,8 @@ public class GitUpdateInstaller {
             if (forceInstall)
                 System.out.println("Forcing installation of the latest release...");
 
-            System.out.println("Newer version available: " + latestInBranch.getVersionTag() + " on " + latestInBranch.getBranchName());
-            System.out.println("Downloading...");
+            info.println("Newer version available: " + latestInBranch.getVersionTag() + " on " + latestInBranch.getBranchName());
+            info.println("Downloading...");
 
             ExecutorService pool = Executors.newCachedThreadPool();
             Map<GitAsset, ProgressTracker> progressTrackerMap = new ConcurrentHashMap<>();
@@ -143,9 +144,9 @@ public class GitUpdateInstaller {
                         BigDecimal bigDecimal = BigDecimal.valueOf(currentBytes).setScale(10000, RoundingMode.HALF_UP).divide(BigDecimal.valueOf(maxBytes), RoundingMode.HALF_UP);
                         bigDecimal = bigDecimal.multiply(BigDecimal.valueOf(100));
                         bigDecimal = bigDecimal.setScale(0, RoundingMode.FLOOR);
-                        System.out.println("Downloading " + gitAssetProgressTrackerEntry.getKey().getName() + ", progress " + currentBytes + "/" + maxBytes + " " + bigDecimal + "%");
+                        info.println("Downloading " + gitAssetProgressTrackerEntry.getKey().getName() + ", progress " + currentBytes + "/" + maxBytes + " " + bigDecimal + "%");
                     } else {
-                        System.out.println("Downloading of " + gitAssetProgressTrackerEntry.getKey().getName() + " is done");
+                        info.println("Downloading of " + gitAssetProgressTrackerEntry.getKey().getName() + " is done");
                         progressTrackerMap.remove(gitAssetProgressTrackerEntry.getKey());
                     }
                 }
@@ -163,10 +164,10 @@ public class GitUpdateInstaller {
                 throw new RuntimeException(e);
             }
         } else {
-            System.out.println("Current version is latest");
+            info.println("Current version is latest");
         }
 
-        System.out.println("All files are up-to date");
+        info.println("All files are up-to date");
 
         return updated;
     }
