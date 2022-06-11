@@ -328,7 +328,7 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     }
 
     @Override
-    public ViewMatrix view(Vector3f position, Vector3f rotation) {
+    public ViewMatrix view(Vector3f position, Vector3f rotation) { //todo rotation no need to negate ?
         identity();
 
         Matrix rotX = MatrixCreator.createMatrix().rotation(-rotation.getX(), new SimpleVector3f(1, 0, 0));
