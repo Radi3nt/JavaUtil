@@ -18,6 +18,7 @@
         <module>LogHelper</module>
         <module>UpdateHelper</module>
         <module>TimingHelper</module>
+        <module>NoiseHelper</module>
     </modules>
 
     <properties>
