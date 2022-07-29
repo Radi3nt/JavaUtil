@@ -1,9 +1,7 @@
 package fr.radi3nt.maths.components;
 
 public class Vector3D implements Cloneable {
-    
-    private static final long serialVersionUID = -2657651106777219169L;
-    private static final double epsilon = 1.0E-6D;
+
     protected double x;
     protected double y;
     protected double z;
@@ -15,9 +13,9 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D(int x, int y, int z) {
-        this.x = (double)x;
-        this.y = (double)y;
-        this.z = (double)z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Vector3D(double x, double y, double z) {
@@ -27,9 +25,9 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D(float x, float y, float z) {
-        this.x = (double)x;
-        this.y = (double)y;
-        this.z = (double)z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public Vector3D add(Vector3D vec) {
@@ -103,9 +101,9 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D multiply(int m) {
-        this.x *= (double)m;
-        this.y *= (double)m;
-        this.z *= (double)m;
+        this.x *= m;
+        this.y *= m;
+        this.z *= m;
         return this;
     }
 
@@ -117,9 +115,9 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D multiply(float m) {
-        this.x *= (double)m;
-        this.y *= (double)m;
-        this.z *= (double)m;
+        this.x *= m;
+        this.y *= m;
+        this.z *= m;
         return this;
     }
 
@@ -180,7 +178,7 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D setX(int x) {
-        this.x = (double)x;
+        this.x = x;
         return this;
     }
 
@@ -190,12 +188,12 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D setX(float x) {
-        this.x = (double)x;
+        this.x = x;
         return this;
     }
 
     public Vector3D setY(int y) {
-        this.y = (double)y;
+        this.y = y;
         return this;
     }
 
@@ -205,12 +203,12 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D setY(float y) {
-        this.y = (double)y;
+        this.y = y;
         return this;
     }
 
     public Vector3D setZ(int z) {
-        this.z = (double)z;
+        this.z = z;
         return this;
     }
 
@@ -220,7 +218,7 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D setZ(float z) {
-        this.z = (double)z;
+        this.z = z;
         return this;
     }
 
@@ -229,7 +227,7 @@ public class Vector3D implements Cloneable {
             return false;
         } else {
             Vector3D other = (Vector3D)obj;
-            return Math.abs(this.x - other.x) < 1.0E-6D && Math.abs(this.y - other.y) < 1.0E-6D && Math.abs(this.z - other.z) < 1.0E-6D && this.getClass().equals(obj.getClass());
+            return Math.abs(this.x - other.x) < getEpsilon() && Math.abs(this.y - other.y) < getEpsilon() && Math.abs(this.z - other.z) < getEpsilon() && this.getClass().equals(obj.getClass());
         }
     }
 
