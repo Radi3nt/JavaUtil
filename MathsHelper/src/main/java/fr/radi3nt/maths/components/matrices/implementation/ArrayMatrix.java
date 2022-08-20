@@ -330,7 +330,6 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     @Override
     public ViewMatrix view(Vector3f position, Vector3f rotation) { //todo rotation no need to negate ?
 
-
         Matrix rotX = MatrixCreator.createMatrix().rotation(-rotation.getX(), new SimpleVector3f(1, 0, 0));
         Matrix rotY = MatrixCreator.createMatrix().rotation(-rotation.getY(), new SimpleVector3f(0, 1, 0));
         Matrix rotZ = MatrixCreator.createMatrix().rotation(-rotation.getZ(), new SimpleVector3f(0, 0, 1));
@@ -373,9 +372,7 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         float[][] m2 = new float[4][4];
 
         for (int x = 0; x < m.length; x++) {
-            for (int y = 0; y < m[x].length; y++) {
-                m2[x][y] = m[x][y];
-            }
+            System.arraycopy(m[x], 0, m2[x], 0, m[x].length);
         }
 
         return new ArrayMatrix(m2);

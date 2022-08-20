@@ -2,6 +2,7 @@ package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.Vector3D;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.Vector3i;
 
 import java.util.Objects;
 
@@ -18,6 +19,10 @@ public class SimpleVector3f implements Vector3f {
     }
 
     public SimpleVector3f(Vector3f vector3f) {
+        this(vector3f.getX(), vector3f.getY(), vector3f.getZ());
+    }
+
+    public SimpleVector3f(Vector3i vector3f) {
         this(vector3f.getX(), vector3f.getY(), vector3f.getZ());
     }
 
