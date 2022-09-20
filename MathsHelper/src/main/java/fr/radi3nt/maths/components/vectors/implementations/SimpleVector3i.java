@@ -2,8 +2,6 @@ package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.vectors.Vector3i;
 
-import java.util.Objects;
-
 public class SimpleVector3i implements Vector3i {
 
     private int x;
@@ -105,14 +103,22 @@ public class SimpleVector3i implements Vector3i {
     @Override
     public Vector3i div(int x, int y, int z) {
         this.setX(this.getX()/x);
-        this.setY(this.getY()/y);
-        this.setZ(this.getZ()/z);
+        this.setY(this.getY() / y);
+        this.setZ(this.getZ() / z);
         return this;
     }
 
     @Override
     public Vector3i div(int mul) {
         return div(mul, mul, mul);
+    }
+
+    @Override
+    public Vector3i floorDiv(int mul) {
+        this.setX(Math.floorDiv(this.getX(), mul));
+        this.setY(Math.floorDiv(this.getY(), mul));
+        this.setZ(Math.floorDiv(this.getZ(), mul));
+        return this;
     }
 
     @Override
@@ -176,6 +182,11 @@ public class SimpleVector3i implements Vector3i {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + z;
+        return result;
     }
 }

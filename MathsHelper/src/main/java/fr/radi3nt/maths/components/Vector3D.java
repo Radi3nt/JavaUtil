@@ -58,6 +58,13 @@ public class Vector3D implements Cloneable {
         return this;
     }
 
+    public Vector3D divide(double div) {
+        this.x /= div;
+        this.y /= div;
+        this.z /= div;
+        return this;
+    }
+
     public Vector3D copy(Vector3D vec) {
         this.x = vec.x;
         this.y = vec.y;
@@ -240,11 +247,7 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D clone() {
-        try {
-            return (Vector3D)super.clone();
-        } catch (CloneNotSupportedException var2) {
-            throw new Error(var2);
-        }
+        return new Vector3D(x, y, z);
     }
 
     public String toString() {

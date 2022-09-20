@@ -132,8 +132,8 @@ public class SimpleVector3f implements Vector3f {
 
     @Override
     public Vector3f cross(Vector3f vector3f) {
-        float x = y * vector3f.getZ() - z * vector3f.getY();
-        float y = z * vector3f.getX() - this.x * vector3f.getZ();
+        float x = this.y * vector3f.getZ() - this.z * vector3f.getY();
+        float y = this.z * vector3f.getX() - this.x * vector3f.getZ();
         float z = this.x * vector3f.getY() - this.y * vector3f.getX();
 
         setX(x);

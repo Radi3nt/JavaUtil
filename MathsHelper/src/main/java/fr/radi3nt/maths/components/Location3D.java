@@ -152,11 +152,8 @@ public class Location3D {
         return new Vector3D(this.x, this.y, this.z);
     }
 
+    @Override
     public Location3D clone() {
-        try {
-            return (Location3D)super.clone();
-        } catch (CloneNotSupportedException var2) {
-            throw new Error(var2);
-        }
+        return new Location3D(x, y, z);
     }
 }

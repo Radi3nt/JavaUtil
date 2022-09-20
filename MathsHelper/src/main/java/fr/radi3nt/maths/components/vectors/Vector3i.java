@@ -23,6 +23,8 @@ public interface Vector3i extends Vector {
     Vector3i div(int x, int y, int z);
     Vector3i div(int mul);
 
+    Vector3i floorDiv(int mul);
+
     Vector3i clone();
 
     Vector3i cross(Vector3i vector3f);
