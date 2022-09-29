@@ -37,6 +37,13 @@ public class Vector3D implements Cloneable {
         return this;
     }
 
+    public Vector3D add(double offsetX, double offsetY, double offsetZ) {
+        this.x += offsetX;
+        this.y += offsetY;
+        this.z += offsetZ;
+        return this;
+    }
+
     public Vector3D subtract(Vector3D vec) {
         this.x -= vec.x;
         this.y -= vec.y;
