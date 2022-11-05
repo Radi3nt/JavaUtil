@@ -52,14 +52,26 @@ public class SimpleVector3i implements Vector3i {
     }
 
     @Override
+    public void set(int x, int y, int z) {
+        setX(x);
+        setY(y);
+        setZ(z);
+    }
+
+    @Override
+    public void set(Vector3i original) {
+        set(original.getX(), original.getY(), original.getZ());
+    }
+
+    @Override
     public Vector3i add(Vector3i vector3f) {
         return add(vector3f.getX(), vector3f.getY(), vector3f.getZ());
     }
 
     @Override
     public Vector3i add(int x, int y, int z) {
-        this.setX(this.getX()+x);
-        this.setY(this.getY()+y);
+        this.setX(this.getX() + x);
+        this.setY(this.getY() + y);
         this.setZ(this.getZ()+z);
         return this;
     }

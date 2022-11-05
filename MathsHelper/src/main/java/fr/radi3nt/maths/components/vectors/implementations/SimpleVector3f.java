@@ -64,14 +64,21 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
+    public void set(float x, float y, float z) {
+        this.setX(x);
+        this.setY(y);
+        this.setZ(z);
+    }
+
+    @Override
     public Vector3f add(Vector3f vector3f) {
         return add(vector3f.getX(), vector3f.getY(), vector3f.getZ());
     }
 
     @Override
     public Vector3f add(float x, float y, float z) {
-        this.setX(this.getX()+x);
-        this.setY(this.getY()+y);
+        this.setX(this.getX() + x);
+        this.setY(this.getY() + y);
         this.setZ(this.getZ()+z);
         return this;
     }
