@@ -2,8 +2,6 @@ package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.vectors.Vector3b;
 
-import java.util.Objects;
-
 public class SimpleVector3b implements Vector3b {
 
     private byte x;
@@ -176,6 +174,11 @@ public class SimpleVector3b implements Vector3b {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + z;
+        return result;
     }
 }
