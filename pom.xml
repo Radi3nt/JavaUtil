@@ -19,6 +19,7 @@
         <module>UpdateHelper</module>
         <module>TimingHelper</module>
         <module>NoiseHelper</module>
+        <module>BehaviorTree</module>
     </modules>
 
     <properties>
