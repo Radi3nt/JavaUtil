@@ -14,6 +14,13 @@ public class SequenceNode extends CompositeNode {
         super(new ArrayList<>());
     }
 
+    public SequenceNode(TreeNode... treeNodes) {
+        this();
+        for (TreeNode treeNode : treeNodes) {
+            add(treeNode);
+        }
+    }
+
     @Override
     public NodeStatus run() {
         for (TreeNode treeNode : treeNodes) {
