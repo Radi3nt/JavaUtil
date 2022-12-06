@@ -40,12 +40,11 @@ public class OpenGLMatrix implements Matrix, ViewMatrix, PerspectiveMatrix {
     }
 
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(this.m00).append(' ').append(this.m10).append(' ').append(this.m20).append(' ').append(this.m30).append('\n');
-        buf.append(this.m01).append(' ').append(this.m11).append(' ').append(this.m21).append(' ').append(this.m31).append('\n');
-        buf.append(this.m02).append(' ').append(this.m12).append(' ').append(this.m22).append(' ').append(this.m32).append('\n');
-        buf.append(this.m03).append(' ').append(this.m13).append(' ').append(this.m23).append(' ').append(this.m33).append('\n');
-        return buf.toString();
+        String buf = String.valueOf(this.m00) + ' ' + this.m10 + ' ' + this.m20 + ' ' + this.m30 + '\n' +
+                this.m01 + ' ' + this.m11 + ' ' + this.m21 + ' ' + this.m31 + '\n' +
+                this.m02 + ' ' + this.m12 + ' ' + this.m22 + ' ' + this.m32 + '\n' +
+                this.m03 + ' ' + this.m13 + ' ' + this.m23 + ' ' + this.m33 + '\n';
+        return buf;
     }
 
     public Matrix identity() {
@@ -450,6 +449,11 @@ public class OpenGLMatrix implements Matrix, ViewMatrix, PerspectiveMatrix {
 
     public OpenGLMatrix rotate(float angle, Vector3f axis) {
         return this.rotate(angle, axis, this);
+    }
+
+    @Override
+    public void rotationFromDirection(Vector3f direction, Vector3f up) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     public OpenGLMatrix rotate(float angle, Vector3f axis, OpenGLMatrix dest) {

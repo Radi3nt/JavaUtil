@@ -27,6 +27,9 @@ public interface Matrix {
      * @param value Angle in radians
      */
     Matrix rotate(float value, Vector3f axis);
+
+    void rotationFromDirection(Vector3f direction, Vector3f up);
+
     Matrix scale(Vector3f scale);
 
     Matrix invert();

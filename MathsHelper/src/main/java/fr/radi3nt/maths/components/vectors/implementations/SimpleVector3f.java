@@ -169,6 +169,11 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
+    public float lengthSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    @Override
     public float length() {
         return (float) Math.sqrt(x * x + y * y + z * z);
     }

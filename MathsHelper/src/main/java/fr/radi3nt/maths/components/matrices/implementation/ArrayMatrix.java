@@ -199,6 +199,27 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     }
 
     @Override
+    public void rotationFromDirection(Vector3f direction, Vector3f up) {
+        Vector3f xaxis = up.duplicate().cross(direction);
+        xaxis.normalize();
+
+        Vector3f yaxis = direction.duplicate().cross(xaxis);
+        yaxis.normalize();
+
+        m[0][0] = xaxis.getX();
+        m[0][1] = yaxis.getX();
+        m[0][2] = direction.getX();
+
+        m[1][0] = xaxis.getY();
+        m[1][1] = yaxis.getY();
+        m[1][2] = direction.getY();
+
+        m[2][0] = xaxis.getZ();
+        m[2][1] = yaxis.getZ();
+        m[2][2] = direction.getZ();
+    }
+
+    @Override
     public Matrix scale(Vector3f scale) {
         return scale(scale, this, this);
     }
@@ -280,14 +301,7 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     public Matrix multiply(Matrix matrix) {
         ArrayMatrix res = new ArrayMatrix();
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                res.set(i, j, this.get(i,0) * matrix.get(0, j) +
-                        this.get(i,1) * matrix.get(1, j) +
-                        this.get(i,2) * matrix.get(2, j) +
-                        this.get(i,3) * matrix.get(3, j));
-            }
-        }
+        multiply(matrix, res);
 
         m = res.getM();
 
@@ -298,16 +312,20 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     public Matrix mul(Matrix matrix) {
         Matrix res = new ArrayMatrix();
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                res.set(i, j, this.get(i,0) * matrix.get(0, j) +
-                        this.get(i,1) * matrix.get(1, j) +
-                        this.get(i,2) * matrix.get(2, j) +
-                        this.get(i,3) * matrix.get(3, j));
-            }
-        }
+        multiply(matrix, res);
 
         return res;
+    }
+
+    private void multiply(Matrix matrix, Matrix res) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                res.set(i, j, this.get(i, 0) * matrix.get(0, j) +
+                        this.get(i, 1) * matrix.get(1, j) +
+                        this.get(i, 2) * matrix.get(2, j) +
+                        this.get(i, 3) * matrix.get(3, j));
+            }
+        }
     }
 
     @Override
@@ -363,8 +381,12 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         return m[x][y];
     }
 
-    private float[][] getM() {
+    public float[][] getM() {
         return m;
+    }
+
+    public void setM(float[][] m) {
+        this.m = m;
     }
 
     @Override

@@ -31,14 +31,20 @@ public interface Vector3f extends Vector {
     Vector3f mul(float mul);
 
     Vector3f div(Vector3f Vector3f);
+
     Vector3f div(float x, float y, float z);
+
     Vector3f div(float mul);
 
     Vector3f duplicate();
 
     Vector3f cross(Vector3f vector3f);
+
     float dot(Vector3f Vector3f);
+
     Vector3f normalize();
 
     Vector3f negate();
+
+    float lengthSquared();
 }
