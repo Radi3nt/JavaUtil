@@ -401,6 +401,15 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
     }
 
     @Override
+    public void copy(Matrix transform) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                set(i, j, transform.get(i, j));
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("ArrayMatrix{" +
                 "\n");

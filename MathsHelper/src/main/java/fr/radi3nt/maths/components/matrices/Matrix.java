@@ -38,12 +38,16 @@ public interface Matrix {
     Vector4f transform(Vector4f vector4f);
 
     Matrix multiply(Matrix matrix);
+
     Matrix mul(Matrix matrix);
 
     Matrix set(int x, int y, float value);
+
     float get(int x, int y);
 
     Matrix store(FloatBuffer buffer);
 
     Matrix duplicate();
+
+    void copy(Matrix transform);
 }
