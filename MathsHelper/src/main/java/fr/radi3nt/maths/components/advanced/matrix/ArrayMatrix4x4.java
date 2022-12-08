@@ -14,6 +14,15 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     private final float[][] m = new float[4][4];
 
+    public ArrayMatrix4x4(fr.radi3nt.maths.components.matrices.Matrix copy) {
+        zero();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                set(i, j, copy.get(i, j));
+            }
+        }
+    }
+
     public ArrayMatrix4x4() {
         zero();
     }
@@ -278,12 +287,12 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
         xaxis.normalize();
         float phi = (float) Math.acos(direction.dot(up));
 
-
+        /*
         float u = xaxis.getX();
         float w = xaxis.getY();
         float v = xaxis.getZ();
 
-        /*
+
         float rcos = (float) Math.cos(phi);
         float rsin = (float) Math.sin(phi);
         m[0][0] =      rcos + u*u*(1-rcos);
