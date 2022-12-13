@@ -27,6 +27,12 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
         zero();
     }
 
+    public static ArrayMatrix4x4 newIdentity() {
+        ArrayMatrix4x4 arrayMatrix4x4 = new ArrayMatrix4x4();
+        arrayMatrix4x4.identity();
+        return arrayMatrix4x4;
+    }
+
     @Override
     public void identity() {
         zero();
@@ -126,45 +132,18 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public Quaternion getRotation() {
-        float t = 1 + m[0][0] + m[1][1] + m[2][2];
+        return getCopySignRotation();
+    }
 
-        if (t > 0.00000001) {
-            float s = (float) (Math.sqrt(t) * 2f);
-            float x = (m[1][2] - m[2][1]) / s;
-            float y = (m[0][2] - m[2][0]) / s;
-            float z = (m[1][0] - m[0][1]) / s;
-            float w = 0.25f * s;
-
-            return new ComponentsQuaternion(x, y, z, w);
-        }
-
-        if (m[0][0] > m[1][1] && m[0][0] > m[2][2]) {    // Column 0:
-            float s = (float) (Math.sqrt(1.0 + m[0][0] - m[1][1] - m[2][2]) * 2f);
-            float x = 0.25f * s;
-            float y = (m[0][1] + m[1][0]) / s;
-            float z = (m[2][0] + m[0][2]) / s;
-            float w = (m[1][2] - m[2][1]) / s;
-
-            return new ComponentsQuaternion(x, y, z, w);
-
-        } else if (m[1][1] > m[2][2]) {            // Column 1:
-            float s = (float) (Math.sqrt(1.0 + m[1][1] - m[0][0] - m[2][2]) * 2f);
-            float x = (m[0][1] + m[1][0]) / s;
-            float y = 0.25f * s;
-            float z = (m[1][2] + m[2][1]) / s;
-            float w = (m[2][0] - m[0][2]) / s;
-
-            return new ComponentsQuaternion(x, y, z, w);
-
-        } else {                        // Column 2:
-            float s = (float) (Math.sqrt(1.0 + m[2][2] - m[0][0] - m[1][1]) * 2f);
-            float x = (m[2][0] + m[0][2]) / s;
-            float y = (m[1][2] + m[2][1]) / s;
-            float z = 0.25f * s;
-            float w = (m[0][1] - m[1][0]) / s;
-
-            return new ComponentsQuaternion(x, y, z, w);
-        }
+    private Quaternion getCopySignRotation() {
+        float w = (float) (Math.sqrt(Math.max(0, 1 + m[0][0] + m[1][1] + m[2][2])) / 2);
+        float x = (float) (Math.sqrt(Math.max(0, 1 + m[0][0] - m[1][1] - m[2][2])) / 2);
+        float y = (float) (Math.sqrt(Math.max(0, 1 - m[0][0] + m[1][1] - m[2][2])) / 2);
+        float z = (float) (Math.sqrt(Math.max(0, 1 - m[0][0] - m[1][1] + m[2][2])) / 2);
+        x *= Math.signum(m[2][1] - m[1][2]);
+        y *= Math.signum(m[0][2] - m[2][0]);
+        z *= Math.signum(m[1][0] - m[0][1]);
+        return new ComponentsQuaternion(x, y, z, w);
     }
 
     @Override
@@ -174,7 +153,11 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public Vector3f getScale() {
-        return new SimpleVector3f(m[0][0], m[1][1], m[2][2]);
+        float x = new SimpleVector3f(m[0][0], m[0][1], m[0][2]).length();
+        float y = new SimpleVector3f(m[1][0], m[1][1], m[1][2]).length();
+        float z = new SimpleVector3f(m[2][0], m[2][1], m[2][2]).length();
+
+        return new SimpleVector3f(x, y, z);
     }
 
     @Override
@@ -345,10 +328,6 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
                 set(x, y, result.get(x, y));
             }
         }
-    }
-
-    public float[][] getM() {
-        return m;
     }
 
     @Override
