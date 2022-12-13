@@ -36,9 +36,8 @@ public class ComponentsQuaternion implements Quaternion {
         float x = actualAxis.getX() * sin_a;
         float y = actualAxis.getY() * sin_a;
         float z = actualAxis.getZ() * sin_a;
-        float w = cos_a;
 
-        return new ComponentsQuaternion(x, y, z, w);
+        return new ComponentsQuaternion(x, y, z, cos_a);
     }
 
     public static Quaternion fromEulerAngles(Angle angleX, Angle angleY, Angle angleZ) {
@@ -104,6 +103,40 @@ public class ComponentsQuaternion implements Quaternion {
         this.y = y;
         this.z = z;
         this.w = w;
+    }
+
+    @Override
+    public void interpolate(Quaternion quaternionEnd, float ease) {
+        double cosHalfTheta = dot(quaternionEnd);
+
+        // if qa=quaternionEnd or qa=-quaternionEnd then theta = 0 and we can return qa
+        if (Math.abs(cosHalfTheta) >= 1.0) {
+            return;
+        }
+        // Calculate temporary values.
+        double halfTheta = Math.acos(cosHalfTheta);
+        double sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+        // if theta = 180 degrees then result is not fully defined
+        // we could rotate around any axis normal to qa or quaternionEnd
+        if (Math.abs(sinHalfTheta) < 0) { // fabs is floating point absolute
+            this.w = (w * 0.5f + quaternionEnd.getW() * 0.5f);
+            this.x = (x * 0.5f + quaternionEnd.getX() * 0.5f);
+            this.y = (y * 0.5f + quaternionEnd.getY() * 0.5f);
+            this.z = (z * 0.5f + quaternionEnd.getZ() * 0.5f);
+            return;
+        }
+        double ratioA = Math.sin((1 - ease) * halfTheta) / sinHalfTheta;
+        double ratioB = Math.sin(ease * halfTheta) / sinHalfTheta;
+        //calculate Quaternion.
+        w = (float) (w * ratioA + quaternionEnd.getW() * ratioB);
+        x = (float) (x * ratioA + quaternionEnd.getX() * ratioB);
+        y = (float) (y * ratioA + quaternionEnd.getY() * ratioB);
+        z = (float) (z * ratioA + quaternionEnd.getZ() * ratioB);
+    }
+
+    @Override
+    public float dot(Quaternion other) {
+        return x * other.getX() + y * other.getY() + z * other.getZ() + w * other.getW();
     }
 
     @Override

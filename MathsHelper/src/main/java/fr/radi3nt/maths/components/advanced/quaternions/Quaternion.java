@@ -14,10 +14,13 @@ public interface Quaternion {
 
     void multiply(Quaternion quaternion);
 
+    void interpolate(Quaternion quaternionEnd, float ease);
+
+    float dot(Quaternion other);
+
     float getMagnitude();
 
     Quaternion getConjugate();
 
     Quaternion duplicate();
-
 }
