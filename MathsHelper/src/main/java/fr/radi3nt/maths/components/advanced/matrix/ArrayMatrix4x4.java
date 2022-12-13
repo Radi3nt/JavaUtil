@@ -118,7 +118,7 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
-    public Matrix duplicate() {
+    public Matrix4x4 duplicate() {
         ArrayMatrix4x4 arrayMatrix = new ArrayMatrix4x4();
         arrayMatrix.copy(this);
         return arrayMatrix;

@@ -34,4 +34,7 @@ public interface Matrix4x4 extends Matrix {
     void multiply(Matrix matrix);
 
     void copy(Matrix result);
+
+    Matrix4x4 duplicate();
+
 }
