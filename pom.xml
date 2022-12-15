@@ -20,6 +20,7 @@
         <module>TimingHelper</module>
         <module>NoiseHelper</module>
         <module>BehaviorTree</module>
+        <module>LanguageHelperV2</module>
     </modules>
 
     <properties>
