@@ -1,5 +1,6 @@
 package fr.radi3nt.maths.components.matrices.implementation;
 
+import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix4x4;
 import fr.radi3nt.maths.components.matrices.Matrix;
 import fr.radi3nt.maths.components.matrices.PerspectiveMatrix;
 import fr.radi3nt.maths.components.matrices.ViewMatrix;
@@ -23,6 +24,27 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         this(new float[4][4]);
         identity();
     }
+
+    public static Matrix from(ArrayMatrix4x4 arrayMatrix4x4) {
+        ArrayMatrix arrayMatrix = new ArrayMatrix();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                arrayMatrix.set(i, j, arrayMatrix4x4.get(i, j));
+            }
+        }
+        return arrayMatrix;
+    }
+
+    public static Matrix fromTransposing(ArrayMatrix4x4 arrayMatrix4x4) {
+        ArrayMatrix arrayMatrix = new ArrayMatrix();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                arrayMatrix.set(i, j, arrayMatrix4x4.get(j, i));
+            }
+        }
+        return arrayMatrix;
+    }
+
 
     @Override
     public Matrix identity() {
