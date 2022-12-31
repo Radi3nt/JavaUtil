@@ -34,227 +34,150 @@ public interface Easing {
     /**
      * Simple linear tweening - no easing.
      */
-    Easing LINEAR = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*t/d + b;
-        }
-    };
+    Easing LINEAR = (t, b, c, d) -> c * t / d + b;
     
     ///////////// QUADRATIC EASING: t^2 ///////////////////
-    
-    /** 
+
+    /**
      * Quadratic easing in - accelerating from zero velocity.
      */
-    Easing QUAD_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*(t/=d)*t + b;
-        }
-    };
+    Easing QUAD_IN = (t, b, c, d) -> c * (t /= d) * t + b;
     
-    /** 
+    /**
      * Quadratic easing out - decelerating to zero velocity.
      */
-    Easing QUAD_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return -c *(t/=d)*(t-2) + b;
-        }
-    };
-    
+    Easing QUAD_OUT = (t, b, c, d) -> -c * (t /= d) * (t - 2) + b;
+
     /**
      * Quadratic easing in/out - acceleration until halfway, then deceleration
      */
-    Easing QUAD_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d/2) < 1) return c/2*t*t + b;
-            return -c/2 * ((--t)*(t-2) - 1) + b;
-        }
+    Easing QUAD_IN_OUT = (t, b, c, d) -> {
+        if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+        return -c / 2 * ((--t) * (t - 2) - 1) + b;
     };
-    
-    
+
+
     ///////////// CUBIC EASING: t^3 ///////////////////////
 
-    /** 
+    /**
      * Cubic easing in - accelerating from zero velocity.
      */
-    Easing CUBIC_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*(t/=d)*t*t + b;
-        }
-    };
-    
+    Easing CUBIC_IN = (t, b, c, d) -> c * (t /= d) * t * t + b;
+
     /**
      * Cubic easing out - decelerating to zero velocity.
      */
-    Easing CUBIC_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*((t=t/d-1)*t*t + 1) + b;
-        }
-    };
-    
-    /** 
+    Easing CUBIC_OUT = (t, b, c, d) -> c * ((t = t / d - 1) * t * t + 1) + b;
+
+    /**
      * Cubic easing in/out - acceleration until halfway, then deceleration.
      */
-    Easing CUBIC_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d/2) < 1) return c/2*t*t*t + b;
-            return c/2*((t-=2)*t*t + 2) + b;
-        }
+    Easing CUBIC_IN_OUT = (t, b, c, d) -> {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
     };
-    
+
     ///////////// QUARTIC EASING: t^4 /////////////////////
 
     /**
      * Quartic easing in - accelerating from zero velocity.
      */
-    Easing QUARTIC_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*(t/=d)*t*t*t + b;
-        }
-    };
-	
-    /** 
+    Easing QUARTIC_IN = (t, b, c, d) -> c * (t /= d) * t * t * t + b;
+
+    /**
      * Quartic easing out - decelerating to zero velocity.
      */
-    Easing QUARTIC_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return -c * ((t=t/d-1)*t*t*t - 1) + b;
-        }
-    };
+    Easing QUARTIC_OUT = (t, b, c, d) -> -c * ((t = t / d - 1) * t * t * t - 1) + b;
 
-    /** 
+    /**
      * Quartic easing in/out - acceleration until halfway, then deceleration.
      */
-    Easing QUARTIC_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
-            return -c/2 * ((t-=2)*t*t*t - 2) + b;
-        }
+    Easing QUARTIC_IN_OUT = (t, b, c, d) -> {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
+        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
     };
-    
+
     ///////////// QUINTIC EASING: t^5  ////////////////////
 
-    /** 
+    /**
      * Quintic easing in - accelerating from zero velocity.
      */
-    Easing QUINTIC_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*(t/=d)*t*t*t*t + b;
-        }
-    };
+    Easing QUINTIC_IN = (t, b, c, d) -> c * (t /= d) * t * t * t * t + b;
 
-    /** 
+    /**
      * Quintic easing out - decelerating to zero velocity.
      */
-    Easing QUINTIC_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c*((t=t/d-1)*t*t*t*t + 1) + b;
-        }
-    };
-    
-    /** 
+    Easing QUINTIC_OUT = (t, b, c, d) -> c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+
+    /**
      * Quintic easing in/out - acceleration until halfway, then deceleration.
      */
-    Easing QUINTIC_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
-            return c/2*((t-=2)*t*t*t*t + 2) + b;
-        }
+    Easing QUINTIC_IN_OUT = (t, b, c, d) -> {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
     };
-    
-    
-    
+
+
     ///////////// SINUSOIDAL EASING: sin(t) ///////////////
 
-    /** 
+    /**
      * Sinusoidal easing in - accelerating from zero velocity.
      */
-    Easing SINE_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return -c * (float)FastTrig.cos(t/d * (Math.PI/2)) + c + b;
-        }
-    };
+    Easing SINE_IN = (t, b, c, d) -> -c * (float) FastTrig.cos(t / d * (Math.PI / 2)) + c + b;
 
-    /** 
+    /**
      * Sinusoidal easing out - decelerating to zero velocity.
      */
-    Easing SINE_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c * (float)FastTrig.sin(t/d * (Math.PI/2)) + b;
-        }
-    };
-    
-    /** 
+    Easing SINE_OUT = (t, b, c, d) -> c * (float) FastTrig.sin(t / d * (Math.PI / 2)) + b;
+
+    /**
      * Sinusoidal easing in/out - accelerating until halfway, then decelerating.
      */
-    Easing SINE_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return -c/2 * ((float)FastTrig.cos(Math.PI*t/d) - 1) + b;
-        }
-    };
-        
-     ///////////// EXPONENTIAL EASING: 2^t /////////////////
+    Easing SINE_IN_OUT = (t, b, c, d) -> -c / 2 * ((float) FastTrig.cos(Math.PI * t / d) - 1) + b;
 
-    /** 
+    ///////////// EXPONENTIAL EASING: 2^t /////////////////
+
+    /**
      * Exponential easing in - accelerating from zero velocity.
      */
-    Easing EXPO_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return (t==0) ? b : c * (float)Math.pow(2, 10 * (t/d - 1)) + b;
-        }
-    };
+    Easing EXPO_IN = (t, b, c, d) -> (t == 0) ? b : c * (float) Math.pow(2, 10 * (t / d - 1)) + b;
 
-    /** 
+    /**
      * Exponential easing out - decelerating to zero velocity.
      */
-    Easing EXPO_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return (t==d) ? b+c : c * (-(float)Math.pow(2, -10 * t/d) + 1) + b;
-        }
-    };
-       
-    /** 
+    Easing EXPO_OUT = (t, b, c, d) -> (t == d) ? b + c : c * (-(float) Math.pow(2, -10 * t / d) + 1) + b;
+
+    /**
      * Exponential easing in/out - accelerating until halfway, then decelerating.
      */
-    Easing EXPO_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if (t==0) return b;
-            if (t==d) return b+c;
-            if ((t/=d/2) < 1) return c/2 * (float)Math.pow(2, 10 * (t - 1)) + b;
-            return c/2 * (-(float)Math.pow(2, -10 * --t) + 2) + b;
-        }
+    Easing EXPO_IN_OUT = (t, b, c, d) -> {
+        if (t == 0) return b;
+        if (t == d) return b + c;
+        if ((t /= d / 2) < 1) return c / 2 * (float) Math.pow(2, 10 * (t - 1)) + b;
+        return c / 2 * (-(float) Math.pow(2, -10 * --t) + 2) + b;
     };
-    
-    
+
+
     /////////// CIRCULAR EASING: sqrt(1-t^2) //////////////
 
-    /** 
+    /**
      * Circular easing in - accelerating from zero velocity.
      */
-    Easing CIRC_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return -c * ((float)Math.sqrt(1 - (t/=d)*t) - 1) + b;
-        }
-    };
-    
-    /** 
+    Easing CIRC_IN = (t, b, c, d) -> -c * ((float) Math.sqrt(1 - (t /= d) * t) - 1) + b;
+
+    /**
      * Circular easing out - decelerating to zero velocity.
      */
-    Easing CIRC_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c * (float)Math.sqrt(1 - (t=t/d-1)*t) + b;
-        }
-    };
-         
-    /** 
+    Easing CIRC_OUT = (t, b, c, d) -> c * (float) Math.sqrt(1 - (t = t / d - 1) * t) + b;
+
+    /**
      * Circular easing in/out - acceleration until halfway, then deceleration.
      */
-    Easing CIRC_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d/2) < 1) return -c/2 * ((float)Math.sqrt(1 - t*t) - 1) + b;
-            return c/2 * ((float)Math.sqrt(1 - (t-=2)*t) + 1) + b;
-        }
+    Easing CIRC_IN_OUT = (t, b, c, d) -> {
+        if ((t /= d / 2) < 1) return -c / 2 * ((float) Math.sqrt(1 - t * t) - 1) + b;
+        return c / 2 * ((float) Math.sqrt(1 - (t -= 2) * t) + 1) + b;
     };
-    
+
     /////////// ELASTIC EASING: exponentially decaying sine wave  //////////////
 
     /**
@@ -464,34 +387,23 @@ public interface Easing {
     }
     
     /////////// BOUNCE EASING: exponentially decaying parabolic bounce  //////////////
-    
-    /** Bounce easing in. */
-    Easing BOUNCE_IN = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            return c - Easing.BOUNCE_OUT.ease(d-t, 0, c, d) + b;
-        }
-    };
-
     /** Bounce easing out. */
-    Easing BOUNCE_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if ((t/=d) < (1/2.75f)) {
-                return c*(7.5625f*t*t) + b;
-            } else if (t < (2/2.75f)) {
-                return c*(7.5625f*(t-=(1.5f/2.75f))*t + .75f) + b;
-            } else if (t < (2.5f/2.75f)) {
-                return c*(7.5625f*(t-=(2.25f/2.75f))*t + .9375f) + b;
-            } else {
-                return c*(7.5625f*(t-=(2.625f/2.75f))*t + .984375f) + b;
-            }
+    Easing BOUNCE_OUT = (t, b, c, d) -> {
+        if ((t /= d) < (1 / 2.75f)) {
+            return c * (7.5625f * t * t) + b;
+        } else if (t < (2 / 2.75f)) {
+            return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
+        } else if (t < (2.5f / 2.75f)) {
+            return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
+        } else {
+            return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
         }
     };
-    
+    /** Bounce easing in. */
+    Easing BOUNCE_IN = (t, b, c, d) -> c - Easing.BOUNCE_OUT.ease(d - t, 0, c, d) + b;
     /** Bounce easing in/out. */
-    Easing BOUNCE_IN_OUT = new Easing() {
-        public float ease(float t, float b, float c, float d) {
-            if (t < d/2) return Easing.BOUNCE_IN.ease(t*2, 0, c, d) * .5f + b;
-            return Easing.BOUNCE_OUT.ease(t*2-d, 0, c, d) * .5f + c*.5f + b;
-        }
+    Easing BOUNCE_IN_OUT = (t, b, c, d) -> {
+        if (t < d / 2) return Easing.BOUNCE_IN.ease(t * 2, 0, c, d) * .5f + b;
+        return Easing.BOUNCE_OUT.ease(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
     };
 }
