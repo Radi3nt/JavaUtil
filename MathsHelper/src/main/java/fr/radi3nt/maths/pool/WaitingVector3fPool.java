@@ -9,6 +9,7 @@ public class WaitingVector3fPool extends QueuedPool<Vector3f> {
         for (int i = 0; i < baseObjectAmount; i++) {
             queue.add(create());
         }
+        queue.notifyAll();
     }
 
     public Vector3f borrow() {
@@ -16,9 +17,9 @@ public class WaitingVector3fPool extends QueuedPool<Vector3f> {
         if (object == null)
             while ((object = queue.poll()) == null) {
                 try {
-                    Thread.sleep(1);
+                    queue.wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }
 
