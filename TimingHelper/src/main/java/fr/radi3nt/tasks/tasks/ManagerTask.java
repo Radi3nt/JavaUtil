@@ -9,4 +9,5 @@ public interface ManagerTask {
 
     long getId();
 
+    void waitTillFinished() throws InterruptedException;
 }

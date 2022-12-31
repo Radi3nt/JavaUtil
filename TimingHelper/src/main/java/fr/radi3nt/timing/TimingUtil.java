@@ -4,13 +4,11 @@ import fr.radi3nt.tasks.tasks.ManagerTask;
 
 public class TimingUtil {
 
-    public static void waitUntilTaskFinished(ManagerTask GLTask) {
-        while (!GLTask.isFinished()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public static void waitUntilTaskFinished(ManagerTask gLTask) {
+        try {
+            gLTask.waitTillFinished();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

@@ -37,9 +37,9 @@ public class Timing {
     }
 
     public void waitUtilExpired() {
-        while (!isExpired()) {
+        synchronized (this) {
             try {
-                Thread.sleep(remainingTime());
+                this.wait(remainingTime());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

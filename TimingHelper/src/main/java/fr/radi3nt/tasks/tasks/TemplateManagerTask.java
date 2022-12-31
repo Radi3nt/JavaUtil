@@ -21,6 +21,16 @@ public abstract class TemplateManagerTask implements ManagerTask {
         started = true;
         run_();
         finished = true;
+        synchronized (this) {
+            this.notifyAll();
+        }
+    }
+
+    @Override
+    public void waitTillFinished() throws InterruptedException {
+        synchronized (this) {
+            this.wait();
+        }
     }
 
     protected abstract void run_();
