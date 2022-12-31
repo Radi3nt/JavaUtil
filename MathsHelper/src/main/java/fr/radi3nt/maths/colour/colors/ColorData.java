@@ -1,8 +1,5 @@
 package fr.radi3nt.maths.colour.colors;
 
-import fr.radi3nt.maths.colour.colors.Colour;
-import fr.radi3nt.maths.colour.colors.Colour;
-
 public class ColorData {
 
     private final Colour colour;
