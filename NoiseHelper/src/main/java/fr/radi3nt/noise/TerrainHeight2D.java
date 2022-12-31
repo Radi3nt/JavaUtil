@@ -1,7 +1,4 @@
-package fr.radi3nt.noise.noise;
-
-import fr.radi3nt.noise.Noise3D;
-import fr.radi3nt.noise.SimplexNoise;
+package fr.radi3nt.noise;
 
 public class TerrainHeight2D implements Noise3D {
 
