@@ -1,7 +1,7 @@
 package fr.radi3nt.file.impl;
 
-import fr.radi3nt.file.files.CompleteFile;
 import fr.radi3nt.file.FileAccess;
+import fr.radi3nt.file.files.CompleteFile;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -32,13 +32,13 @@ public class NioFile implements CompleteFile {
     }
 
     @Override
-    public InputStream getInputStream() throws FileNotFoundException {
-        return new FileInputStream(path.toFile());
+    public InputStream getInputStream() throws IOException {
+        return Files.newInputStream(path.toFile().toPath());
     }
 
     @Override
-    public OutputStream getOutputSteam() throws FileNotFoundException {
-        return new FileOutputStream(path.toFile());
+    public OutputStream getOutputSteam() throws IOException {
+        return Files.newOutputStream(path.toFile().toPath());
     }
 
     @Override
