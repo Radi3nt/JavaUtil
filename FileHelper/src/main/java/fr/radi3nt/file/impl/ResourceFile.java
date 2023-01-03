@@ -2,10 +2,8 @@ package fr.radi3nt.file.impl;
 
 import fr.radi3nt.file.files.ReadableFile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class ResourceFile implements ReadableFile {
 
@@ -24,7 +22,7 @@ public class ResourceFile implements ReadableFile {
 	public ResourceFile(String... paths) {
 		this.path = BASE_PATH;
 		for (final String part : paths) {
-			this.path = this.path + FILE_SEPARATOR + part;
+			this.path += FILE_SEPARATOR + part;
 		}
 		final String[] dirs = this.path.split(FILE_SEPARATOR);
 		this.name = dirs[dirs.length - 1];

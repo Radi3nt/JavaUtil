@@ -14,8 +14,8 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     private transient HashIndexTable table;
 
     public JsonObject() {
-        this.names = new ArrayList<String>();
-        this.values = new ArrayList<JsonValue>();
+        this.names = new ArrayList<>();
+        this.values = new ArrayList<>();
         this.table = new HashIndexTable();
     }
 
@@ -31,8 +31,8 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             this.names = Collections.unmodifiableList(object.names);
             this.values = Collections.unmodifiableList(object.values);
         } else {
-            this.names = new ArrayList<String>(object.names);
-            this.values = new ArrayList<JsonValue>(object.values);
+            this.names = new ArrayList<>(object.names);
+            this.values = new ArrayList<>(object.values);
         }
         this.table = new HashIndexTable();
         this.updateHashIndex();

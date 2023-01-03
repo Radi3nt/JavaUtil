@@ -3,7 +3,6 @@ package fr.radi3nt.loghelper.archiving;
 import fr.radi3nt.loghelper.logs.actions.LogAction;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class LogFilter {

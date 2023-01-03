@@ -11,7 +11,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     private final List<JsonValue> values;
 
     public JsonArray() {
-        this.values = new ArrayList<JsonValue>();
+        this.values = new ArrayList<>();
     }
 
     public JsonArray(final JsonArray array) {
@@ -25,7 +25,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         if (unmodifiable) {
             this.values = Collections.unmodifiableList(array.values);
         } else {
-            this.values = new ArrayList<JsonValue>(array.values);
+            this.values = new ArrayList<>(array.values);
         }
     }
 

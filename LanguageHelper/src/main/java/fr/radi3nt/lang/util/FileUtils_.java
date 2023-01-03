@@ -5,6 +5,7 @@ import fr.radi3nt.json.WriterConfig;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class FileUtils_ {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (final Writer fw = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
+        try (final Writer fw = new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)) {
             jsonObject.writeTo(fw, WriterConfig.PRETTY_PRINT);
             fw.flush();
         } catch (IOException e) {
@@ -54,7 +55,7 @@ public class FileUtils_ {
             e.printStackTrace();
         }
         if (source != null) {
-            try (final OutputStream out = new FileOutputStream(file)) {
+            try (final OutputStream out = Files.newOutputStream(file.toPath())) {
                 final byte[] buf = new byte[1024];
                 int len;
                 while ((len = source.read(buf)) > 0) {
@@ -88,7 +89,7 @@ public class FileUtils_ {
 
     public static String loadContent(final File file) {
         if (file.exists()) {
-            try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+            try (final BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
                 final StringBuilder text = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -103,11 +104,11 @@ public class FileUtils_ {
     }
 
     public static String loadContent(List<String> stringList) {
-        String line = "";
+        StringBuilder line = new StringBuilder();
         for (String s : stringList) {
-            line+=s;
+            line.append(s);
         }
-       return line;
+        return line.toString();
     }
 
     public static String loadResourceContent(final Path path) {

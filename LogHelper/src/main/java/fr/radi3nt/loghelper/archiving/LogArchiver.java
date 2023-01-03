@@ -2,12 +2,17 @@ package fr.radi3nt.loghelper.archiving;
 
 import fr.radi3nt.file.files.WritableFile;
 import fr.radi3nt.loghelper.archiving.formatters.LogFormatter;
-import fr.radi3nt.loghelper.logs.logs.Log;
 import fr.radi3nt.loghelper.logs.actions.LogAction;
+import fr.radi3nt.loghelper.logs.logs.Log;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class LogArchiver {
     
@@ -48,7 +53,7 @@ public class LogArchiver {
         outputStreamWriter.close();
     }
 
-    private OutputStreamWriter getWriter() throws FileNotFoundException {
+    private OutputStreamWriter getWriter() throws IOException {
         OutputStream outputStream = writableFile.getOutputSteam();
         return new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
     }

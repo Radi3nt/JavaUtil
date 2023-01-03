@@ -9,10 +9,7 @@ import fr.radi3nt.loghelper.archiving.formatters.comp.ComponentFormatter;
 import fr.radi3nt.loghelper.archiving.formatters.comp.DateFormatterComponent;
 import fr.radi3nt.loghelper.archiving.formatters.comp.type.TypeFormatterComponent;
 import fr.radi3nt.loghelper.archiving.formatters.comp.type.handler.EmptyUnknownTypeFormatHandler;
-import fr.radi3nt.loghelper.logs.actions.TemplateLogAction;
-import fr.radi3nt.loghelper.logs.actions.type.EnumLogType;
 import fr.radi3nt.loghelper.logs.actions.type.InfoLogAction;
-import fr.radi3nt.loghelper.logs.actions.type.TemplateTypeLogAction;
 import fr.radi3nt.loghelper.logs.logs.WritableLog;
 import fr.radi3nt.loghelper.logs.logs.implementations.PrintStreamLog;
 
@@ -20,8 +17,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class MainLogExample {
 

@@ -1,13 +1,12 @@
 package fr.radi3nt.loghelper.logs.logs.implementations;
 
 import fr.radi3nt.loghelper.archiving.formatters.LogFormatter;
-import fr.radi3nt.loghelper.logs.logs.ConsoleLog;
 import fr.radi3nt.loghelper.logs.actions.LogAction;
+import fr.radi3nt.loghelper.logs.logs.ConsoleLog;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 public class PrintStreamLog extends TemplateLog implements ConsoleLog {

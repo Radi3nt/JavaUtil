@@ -1,11 +1,8 @@
 package fr.radi3nt.maths.components;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Vector2D implements Cloneable {
-
-    private static final long serialVersionUID = 12973187389L;
 
     private static final double epsilon = 0.000001;
 
@@ -457,15 +454,6 @@ public class Vector2D implements Cloneable {
         Vector2D other = (Vector2D) obj;
 
         return Math.abs(x - other.x) < epsilon && Math.abs(y - other.y) < epsilon && (this.getClass().equals(obj.getClass()));
-    }
-
-    public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
-
-        result.put("x", getX());
-        result.put("y", getY());
-
-        return result;
     }
 
     /**
