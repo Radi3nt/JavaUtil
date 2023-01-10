@@ -8,6 +8,8 @@ public interface Matrix {
 
     void transpose();
 
+    void negate();
+
     void invert();
 
     float get(int x, int y);

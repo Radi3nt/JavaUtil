@@ -1,7 +1,6 @@
 package fr.radi3nt.maths.components.advanced.matrix;
 
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
-import fr.radi3nt.maths.components.advanced.matrix.angle.JavaMathAngle;
 import fr.radi3nt.maths.components.advanced.quaternions.ComponentsQuaternion;
 import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
 import fr.radi3nt.maths.components.vectors.Vector3f;
@@ -63,6 +62,15 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
         m[0][3] = m[3][0];
         m[1][3] = m[3][1];
         m[2][3] = m[3][2];
+    }
+
+    @Override
+    public void negate() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                m[i][j] =-m[i][j];
+            }
+        }
     }
 
     @Override
@@ -263,35 +271,31 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public void directionRotation(Vector3f direction, Vector3f up) {
-        Vector3f xaxis = direction.duplicate().cross(up.duplicate());
-        if (xaxis.getX() == 0 && xaxis.getY() == 0 && xaxis.getZ() == 0) {
-            return;
-        }
-        xaxis.normalize();
-        float phi = (float) Math.acos(direction.dot(up));
+        Vector3f z = direction.duplicate();
+        z.normalize();
+        Vector3f y = up.duplicate();
+        Vector3f x = y.duplicate().cross(z);
+        y = z.duplicate().cross(x);
 
-        /*
-        float u = xaxis.getX();
-        float w = xaxis.getY();
-        float v = xaxis.getZ();
+        x.normalize();
+        y.normalize();
 
-
-        float rcos = (float) Math.cos(phi);
-        float rsin = (float) Math.sin(phi);
-        m[0][0] =      rcos + u*u*(1-rcos);
-        m[0][1] =  w * rsin + v*u*(1-rcos);
-        m[0][2] = -v * rsin + w*u*(1-rcos);
-        m[1][0] = -w * rsin + u*v*(1-rcos);
-        m[1][1] =      rcos + v*v*(1-rcos);
-        m[1][2] =  u * rsin + w*v*(1-rcos);
-        m[2][0] =  v * rsin + u*w*(1-rcos);
-        m[2][1] = -u * rsin + v*w*(1-rcos);
-        m[2][2] =      rcos + w*w*(1-rcos);
-
-
-         */
-        Quaternion quaternion = ComponentsQuaternion.fromAxisAndAngle(xaxis, JavaMathAngle.fromRadiant(phi));
-        quaternionRotation(quaternion);
+        m[0][0] = x.getX();
+        m[1][0] = x.getY();
+        m[2][0] = x.getZ();
+        m[3][0] = -x.dot(direction);
+        m[0][1] = y.getX();
+        m[1][1] = y.getY();
+        m[2][1] = y.getZ();
+        m[3][1] = -y.dot(direction);
+        m[0][2] = z.getX();
+        m[1][2] = z.getY();
+        m[2][2] = z.getZ();
+        m[3][2] = -z.dot(direction);
+        m[0][3] = 0;
+        m[1][3] = 0;
+        m[2][3] = 0;
+        m[3][3] = 1.0f;
     }
 
     @Override
