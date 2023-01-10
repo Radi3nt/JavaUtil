@@ -64,7 +64,7 @@ public class SimpleVector4f implements Vector4f {
         div(length());
     }
 
-    private void div(float length) {
+    public void div(float length) {
         this.setX(getX()/length);
         this.setY(getY()/length);
         this.setZ(getZ()/length);

@@ -11,6 +11,8 @@ public interface Vector4f extends Vector {
     float getW();
     void setW(float w);
 
+    void div(float div);
+
     void normalize();
     
 }
