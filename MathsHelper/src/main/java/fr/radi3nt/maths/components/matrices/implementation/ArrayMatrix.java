@@ -1,8 +1,8 @@
 package fr.radi3nt.maths.components.matrices.implementation;
 
-import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix4x4;
+import fr.radi3nt.maths.components.advanced.matrix.Matrix4x4;
 import fr.radi3nt.maths.components.matrices.Matrix;
-import fr.radi3nt.maths.components.matrices.PerspectiveMatrix;
+import fr.radi3nt.maths.components.matrices.ProjectionMatrix;
 import fr.radi3nt.maths.components.matrices.ViewMatrix;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.maths.components.vectors.Vector4f;
@@ -12,7 +12,7 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector4f;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 
-public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
+public class ArrayMatrix implements Matrix, ProjectionMatrix, ViewMatrix {
 
     private float[][] m;
 
@@ -25,7 +25,7 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         identity();
     }
 
-    public static Matrix from(ArrayMatrix4x4 arrayMatrix4x4) {
+    public static Matrix from(Matrix4x4 arrayMatrix4x4) {
         ArrayMatrix arrayMatrix = new ArrayMatrix();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -35,7 +35,7 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         return arrayMatrix;
     }
 
-    public static Matrix fromTransposing(ArrayMatrix4x4 arrayMatrix4x4) {
+    public static Matrix fromTransposing(Matrix4x4 arrayMatrix4x4) {
         ArrayMatrix arrayMatrix = new ArrayMatrix();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -363,6 +363,32 @@ public class ArrayMatrix implements Matrix, PerspectiveMatrix, ViewMatrix {
         set(2, 3, -1);
         set(3, 2, -((2 * near * far) / frustum_length));
         set(3, 3, 0);
+
+        return this;
+    }
+
+    public Matrix orthographic(float right, float left, float top, float bottom, float near, float far) {
+        identity();
+
+        m[0][0] = 2 / (right - left);
+        m[0][1] = 0;
+        m[0][2] = 0;
+        m[0][3] = 0;
+
+        m[1][0] = 0;
+        m[1][1] = 2 / (top - bottom);
+        m[1][2] = 0;
+        m[1][3] = 0;
+
+        m[2][0] = 0;
+        m[2][1] = 0;
+        m[2][2] = -2 / (far - near);
+        m[2][3] = 0;
+
+        m[3][0] = -(right + left) / (right - left);
+        m[3][1] = -(top + bottom) / (top - bottom);
+        m[3][2] = -(far + near) / (far - near);
+        m[3][3] = 1;
 
         return this;
     }
