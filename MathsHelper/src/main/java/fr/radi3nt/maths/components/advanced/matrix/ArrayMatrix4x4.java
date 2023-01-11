@@ -50,18 +50,31 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public void transpose() {
-        m[1][0] = m[0][1];
-        m[2][0] = m[0][2];
-        m[3][0] = m[0][3];
-        m[0][1] = m[1][0];
-        m[2][1] = m[1][2];
-        m[3][1] = m[1][3];
-        m[0][2] = m[2][0];
-        m[1][2] = m[2][1];
-        m[3][2] = m[2][3];
-        m[0][3] = m[3][0];
-        m[1][3] = m[3][1];
-        m[2][3] = m[3][2];
+        float m10 = m[0][1];
+        float m20 = m[0][2];
+        float m30 = m[0][3];
+        float m01 = m[1][0];
+        float m21 = m[1][2];
+        float m31 = m[1][3];
+        float m02 = m[2][0];
+        float m12 = m[2][1];
+        float m32 = m[2][3];
+        float m03 = m[3][0];
+        float m13 = m[3][1];
+        float m23 = m[3][2];
+
+        m[1][0] = m10;
+        m[2][0] = m20;
+        m[3][0] = m30;
+        m[0][1] = m01;
+        m[2][1] = m21;
+        m[3][1] = m31;
+        m[0][2] = m02;
+        m[1][2] = m12;
+        m[3][2] = m32;
+        m[0][3] = m03;
+        m[1][3] = m13;
+        m[2][3] = m23;
     }
 
     @Override
