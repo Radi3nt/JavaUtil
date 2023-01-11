@@ -16,6 +16,10 @@ public final class Maths {
         return Math.max(Math.min(value, max), min);
     }
 
+    public static int clamp(int value, int min, int max) {
+        return Math.max(Math.min(value, max), min);
+    }
+
     public static double clamp(double value, double min, double max) {
         return Math.max(Math.min(value, max), min);
     }
