@@ -14,5 +14,6 @@ public interface Vector4f extends Vector {
     void div(float div);
 
     void normalize();
-    
+
+    void set(Vector3f vector3f, int w);
 }

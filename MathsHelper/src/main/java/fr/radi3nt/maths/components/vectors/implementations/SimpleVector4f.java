@@ -1,5 +1,6 @@
 package fr.radi3nt.maths.components.vectors.implementations;
 
+import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.maths.components.vectors.Vector4f;
 
 public class SimpleVector4f implements Vector4f {
@@ -62,6 +63,14 @@ public class SimpleVector4f implements Vector4f {
     @Override
     public void normalize() {
         div(length());
+    }
+
+    @Override
+    public void set(Vector3f vector3f, int w) {
+        setX(vector3f.getX());
+        setY(vector3f.getY());
+        setZ(vector3f.getZ());
+        setW(w);
     }
 
     public void div(float length) {
