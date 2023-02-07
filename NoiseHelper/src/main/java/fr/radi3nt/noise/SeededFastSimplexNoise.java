@@ -1,5 +1,7 @@
 package fr.radi3nt.noise;
 
+import fr.radi3nt.noise.simplex.SimplexNoise;
+
 import java.util.Random;
 
 public class SeededFastSimplexNoise {
@@ -16,10 +18,10 @@ public class SeededFastSimplexNoise {
     }
 
     public double noise(double x, double y, double z) {
-        return FastSimplexNoise.noise(x + xOffset, y + yOffset, z + zOffset);
+        return SimplexNoise.noise((float) (x + xOffset), (float) (y + yOffset), (float) (z + zOffset));
     }
 
     public double noise(double x, double z) {
-        return FastSimplexNoise.noise(x + xOffset, z + zOffset);
+        return SimplexNoise.noise((float) (x + xOffset), (float) (z + zOffset));
     }
 }

@@ -22,7 +22,7 @@ public class ComponentsQuaternion implements Quaternion {
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
         float w = (float) (Math.sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
-        ComponentsQuaternion componentsQuaternion = new ComponentsQuaternion(vector.getX(), vector.getY(), vector.getZ(), w);
+        Quaternion componentsQuaternion = new ComponentsQuaternion(vector.getX(), vector.getY(), vector.getZ(), w);
         componentsQuaternion.normalise();
         return componentsQuaternion;
     }
@@ -94,10 +94,10 @@ public class ComponentsQuaternion implements Quaternion {
         float otherY = quaternion.getY();
         float otherZ = quaternion.getZ();
 
-        float w = this.w * otherW - this.x * otherX - this.y * otherY - this.z * otherZ;
-        float x = this.w * otherX + this.x * otherW + this.y * otherZ - this.z * otherY;
-        float y = this.w * otherY + this.y * otherW + this.z * otherX - this.x * otherZ;
-        float z = this.w * otherZ + this.z * otherW + this.x * otherY - this.y * otherX;
+        float w = -this.x * otherW + this.y * otherZ - this.z * otherY + this.w * otherX;
+        float x = this.x * otherZ + this.y * otherW + this.z * otherX + this.w * otherY;
+        float y = -this.x * otherY - this.y * otherX + this.z * otherW + this.w * otherZ;
+        float z = this.x * otherX - this.y * otherY - this.z * otherZ + this.w * otherW;
 
         this.x = x;
         this.y = y;
