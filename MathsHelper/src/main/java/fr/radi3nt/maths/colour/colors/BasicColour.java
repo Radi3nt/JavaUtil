@@ -6,6 +6,9 @@ import java.util.Objects;
 
 public class BasicColour implements Colour {
 
+    public static final BasicColour WHITE = new BasicColour(1f, 1f, 1f);
+    public static final BasicColour BLACK = new BasicColour(0f, 0f, 0f);
+
     private final float red;
     private final float green;
     private final float blue;
@@ -18,6 +21,10 @@ public class BasicColour implements Colour {
         this.red = red;
         this.green = green;
         this.blue = blue;
+    }
+
+    public BasicColour(float color) {
+        this(color, color, color);
     }
 
     public BasicColour(int red, int green, int blue) {
