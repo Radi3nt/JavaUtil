@@ -156,6 +156,16 @@ public class Vector3D implements Cloneable {
         return new Vector3D(x, y, z);
     }
 
+    public Vector3D getCrossProduct(Vector3D o, Vector3D result) {
+        double x = this.y * o.z - o.y * this.z;
+        double y = this.z * o.x - o.z * this.x;
+        double z = this.x * o.y - o.x * this.y;
+        result.setX(x);
+        result.setY(y);
+        result.setZ(z);
+        return result;
+    }
+
     public Vector3D normalize() {
         double length = this.length();
         this.x /= length;
