@@ -16,7 +16,6 @@ public class CheepSweptSatResolver {
 
     private Vector3D velocity;
     private final Vector3D cacheCross = new Vector3D();
-    private final Vector3D cacheCrossResult = new Vector3D();
 
     public CheepSweptSatResolver(SatProjectionProvider provider) {
         this.provider0 = provider;
@@ -102,7 +101,7 @@ public class CheepSweptSatResolver {
 
                 p1.sweptOverlap(p2, speed, resultPassing);
                 if (tEnter < resultPassing.getTEnter()) {
-                    enterAxis = axis.useNewNormalVector(cacheCrossResult);
+                    enterAxis = axis.useNewNormalVector(new Vector3D());
                     tEnter = resultPassing.getTEnter();
                     if (tEnter > 1)
                         return null;
