@@ -174,6 +174,11 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
+    public void copy(Vector3f vert1) {
+        this.set(vert1.getX(), vert1.getY(), vert1.getZ());
+    }
+
+    @Override
     public float length() {
         return (float) Math.sqrt(x * x + y * y + z * z);
     }

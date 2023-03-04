@@ -47,4 +47,6 @@ public interface Vector3f extends Vector {
     Vector3f negate();
 
     float lengthSquared();
+
+    void copy(Vector3f vert1);
 }
