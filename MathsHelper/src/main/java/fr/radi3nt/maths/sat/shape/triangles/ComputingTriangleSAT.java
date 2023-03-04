@@ -2,21 +2,52 @@ package fr.radi3nt.maths.sat.shape.triangles;
 
 import fr.radi3nt.maths.components.Vector3D;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
+import java.util.function.Consumer;
+
 public class ComputingTriangleSAT implements TriangleSAT {
 
-    private final Vector3f vert1;
-    private final Vector3f vert2;
-    private final Vector3f vert3;
-    private final Vector3f triNormal;
+    private Vector3f vert1;
+    private Vector3f vert2;
+    private Vector3f vert3;
+    private Vector3f triNormal;
 
     public ComputingTriangleSAT(Vector3f vert1, Vector3f vert2, Vector3f vert3, Vector3f triNormal) {
         this.vert1 = vert1;
         this.vert2 = vert2;
         this.vert3 = vert3;
         this.triNormal = triNormal;
+    }
+
+    public ComputingTriangleSAT() {
+    }
+
+    public void set(Vector3f vert1, Vector3f vert2, Vector3f vert3, Vector3f triNormal) {
+        this.vert1 = copyOrSet(this.vert1, vert1);
+        this.vert2 = copyOrSet(this.vert2, vert2);
+        this.vert3 = copyOrSet(this.vert3, vert3);
+        this.triNormal = copyOrSet(this.triNormal, triNormal);
+    }
+
+    public void set(Vector3f vert1, Vector3f vert2, Vector3f vert3, Consumer<Vector3f> normal) {
+        this.vert1 = copyOrSet(this.vert1, vert1);
+        this.vert2 = copyOrSet(this.vert2, vert2);
+        this.vert3 = copyOrSet(this.vert3, vert3);
+
+        if (triNormal==null)
+            triNormal = new SimpleVector3f();
+        normal.accept(triNormal);
+    }
+
+    private static Vector3f copyOrSet(Vector3f vert1, Vector3f vert11) {
+        if (vert1!=null)
+            vert1.copy(vert11);
+        else
+            return vert11;
+        return vert1;
     }
 
     @Override
