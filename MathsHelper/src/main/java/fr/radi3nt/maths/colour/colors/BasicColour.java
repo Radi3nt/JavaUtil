@@ -23,6 +23,12 @@ public class BasicColour implements Colour {
         this.blue = blue;
     }
 
+    public BasicColour(float red, float green, float blue, float intensity) {
+        this.red = red*intensity;
+        this.green = green*intensity;
+        this.blue = blue*intensity;
+    }
+
     public BasicColour(float color) {
         this(color, color, color);
     }
