@@ -1,5 +1,7 @@
 package fr.radi3nt.maths.components;
 
+import static fr.radi3nt.maths.Maths.EPSILON;
+
 public class Vector3D implements Cloneable {
 
     protected double x;
@@ -72,6 +74,13 @@ public class Vector3D implements Cloneable {
         return this;
     }
 
+    public Vector3D set(double x, double y, double z) {
+        this.setX(x);
+        this.setY(y);
+        this.setZ(z);
+        return this;
+    }
+
     public Vector3D copy(Vector3D vec) {
         this.x = vec.x;
         this.y = vec.y;
@@ -101,16 +110,16 @@ public class Vector3D implements Cloneable {
     }
 
     public Vector3D midpoint(Vector3D other) {
-        this.x = (this.x + other.x) / 2.0D;
-        this.y = (this.y + other.y) / 2.0D;
-        this.z = (this.z + other.z) / 2.0D;
+        this.x = (this.x + other.x) / 2;
+        this.y = (this.y + other.y) / 2;
+        this.z = (this.z + other.z) / 2;
         return this;
     }
 
     public Vector3D getMidpoint(Vector3D other) {
-        double x = (this.x + other.x) / 2.0D;
-        double y = (this.y + other.y) / 2.0D;
-        double z = (this.z + other.z) / 2.0D;
+        double x = (this.x + other.x) / 2;
+        double y = (this.y + other.y) / 2;
+        double z = (this.z + other.z) / 2;
         return new Vector3D(x, y, z);
     }
 
@@ -272,7 +281,7 @@ public class Vector3D implements Cloneable {
     }
 
     public static double getEpsilon() {
-        return 1.0E-6D;
+        return EPSILON;
     }
 
     public static Vector3D getMinimum(Vector3D v1, Vector3D v2) {
