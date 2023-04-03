@@ -189,6 +189,15 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
+    public void add(Matrix4x4 rotation) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                this.m[i][j]+=rotation.get(i, j);
+            }
+        }
+    }
+
+    @Override
     public void scale(Vector3f scale) {
         m[0][0] = scale.getX();
         m[1][1] = scale.getY();

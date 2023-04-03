@@ -15,6 +15,8 @@ public interface Matrix4x4 extends Matrix {
 
     void translation(Vector3f translation);
 
+    void add(Matrix4x4 rotation);
+
     void scale(Vector3f scale);
 
     void rotationX(Angle angle);
@@ -36,5 +38,4 @@ public interface Matrix4x4 extends Matrix {
     void copy(Matrix result);
 
     Matrix4x4 duplicate();
-
 }

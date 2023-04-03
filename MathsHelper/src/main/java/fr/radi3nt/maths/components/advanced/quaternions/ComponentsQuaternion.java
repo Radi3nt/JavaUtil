@@ -106,6 +106,38 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void multiply(Vector3f vec) {
+        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
+        float xRes = w*vec.getX() + y*vec.getZ() - z*vec.getY();
+        float yRes = w* vec.getY() + z* vec.getX() - x* vec.getZ();
+        float zRes = w* vec.getZ() + x*vec.getY() - y*vec.getX();
+        x = xRes;
+        y = yRes;
+        z = zRes;
+        w = wRes;
+    }
+
+    @Override
+    public void multiplyInv(Vector3f vec) {
+        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
+        float xRes = w*vec.getX() + z*vec.getY() - y*vec.getZ();
+        float yRes = w* vec.getY() + x* vec.getZ() - z* vec.getX();
+        float zRes = w* vec.getZ() + y*vec.getX() - x*vec.getY();
+        x = xRes;
+        y = yRes;
+        z = zRes;
+        w = wRes;
+    }
+
+    @Override
+    public void multiply(float s) {
+        this.x*=s;
+        this.y*=s;
+        this.z*=s;
+        this.w*=s;
+    }
+
+    @Override
     public void interpolate(Quaternion quaternionEnd, float ease) {
         double cosHalfTheta = dot(quaternionEnd);
 
@@ -152,6 +184,14 @@ public class ComponentsQuaternion implements Quaternion {
     @Override
     public Quaternion duplicate() {
         return new ComponentsQuaternion(x, y, z, w);
+    }
+
+    @Override
+    public void add(Quaternion quaternion) {
+        this.x += quaternion.getX();
+        this.y += quaternion.getY();
+        this.z += quaternion.getZ();
+        this.w += quaternion.getW();
     }
 
     @Override
