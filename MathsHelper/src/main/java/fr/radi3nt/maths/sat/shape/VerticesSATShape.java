@@ -11,18 +11,22 @@ public interface VerticesSATShape extends SATShape {
     default SatProjection project(SatProjectionProvider provider, SatAxis axis) {
         Vector3D[] vertices = getVertices();
 
+        Vector3D minVertex = vertices[0];
+        Vector3D maxVertex = vertices[0];
         double min = axis.dot(vertices[0]);
         double max = min;
         for (int i = 1; i < vertices.length; i++) {
             double p = axis.dot(vertices[i]);
             if (p < min) {
                 min = p;
+                minVertex = vertices[i];
             } else if (p > max) {
                 max = p;
+                maxVertex = vertices[i];
             }
         }
 
-        return provider.project(min, max);
+        return provider.project(minVertex, maxVertex, min, max);
     }
 
     Vector3D[] getVertices();

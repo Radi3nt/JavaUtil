@@ -35,22 +35,24 @@ public class CheepSweptSatResolver {
 
         SweptResult shapeOne = testOverlapOnAxes(axes1);
         if (shapeOne == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
         // loop over the axes2
         SweptResult shapeTwo = testOverlapOnAxes(axes2);
         if (shapeTwo == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
 
         SweptResult edges = testOverlapOnAxes(shape1.getEdges(), shape2.getEdges());
         if (edges == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
 
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
+        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
 
         if (tEnter < shapeOne.getTEnter()) {
             enterAxis = shapeOne.getEnterAxis();
+            contactPoint = shapeOne.getContactPoint();
             tEnter = shapeOne.getTEnter();
         }
 
@@ -58,29 +60,32 @@ public class CheepSweptSatResolver {
 
         if (tEnter < shapeTwo.getTEnter()) {
             enterAxis = shapeTwo.getEnterAxis();
+            contactPoint = shapeTwo.getContactPoint();
             tEnter = shapeTwo.getTEnter();
         }
         tLeave = Math.min(shapeTwo.getTLeave(), tLeave);
 
         if (tEnter < edges.getTEnter()) {
             enterAxis = edges.getEnterAxis();
+            contactPoint = new Vector3D(); //todo edge against edge contact point
             tEnter = edges.getTEnter();
         }
         tLeave = Math.min(edges.getTLeave(), tLeave);
 
         if (tEnter > tLeave) {
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        if (enterAxis!=null)
+            return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
+        return SweptResult.NO_CONTACT;
     }
 
     private SweptResult testOverlapOnAxes(SatEdge[] edges, SatEdge[] others) {
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
+        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
-
-        SweptResult resultPassing = new SweptResult();
 
         for (SatEdge edge : edges) {
             for (SatEdge other : others) {
@@ -99,29 +104,32 @@ public class CheepSweptSatResolver {
                     continue;
                 }
 
-                p1.sweptOverlap(p2, speed, resultPassing);
-                if (tEnter < resultPassing.getTEnter()) {
+                p1.sweptOverlap(p2, speed);
+                if (tEnter < p1.getTEnter()) {
                     enterAxis = axis.useNewNormalVector(new Vector3D());
-                    tEnter = resultPassing.getTEnter();
+                    tEnter = p1.getTEnter();
+                    contactPoint = p1.getCollidingVertexA();
                     if (tEnter > 1)
                         return null;
                 }
-                tLeave = Math.min(resultPassing.getTLeave(), tLeave);
+                tLeave = Math.min(p1.getTLeave(), tLeave);
                 if (tLeave < 0)
                     return null;
             }
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        if (enterAxis!=null)
+            return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
+        return SweptResult.NO_CONTACT;
     }
 
     private SweptResult testOverlapOnAxes(SatAxis... axes) {
 
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
+        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
 
-        SweptResult resultPassing = new SweptResult();
         for (SatAxis axis : axes) {
             // project both shapes onto the axis
             SatProjection p1 = shape1.project(provider0, axis);
@@ -136,18 +144,19 @@ public class CheepSweptSatResolver {
                 continue;
             }
 
-            p1.sweptOverlap(p2, speed, resultPassing);
-            if (tEnter < resultPassing.getTEnter()) {
+            p1.sweptOverlap(p2, speed);
+            if (tEnter < p1.getTEnter()) {
                 enterAxis = axis;
-                tEnter = resultPassing.getTEnter();
+                tEnter = p1.getTEnter();
+                contactPoint = p1.getCollidingVertexA();
                 if (tEnter > 1)
                     return null;
             }
-            tLeave = Math.min(resultPassing.getTLeave(), tLeave);
+            tLeave = Math.min(p1.getTLeave(), tLeave);
             if (tLeave < 0)
                 return null;
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
     }
 }

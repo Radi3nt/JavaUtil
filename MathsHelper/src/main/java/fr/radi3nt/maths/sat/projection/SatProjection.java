@@ -1,11 +1,18 @@
 package fr.radi3nt.maths.sat.projection;
 
-import fr.radi3nt.maths.sat.swept.SweptResult;
+import fr.radi3nt.maths.components.Vector3D;
 
 public class SatProjection {
 
+    private Vector3D maxVertex;
+    private Vector3D minVertex;
     private double min;
     private double max;
+
+    private double tEnter;
+    private double tLeave;
+    private Vector3D collidingVertexA;
+    private Vector3D collidingVertexB;
 
     public SatProjection(double min, double max) {
         this.min = min;
@@ -24,21 +31,27 @@ public class SatProjection {
         }
     }
 
-    public void sweptOverlap(SatProjection p2, double speed, SweptResult resultPassing) {
+    public void sweptOverlap(SatProjection p2, double speed) {
         double tEnter;
         double tLeave;
 
-
         tEnter = (p2.min - this.max) / speed;
         tLeave = (p2.max - this.min) / speed;
+
+        collidingVertexB = p2.minVertex;
+        collidingVertexA = this.maxVertex;
 
         if (tEnter > tLeave) {
             double oldTEnter = tEnter;
             tEnter = tLeave;
             tLeave = oldTEnter;
+
+            collidingVertexB = p2.maxVertex;
+            collidingVertexA = this.minVertex;
         }
 
-        resultPassing.set(tEnter, tLeave, null);
+        this.tEnter = tEnter;
+        this.tLeave = tLeave;
     }
 
     public double getOverlap(SatProjection p2) {
@@ -52,11 +65,29 @@ public class SatProjection {
         return -1d;
     }
 
-    public void setMin(double min) {
+    public void setMin(Vector3D minVertex, double min) {
+        this.minVertex = minVertex;
         this.min = min;
     }
 
-    public void setMax(double max) {
+    public void setMax(Vector3D maxVertex, double max) {
+        this.maxVertex = maxVertex;
         this.max = max;
+    }
+
+    public double getTEnter() {
+        return tEnter;
+    }
+
+    public double getTLeave() {
+        return tLeave;
+    }
+
+    public Vector3D getCollidingVertexA() {
+        return collidingVertexA;
+    }
+
+    public Vector3D getCollidingVertexB() {
+        return collidingVertexB;
     }
 }
