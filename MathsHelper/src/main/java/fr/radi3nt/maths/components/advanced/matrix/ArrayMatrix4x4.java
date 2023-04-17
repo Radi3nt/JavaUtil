@@ -14,7 +14,6 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     private final float[][] m = new float[4][4];
 
     public ArrayMatrix4x4(fr.radi3nt.maths.components.matrices.Matrix copy) {
-        zero();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 set(i, j, copy.get(i, j));
@@ -23,7 +22,15 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     public ArrayMatrix4x4() {
-        zero();
+
+    }
+
+    public ArrayMatrix4x4(ArrayMatrix4x4 copy) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                set(i, j, copy.get(i, j));
+            }
+        }
     }
 
     public static ArrayMatrix4x4 newIdentity() {
@@ -146,9 +153,7 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public Matrix4x4 duplicate() {
-        ArrayMatrix4x4 arrayMatrix = new ArrayMatrix4x4();
-        arrayMatrix.copy(this);
-        return arrayMatrix;
+        return new ArrayMatrix4x4(this);
     }
 
     @Override
