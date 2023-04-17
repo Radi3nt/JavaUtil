@@ -1,5 +1,7 @@
 package fr.radi3nt.maths.components;
 
+import fr.radi3nt.maths.components.vectors.Vector3f;
+
 import static fr.radi3nt.maths.Maths.EPSILON;
 
 public class Vector3D implements Cloneable {
@@ -30,6 +32,12 @@ public class Vector3D implements Cloneable {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector3D(Vector3f vector) {
+        this.x = vector.getX();
+        this.y = vector.getX();
+        this.z = vector.getX();
     }
 
     public Vector3D add(Vector3D vec) {
