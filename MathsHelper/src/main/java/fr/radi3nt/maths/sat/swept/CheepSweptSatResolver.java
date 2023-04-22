@@ -47,12 +47,10 @@ public class CheepSweptSatResolver {
 
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
-        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
 
         if (tEnter < shapeOne.getTEnter()) {
             enterAxis = shapeOne.getEnterAxis();
-            contactPoint = shapeOne.getContactPoint();
             tEnter = shapeOne.getTEnter();
         }
 
@@ -60,14 +58,12 @@ public class CheepSweptSatResolver {
 
         if (tEnter < shapeTwo.getTEnter()) {
             enterAxis = shapeTwo.getEnterAxis();
-            contactPoint = shapeTwo.getContactPoint();
             tEnter = shapeTwo.getTEnter();
         }
         tLeave = Math.min(shapeTwo.getTLeave(), tLeave);
 
         if (tEnter < edges.getTEnter()) {
             enterAxis = edges.getEnterAxis();
-            contactPoint = new Vector3D(); //todo edge against edge contact point
             tEnter = edges.getTEnter();
         }
         tLeave = Math.min(edges.getTLeave(), tLeave);
@@ -77,14 +73,13 @@ public class CheepSweptSatResolver {
         }
 
         if (enterAxis!=null)
-            return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
+            return new SweptResult(true, tEnter, tLeave, enterAxis);
         return SweptResult.NO_CONTACT;
     }
 
     private SweptResult testOverlapOnAxes(SatEdge[] edges, SatEdge[] others) {
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
-        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
 
         for (SatEdge edge : edges) {
@@ -114,7 +109,6 @@ public class CheepSweptSatResolver {
                 if (tEnter < p1.getTEnter()) {
                     enterAxis = axis.useNewNormalVector(new Vector3D());
                     tEnter = p1.getTEnter();
-                    contactPoint = p1.getCollidingVertexA();
                     if (tEnter > 1)
                         return null;
                 }
@@ -125,7 +119,7 @@ public class CheepSweptSatResolver {
         }
 
         if (enterAxis!=null)
-            return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
+            return new SweptResult(true, tEnter, tLeave, enterAxis);
         return SweptResult.NO_CONTACT;
     }
 
@@ -133,7 +127,6 @@ public class CheepSweptSatResolver {
 
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
-        Vector3D contactPoint = null;
         SatAxis enterAxis = null;
 
         for (SatAxis axis : axes) {
@@ -160,7 +153,6 @@ public class CheepSweptSatResolver {
             if (tEnter < p1.getTEnter()) {
                 enterAxis = axis;
                 tEnter = p1.getTEnter();
-                contactPoint = p1.getCollidingVertexA();
                 if (tEnter > 1)
                     return null;
             }
@@ -169,6 +161,6 @@ public class CheepSweptSatResolver {
                 return null;
         }
 
-        return new SweptResult(true, tEnter, tLeave, enterAxis, contactPoint);
+        return new SweptResult(true, tEnter, tLeave, enterAxis);
     }
 }
