@@ -1,9 +1,13 @@
 package fr.radi3nt.maths.sat.shape;
 
 import fr.radi3nt.maths.components.Vector3D;
+import fr.radi3nt.maths.sat.clip.ClipPlanes;
+import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.projection.SatProjection;
 import fr.radi3nt.maths.sat.projection.SatProjectionProvider;
+
+import java.util.Collection;
 
 public interface VerticesSATShape extends SATShape {
 
@@ -30,4 +34,7 @@ public interface VerticesSATShape extends SATShape {
     }
 
     Vector3D[] getVertices();
+
+    ClipPlanes getClipPlanes();
+    Collection<Edge> getClipEdges();
 }

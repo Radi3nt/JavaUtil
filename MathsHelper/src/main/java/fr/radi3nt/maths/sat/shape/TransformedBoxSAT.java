@@ -4,28 +4,30 @@ import fr.radi3nt.maths.components.Vector3D;
 import fr.radi3nt.maths.components.advanced.matrix.Matrix4x4;
 import fr.radi3nt.maths.components.vectors.Vector4f;
 import fr.radi3nt.maths.components.vectors.implementations.SimpleVector4f;
+import fr.radi3nt.maths.sat.clip.AxisAndVertexIndex;
+import fr.radi3nt.maths.sat.clip.ClipPlane;
+import fr.radi3nt.maths.sat.clip.ClipPlanes;
+import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 public class TransformedBoxSAT implements VerticesSATShape {
 
-    private static final SatAxis[] SAT_AXES = new SatAxis[]{
-            new SatAxis(new Vector3D(1, 0, 0)),
-            new SatAxis(new Vector3D(0, 1, 0)),
-            new SatAxis(new Vector3D(0, 0, 1))
-    };
-
-    private static final SatEdge[] SAT_EDGES = new SatEdge[]{
-            new SatEdge(new Vector3D(1, 0, 0)),
-            new SatEdge(new Vector3D(0, 1, 0)),
-            new SatEdge(new Vector3D(0, 0, 1))
+    private static final AxisAndVertexIndex[] SAT_CLIP_PLANES = new AxisAndVertexIndex[]{
+            new AxisAndVertexIndex(new Vector3D(1, 0, 0), 0),
+            new AxisAndVertexIndex(new Vector3D(0, 1, 0), 0),
+            new AxisAndVertexIndex(new Vector3D(0, 0, 1), 0),
+            new AxisAndVertexIndex(new Vector3D(-1, 0, 0), 1),
+            new AxisAndVertexIndex(new Vector3D(0, -1, 0), 1),
+            new AxisAndVertexIndex(new Vector3D(0, 0, -1), 1),
     };
 
     private final Vector3D[] vertices;
-    private final Matrix4x4 transform;
 
     public TransformedBoxSAT(Vector3D min, Vector3D max, Matrix4x4 transform) {
-        this.transform = transform;
         vertices = new Vector3D[]{
                 min.clone(),
                 max.clone(),
@@ -63,6 +65,16 @@ public class TransformedBoxSAT implements VerticesSATShape {
         return computeEdges();
     }
 
+    @Override
+    public ClipPlanes getClipPlanes() {
+        ClipPlane[] clipPlaneArray = new ClipPlane[SAT_CLIP_PLANES.length];
+        for (int i = 0; i < SAT_CLIP_PLANES.length; i++) {
+            AxisAndVertexIndex satClipPlane = SAT_CLIP_PLANES[i];
+            clipPlaneArray[i] = new ClipPlane(satClipPlane.getAxis(), vertices[satClipPlane.getIndex()]);
+        }
+        return new ClipPlanes(clipPlaneArray);
+    }
+
     private SatEdge[] computeEdges() {
         SatEdge[] edges = new SatEdge[3];
         Vector3D[] axis = computeBoxAxes();
@@ -83,5 +95,27 @@ public class TransformedBoxSAT implements VerticesSATShape {
     @Override
     public Vector3D[] getVertices() {
         return vertices;
+    }
+
+    @Override
+    public Collection<Edge> getClipEdges() {
+        return Arrays.asList(
+                new Edge(vertices[0], vertices[6]),
+                new Edge(vertices[0], vertices[4]),
+                new Edge(vertices[0], vertices[2]),
+
+                new Edge(vertices[1], vertices[7]),
+                new Edge(vertices[1], vertices[5]),
+                new Edge(vertices[1], vertices[3]),
+
+                new Edge(vertices[6], vertices[7]),
+                new Edge(vertices[7], vertices[2]),
+
+                new Edge(vertices[5], vertices[4]),
+                new Edge(vertices[4], vertices[3]),
+
+                new Edge(vertices[5], vertices[6]),
+                new Edge(vertices[3], vertices[2])
+        );
     }
 }
