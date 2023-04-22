@@ -187,6 +187,14 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void copy(Quaternion rotation) {
+        this.x = rotation.getX();
+        this.y = rotation.getY();
+        this.z = rotation.getZ();
+        this.w = rotation.getW();
+    }
+
+    @Override
     public void add(Quaternion quaternion) {
         this.x += quaternion.getX();
         this.y += quaternion.getY();

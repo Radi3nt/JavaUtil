@@ -33,4 +33,6 @@ public interface Quaternion {
     Quaternion getConjugate();
 
     Quaternion duplicate();
+
+    void copy(Quaternion rotation);
 }
