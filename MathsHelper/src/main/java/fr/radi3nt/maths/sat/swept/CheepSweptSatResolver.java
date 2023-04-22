@@ -100,6 +100,12 @@ public class CheepSweptSatResolver {
                 if (speed == 0) {
                     if (p1.noOverlap(p2)) {
                         return null;
+                    } else {
+                        if (tEnter<0) {
+                            tEnter = 0;
+                            tLeave = 1;
+                            enterAxis = axis;
+                        }
                     }
                     continue;
                 }
@@ -140,6 +146,12 @@ public class CheepSweptSatResolver {
             if (speed == 0) {
                 if (p1.noOverlap(p2)) {
                     return null;
+                } else {
+                    if (tEnter<0) {
+                        tEnter = 0;
+                        tLeave = 1;
+                        enterAxis = axis;
+                    }
                 }
                 continue;
             }
