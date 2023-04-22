@@ -66,7 +66,13 @@ public class SatProjection {
     }
 
 
-    public Vector3D getCollidingVertexB() {
-        return collidingVertexB;
+    @Override
+    public String toString() {
+        return "SatProjection{" +
+                "min=" + min +
+                ", max=" + max +
+                ", tEnter=" + tEnter +
+                ", tLeave=" + tLeave +
+                '}';
     }
 }
