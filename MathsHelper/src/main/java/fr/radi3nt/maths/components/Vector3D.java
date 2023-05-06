@@ -299,4 +299,10 @@ public class Vector3D implements Cloneable {
     public static Vector3D getMaximum(Vector3D v1, Vector3D v2) {
         return new Vector3D(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y), Math.max(v1.z, v2.z));
     }
+
+    public void set(Vector3D min) {
+        this.x = min.x;
+        this.y = min.y;
+        this.z = min.z;
+    }
 }
