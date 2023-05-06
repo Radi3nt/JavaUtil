@@ -26,8 +26,10 @@ public class TransformedBoxSAT implements VerticesSATShape {
     };
 
     private final Vector3D[] vertices;
+    private Matrix4x4 transform;
 
     public TransformedBoxSAT(Vector3D min, Vector3D max, Matrix4x4 transform) {
+        this.transform = transform;
         vertices = new Vector3D[]{
                 min.clone(),
                 max.clone(),
@@ -44,6 +46,24 @@ public class TransformedBoxSAT implements VerticesSATShape {
 
             vertex.set(transformed.getX(), transformed.getY(), transformed.getZ());
         }
+    }
+
+    public void set(Vector3D min, Vector3D max, Matrix4x4 transform) {
+        vertices[0].set(min);
+        vertices[1].set(max);
+        vertices[2].set(max.getX(), min.getY(), min.getZ());
+        vertices[3].set(max.getX(), max.getY(), min.getZ());
+        vertices[4].set(min.getX(), max.getY(), min.getZ());
+        vertices[5].set(min.getX(), max.getY(), max.getZ());
+        vertices[6].set(min.getX(), min.getY(), max.getZ());
+        vertices[7].set(max.getX(), min.getY(), max.getZ());
+        Vector4f transformed = new SimpleVector4f();
+        for (Vector3D vertex : vertices) {
+            transformed.set((float) vertex.getX(), (float) vertex.getY(), (float) vertex.getZ(), 1);
+            transform.transform(transformed);
+            vertex.set(transformed.getX(), transformed.getY(), transformed.getZ());
+        }
+        this.transform = transform;
     }
 
     @Override
@@ -70,7 +90,9 @@ public class TransformedBoxSAT implements VerticesSATShape {
         ClipPlane[] clipPlaneArray = new ClipPlane[SAT_CLIP_PLANES.length];
         for (int i = 0; i < SAT_CLIP_PLANES.length; i++) {
             AxisAndVertexIndex satClipPlane = SAT_CLIP_PLANES[i];
-            clipPlaneArray[i] = new ClipPlane(satClipPlane.getAxis(), vertices[satClipPlane.getIndex()]);
+            Vector4f vector4f = new SimpleVector4f((float) satClipPlane.getAxis().getX(), (float) satClipPlane.getAxis().getY(), (float) satClipPlane.getAxis().getZ(), 0);
+            transform.transform(vector4f);
+            clipPlaneArray[i] = new ClipPlane(new Vector3D(vector4f.getX(), vector4f.getY(), vector4f.getZ()).normalize(), vertices[satClipPlane.getIndex()]);
         }
         return new ClipPlanes(clipPlaneArray);
     }
