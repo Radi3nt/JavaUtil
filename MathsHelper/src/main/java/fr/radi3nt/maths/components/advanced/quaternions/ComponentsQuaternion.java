@@ -2,7 +2,9 @@ package fr.radi3nt.maths.components.advanced.quaternions;
 
 import fr.radi3nt.maths.Maths;
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
+import fr.radi3nt.maths.components.advanced.matrix.angle.JavaMathAngle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
@@ -57,6 +59,10 @@ public class ComponentsQuaternion implements Quaternion {
         float w = cosRoll * cosPitchCosYaw + sinRoll * sinPitchSinYaw;
 
         return new ComponentsQuaternion(x, y, z, w);
+    }
+
+    public static Quaternion zero() {
+        return ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), JavaMathAngle.zero());
     }
 
     @Override
