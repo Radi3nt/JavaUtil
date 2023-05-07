@@ -21,6 +21,7 @@
         <module>NoiseHelper</module>
         <module>BehaviorTree</module>
         <module>LanguageHelperV2</module>
+        <module>DataStructures</module>
     </modules>
 
     <properties>
