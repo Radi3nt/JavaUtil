@@ -18,7 +18,15 @@ public class SatProjection {
     }
 
     private boolean overlap(SatProjection p2) {
-        return this.min <= p2.max && this.max >= p2.min || !(this.min <= p2.max) && this.min <= p2.min;
+        return this.min <= p2.max ? this.max >= p2.min : this.min <= p2.min;
+    }
+
+    public int normal(SatProjection p2) {
+        double negative = Math.abs(this.min - p2.max);
+        double positive = Math.abs(this.max - p2.min);
+        if (negative < positive)
+            return -1;
+        return 1;
     }
 
     public void sweptOverlap(SatProjection p2, double speed) {
@@ -46,7 +54,7 @@ public class SatProjection {
             if (p2.max >= this.min)
                 return p2.max - this.min;
         }
-        return -1d;
+        return Double.MAX_VALUE;
     }
 
     public void setMin(double min) {
