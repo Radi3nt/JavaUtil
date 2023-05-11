@@ -153,10 +153,20 @@ public class ArrayMatrixNxN implements MatrixNxN {
 
     @Override
     public String toString() {
-        return "ArrayMatrixNxN{" +
-                "width=" + width +
-                ", height=" + height +
-                ", m=" + Arrays.toString(m) +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder("ArrayMatrixNxN{" +
+                "\n");
+        stringBuilder.append("width=").append(width).append("\n");
+        stringBuilder.append("height=").append(height).append("\n");
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                stringBuilder.append(get(i, j)).append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+
+        stringBuilder.append("}");
+
+        return stringBuilder.toString();
     }
 }
