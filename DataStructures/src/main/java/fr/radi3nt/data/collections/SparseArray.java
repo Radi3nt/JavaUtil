@@ -1,5 +1,7 @@
 package fr.radi3nt.data.collections;
 
+import java.util.Arrays;
+
 public class SparseArray<T> {
 
     private static final Object DELETED = new Object();
@@ -23,6 +25,12 @@ public class SparseArray<T> {
             keys = new int[values.length];
         }
         size = 0;
+    }
+
+    public SparseArray(SparseArray<? extends T> array) {
+        this.keys = Arrays.copyOf(array.keys, array.keys.length);
+        this.values = Arrays.copyOf(array.values, array.values.length);
+        this.size = array.size;
     }
 
     public T get(int key) {
