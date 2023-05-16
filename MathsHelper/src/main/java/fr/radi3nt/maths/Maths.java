@@ -1,5 +1,7 @@
 package fr.radi3nt.maths;
 
+import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix3x3;
+import fr.radi3nt.maths.components.advanced.matrix.Matrix3x3;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 
 import java.util.Collection;
@@ -94,8 +96,21 @@ public final class Maths {
         return bytes;
     }
 
-    public static float lerp(float a, float b, float f)
-    {
+    public static float lerp(float a, float b, float f) {
         return a + f * (b - a);
+    }
+
+    public static Matrix3x3 skew(Vector3f vec) {
+        Matrix3x3 matrix3x3 = new ArrayMatrix3x3();
+        matrix3x3.set(0, 0, 0);
+        matrix3x3.set(1, 0, -vec.getZ());
+        matrix3x3.set(2, 0, vec.getY());
+        matrix3x3.set(0, 1, vec.getZ());
+        matrix3x3.set(1, 1, 0);
+        matrix3x3.set(2, 1, -vec.getX());
+        matrix3x3.set(0, 2, -vec.getY());
+        matrix3x3.set(1, 2, vec.getX());
+        matrix3x3.set(2, 2, 0);
+        return matrix3x3;
     }
 }
