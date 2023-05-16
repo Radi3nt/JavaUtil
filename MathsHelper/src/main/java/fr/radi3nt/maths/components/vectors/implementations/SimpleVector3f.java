@@ -38,6 +38,10 @@ public class SimpleVector3f implements Vector3f {
         this(vector4f.getX(), vector4f.getY(), vector4f.getZ());
     }
 
+    public SimpleVector3f(double v, double v1, double v2) {
+        this((float) v, (float) v1, (float) v2);
+    }
+
     @Override
     public float getX() {
         return x;
