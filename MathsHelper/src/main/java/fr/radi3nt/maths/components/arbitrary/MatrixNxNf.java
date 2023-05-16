@@ -2,7 +2,7 @@ package fr.radi3nt.maths.components.arbitrary;
 
 import java.util.BitSet;
 
-public interface MatrixNxN {
+public interface MatrixNxNf {
 
     float get(int x, int y);
 
@@ -16,14 +16,14 @@ public interface MatrixNxN {
 
     float[] getM();
 
-    MatrixNxN multiply(MatrixNxN matrixNxN);
+    MatrixNxNf multiply(MatrixNxNf matrixNxN);
 
-    MatrixNxN multiplyTransposed(MatrixNxN matrixNxN);
+    MatrixNxNf multiplyTransposed(MatrixNxNf matrixNxN);
 
-    MatrixNxN multiplyTransposedOther(MatrixNxN matrixNxN);
+    MatrixNxNf multiplyTransposedOther(MatrixNxNf matrixNxN);
 
     VectorNf transform(VectorNf vec);
 
-    MatrixNxN duplicate();
+    MatrixNxNf duplicate();
 
 }

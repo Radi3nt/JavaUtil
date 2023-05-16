@@ -1,6 +1,6 @@
 package fr.radi3nt.maths.components.arbitrary.matrix.sparse;
 
-public class SparseBlock {
+public class SparseBlockf {
 
     private final int startI;
     private final int startJ;
@@ -9,12 +9,26 @@ public class SparseBlock {
 
     private final float[] values;
 
-    public SparseBlock(int startI, int startJ, int lengthI, int lengthJ, float[] values) {
+    public SparseBlockf(int startI, int startJ, int lengthI, int lengthJ, float[] values) {
         this.startI = startI;
         this.startJ = startJ;
         this.lengthI = lengthI;
         this.lengthJ = lengthJ;
         this.values = values;
+    }
+
+    public SparseBlockf(int startI, int startJ, int lengthI, int lengthJ, float[][] m) {
+        this.startI = startI;
+        this.startJ = startJ;
+        this.lengthI = lengthI;
+        this.lengthJ = lengthJ;
+        this.values = new float[]{lengthI * lengthJ};
+
+        for (int i = 0; i < lengthI; i++) {
+            for (int j = 0; j < lengthJ; j++) {
+                values[i + j * lengthI] = m[i][j];
+            }
+        }
     }
 
     public float get(int i, int j) {

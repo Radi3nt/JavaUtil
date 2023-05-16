@@ -1,44 +1,44 @@
 package fr.radi3nt.maths.components.arbitrary.matrix.sparse;
 
-import fr.radi3nt.maths.components.arbitrary.MatrixNxN;
-import fr.radi3nt.maths.components.arbitrary.VectorNf;
-import fr.radi3nt.maths.components.arbitrary.matrix.ArrayMatrixNxN;
-import fr.radi3nt.maths.components.arbitrary.vector.ArrayVectorNf;
+import fr.radi3nt.maths.components.MatrixNxNd;
+import fr.radi3nt.maths.components.arbitrary.VectorNd;
+import fr.radi3nt.maths.components.arbitrary.matrix.ArrayMatrixNxNd;
+import fr.radi3nt.maths.components.arbitrary.vector.ArrayVectorNd;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 
-public class SparseMatrix implements MatrixNxN {
+public class SparseMatrixd implements MatrixNxNd {
 
-    private final Collection<SparseBlock> sparseBlocks;
+    private final Collection<SparseBlockd> sparseBlocks;
     private int width;
     private int height;
 
-    public SparseMatrix(Collection<SparseBlock> sparseBlocks, int width, int height) {
+    public SparseMatrixd(Collection<SparseBlockd> sparseBlocks, int width, int height) {
         this.sparseBlocks = sparseBlocks;
         this.width = width;
         this.height = height;
     }
 
 
-    public SparseMatrix() {
+    public SparseMatrixd() {
         this(new ArrayList<>(), 0, 0);
     }
 
-    public void add(SparseBlock sparseBlock) {
+    public void add(SparseBlockd sparseBlock) {
         sparseBlocks.add(sparseBlock);
         computeCursors(sparseBlock);
     }
 
-    private void computeCursors(SparseBlock sparseBlock) {
+    private void computeCursors(SparseBlockd sparseBlock) {
         width = Math.max(width, sparseBlock.getStartI() + sparseBlock.getLengthI());
         height = Math.max(height, sparseBlock.getStartJ() + sparseBlock.getLengthJ());
     }
 
     @Override
-    public float get(int x, int y) {
-        for (SparseBlock sparseBlock : sparseBlocks) {
+    public double get(int x, int y) {
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             if (sparseBlock.isInBound(x, y)) {
                 return sparseBlock.get(x, y);
             }
@@ -47,7 +47,7 @@ public class SparseMatrix implements MatrixNxN {
     }
 
     @Override
-    public void set(int x, int y, float value) {
+    public void set(int x, int y, double value) {
         throw new UnsupportedOperationException();
     }
 
@@ -66,7 +66,7 @@ public class SparseMatrix implements MatrixNxN {
         BitSet bitSet = new BitSet(width * height);
         //bitSet.set(0, width*height);
 
-        for (SparseBlock sparseBlock : sparseBlocks) {
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int j = sparseBlock.getStartJ(); j < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); j++) {
                 int row = j * width;
                 bitSet.set(sparseBlock.getStartI() + row, sparseBlock.getStartI() + sparseBlock.getLengthI() + row);
@@ -77,16 +77,16 @@ public class SparseMatrix implements MatrixNxN {
     }
 
     @Override
-    public float[] getM() {
+    public double[] getM() {
         throw new UnsupportedOperationException();
     }
 
-    public VectorNf transform(VectorNf vector) {
-        VectorNf result = new ArrayVectorNf(height);
-        for (SparseBlock sparseBlock : sparseBlocks) {
+    public VectorNd transform(VectorNd vector) {
+        VectorNd result = new ArrayVectorNd(height);
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int j = sparseBlock.getStartJ(); j < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); j++) {
                 for (int i = sparseBlock.getStartI(); i < sparseBlock.getStartI() + sparseBlock.getLengthI(); i++) {
-                    float value = sparseBlock.get(i, j);
+                    double value = sparseBlock.get(i, j);
                     result.add(j, value * vector.get(i));
                 }
             }
@@ -94,12 +94,12 @@ public class SparseMatrix implements MatrixNxN {
         return result;
     }
 
-    public VectorNf transformTransposed(VectorNf vector) {
-        VectorNf result = new ArrayVectorNf(width);
-        for (SparseBlock sparseBlock : sparseBlocks) {
+    public VectorNd transformTransposed(VectorNd vector) {
+        VectorNd result = new ArrayVectorNd(width);
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int j = sparseBlock.getStartJ(); j < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); j++) {
                 for (int i = sparseBlock.getStartI(); i < sparseBlock.getStartI() + sparseBlock.getLengthI(); i++) {
-                    float value = sparseBlock.get(i, j);
+                    double value = sparseBlock.get(i, j);
                     result.add(i, value * vector.get(j));
                 }
             }
@@ -108,21 +108,21 @@ public class SparseMatrix implements MatrixNxN {
     }
 
     @Override
-    public MatrixNxN duplicate() {
-        return new SparseMatrix(new ArrayList<>(sparseBlocks), width, height);
+    public MatrixNxNd duplicate() {
+        return new SparseMatrixd(new ArrayList<>(sparseBlocks), width, height);
     }
 
     @Override
-    public MatrixNxN multiply(MatrixNxN matrixNxN) {
+    public MatrixNxNd multiply(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getHeight())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getHeight() + "!=" + this.width);
 
         int resultWidth = matrixNxN.getWidth();
         int resultHeight = this.height;
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
 
-        for (SparseBlock sparseBlock : sparseBlocks) {
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int y = sparseBlock.getStartJ(); y < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); y++) {
                 for (int x = sparseBlock.getStartI(); x < sparseBlock.getStartI() + sparseBlock.getLengthI(); x++) {
                     float total = 0;
@@ -151,16 +151,16 @@ public class SparseMatrix implements MatrixNxN {
     }
 
     @Override
-    public ArrayMatrixNxN multiplyTransposed(MatrixNxN matrixNxN) {
+    public ArrayMatrixNxNd multiplyTransposed(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getWidth())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
         int resultWidth = this.height;
         int resultHeight = matrixNxN.getHeight();
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
 
-        for (SparseBlock sparseBlock : sparseBlocks) {
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int y = sparseBlock.getStartJ(); y < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); y++) {
                 for (int x = sparseBlock.getStartI(); x < sparseBlock.getStartI() + sparseBlock.getLengthI(); x++) {
                     float total = 0;
@@ -192,21 +192,20 @@ public class SparseMatrix implements MatrixNxN {
     }
 
     @Override
-    public MatrixNxN multiplyTransposedOther(MatrixNxN matrixNxN) {
+    public MatrixNxNd multiplyTransposedOther(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getWidth())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
         int resultWidth = matrixNxN.getHeight();
         int resultHeight = this.getHeight();
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
 
-
-        for (SparseBlock sparseBlock : sparseBlocks) {
+        for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int y = sparseBlock.getStartJ(); y < sparseBlock.getStartJ() + sparseBlock.getLengthJ(); y++) {
                 for (int x = sparseBlock.getStartI(); x < sparseBlock.getStartI() + sparseBlock.getLengthI(); x++) {
                     for (int i = 0; i < matrixNxN.getHeight(); i++) {
-                        float total = matrixNxN.get(x, i) * sparseBlock.get(x, y);
+                        double total = matrixNxN.get(x, i) * sparseBlock.get(x, y);
                         result.set(y, i, result.get(y, i) + total);
                     }
                 }

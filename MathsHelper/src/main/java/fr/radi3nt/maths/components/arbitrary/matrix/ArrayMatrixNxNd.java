@@ -1,27 +1,27 @@
 package fr.radi3nt.maths.components.arbitrary.matrix;
 
-import fr.radi3nt.maths.components.arbitrary.MatrixNxN;
-import fr.radi3nt.maths.components.arbitrary.VectorNf;
-import fr.radi3nt.maths.components.arbitrary.vector.ArrayVectorNf;
+import fr.radi3nt.maths.components.MatrixNxNd;
+import fr.radi3nt.maths.components.arbitrary.VectorNd;
+import fr.radi3nt.maths.components.arbitrary.vector.ArrayVectorNd;
 
 import java.util.Arrays;
 import java.util.BitSet;
 
-public class ArrayMatrixNxN implements MatrixNxN {
+public class ArrayMatrixNxNd implements MatrixNxNd {
 
     private final int width;
     private final int height;
-    private final float[] m;
+    private final double[] m;
     private final BitSet zeroSet;
 
-    public ArrayMatrixNxN(int width, int height) {
+    public ArrayMatrixNxNd(int width, int height) {
         this.width = width;
         this.height = height;
-        m = new float[width * height];
+        m = new double[width * height];
         zeroSet = new BitSet(this.width * this.height);
     }
 
-    protected ArrayMatrixNxN(int width, int height, float[] m) {
+    protected ArrayMatrixNxNd(int width, int height, double[] m) {
         this.width = width;
         this.height = height;
         this.m = m;
@@ -29,7 +29,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
     }
 
     @Override
-    public ArrayMatrixNxN multiply(MatrixNxN matrixNxN) {
+    public ArrayMatrixNxNd multiply(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getHeight())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getHeight() + "!=" + this.width);
 
@@ -38,7 +38,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
 
         BitSet nonZero = matrixNxN.nonZero();
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
                 float total = 0;
@@ -54,7 +54,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
     }
 
     @Override
-    public ArrayMatrixNxN multiplyTransposed(MatrixNxN matrixNxN) {
+    public ArrayMatrixNxNd multiplyTransposed(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getWidth())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
@@ -63,7 +63,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
 
         BitSet nonZero = matrixNxN.nonZero();
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
                 float total = 0;
@@ -79,7 +79,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
     }
 
     @Override
-    public MatrixNxN multiplyTransposedOther(MatrixNxN matrixNxN) {
+    public MatrixNxNd multiplyTransposedOther(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getWidth())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
@@ -88,7 +88,7 @@ public class ArrayMatrixNxN implements MatrixNxN {
 
         BitSet nonZero = this.nonZero();
 
-        ArrayMatrixNxN result = new ArrayMatrixNxN(resultWidth, resultHeight);
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
                 float total = 0;
@@ -104,12 +104,12 @@ public class ArrayMatrixNxN implements MatrixNxN {
     }
 
     @Override
-    public float get(int x, int y) {
+    public double get(int x, int y) {
         return m[x + y * width];
     }
 
     @Override
-    public void set(int x, int y, float value) {
+    public void set(int x, int y, double value) {
         m[x + y * width] = value;
         zeroSet.set(x + y * width, value != 0);
     }
@@ -128,24 +128,23 @@ public class ArrayMatrixNxN implements MatrixNxN {
     }
 
     @Override
-    public ArrayMatrixNxN duplicate() {
-        return new ArrayMatrixNxN(width, height, Arrays.copyOf(m, m.length));
+    public ArrayMatrixNxNd duplicate() {
+        return new ArrayMatrixNxNd(width, height, Arrays.copyOf(m, m.length));
     }
 
-    public float[] getM() {
+    public double[] getM() {
         return m;
     }
 
     @Override
-    public VectorNf transform(VectorNf vec) {
-        VectorNf result = new ArrayVectorNf(height);
+    public VectorNd transform(VectorNd vec) {
+        VectorNd result = new ArrayVectorNd(height);
 
         for (int y = 0; y < height; y++) {
-            float yi = 0;
             for (int x = 0; x < width; x++) {
-                yi += get(x, y) * vec.get(x);
+                double value = get(x, y) * vec.get(x);
+                result.add(y, value);
             }
-            result.set(y, yi);
         }
 
         return result;
@@ -158,8 +157,8 @@ public class ArrayMatrixNxN implements MatrixNxN {
         stringBuilder.append("width=").append(width).append("\n");
         stringBuilder.append("height=").append(height).append("\n");
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
                 stringBuilder.append(get(i, j)).append(" ");
             }
             stringBuilder.append("\n");
