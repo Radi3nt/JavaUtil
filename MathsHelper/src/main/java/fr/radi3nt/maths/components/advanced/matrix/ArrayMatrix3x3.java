@@ -112,6 +112,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
     }
 
     @Override
+    public void subtract(Matrix3x3 skewRJ) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                this.set(i, j, this.get(i, j) - skewRJ.get(i, j));
+            }
+        }
+    }
+
+    @Override
     public Quaternion getRotation() {
         return getCopySignRotation();
     }
@@ -129,8 +138,8 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
     @Override
     public void add(Matrix3x3 other) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 this.m[i][j] += other.get(i, j);
             }
         }
@@ -306,5 +315,9 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
         stringBuilder.append("}");
 
         return stringBuilder.toString();
+    }
+
+    public float[][] getM() {
+        return m;
     }
 }

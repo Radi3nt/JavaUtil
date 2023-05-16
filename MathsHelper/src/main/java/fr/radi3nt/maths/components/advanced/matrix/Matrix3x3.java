@@ -31,4 +31,6 @@ public interface Matrix3x3 extends Matrix {
     void copy(Matrix result);
 
     Matrix3x3 duplicate();
+
+    void subtract(Matrix3x3 skewRJ);
 }
