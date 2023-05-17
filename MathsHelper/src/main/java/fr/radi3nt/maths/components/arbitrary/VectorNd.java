@@ -17,4 +17,6 @@ public interface VectorNd extends Vector {
     int size();
 
     void scalar(VectorNd kd);
+
+    void add(VectorNd damping);
 }

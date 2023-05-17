@@ -30,6 +30,13 @@ public class ExtensibleVectorNd implements VectorNd {
         }
     }
 
+    @Override
+    public void add(VectorNd damping) {
+        for (int i = 0; i < vector.size(); i++) {
+            set(i, get(i) + damping.get(i));
+        }
+    }
+
     public double get(int row) {
         return vector.get(row);
     }
