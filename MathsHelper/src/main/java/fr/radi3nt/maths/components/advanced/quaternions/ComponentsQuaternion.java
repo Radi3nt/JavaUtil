@@ -107,10 +107,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public void multiply(Vector3f vec) {
-        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
-        float xRes = w*vec.getX() + y*vec.getZ() - z*vec.getY();
-        float yRes = w* vec.getY() + z* vec.getX() - x* vec.getZ();
-        float zRes = w* vec.getZ() + x*vec.getY() - y*vec.getX();
+        float wRes = -(x * vec.getX() + y * vec.getY() + z * vec.getZ());
+        float xRes = w * vec.getX() + y * vec.getZ() - z * vec.getY();
+        float yRes = w * vec.getY() + z * vec.getX() - x * vec.getZ();
+        float zRes = w * vec.getZ() + x * vec.getY() - y * vec.getX();
         x = xRes;
         y = yRes;
         z = zRes;
@@ -118,11 +118,41 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void transform(Vector3f vec) {
+        Vector3f u = new SimpleVector3f(x, y, z);
+
+        // Extract the scalar part of the quaternion
+        float s = w;
+
+        // Do the math
+        Vector3f result = new SimpleVector3f();
+        result.mul(u.duplicate().mul(2.0f * u.dot(vec)));
+        result.add(vec.duplicate().mul(s * s - u.dot(u)));
+        result.add(vec.duplicate().cross(u.duplicate()).mul(2.0f * s));
+
+        vec.copy(result);
+    }
+
+    @Override
+    public void transformUnit(Vector3f vec) {
+        Vector3f u = new SimpleVector3f(x, y, z);
+
+        // Extract the scalar part of the quaternion
+        float s = w;
+
+        // Do the math
+        Vector3f result = new SimpleVector3f(vec);
+        result.add(vec.duplicate().cross(u.duplicate()).mul(s).add(vec.duplicate().cross(u.duplicate()).cross(u.duplicate())).mul(2));
+
+        vec.copy(result);
+    }
+
+    @Override
     public void multiplyInv(Vector3f vec) {
-        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
-        float xRes = w*vec.getX() + z*vec.getY() - y*vec.getZ();
-        float yRes = w* vec.getY() + x* vec.getZ() - z* vec.getX();
-        float zRes = w* vec.getZ() + y*vec.getX() - x*vec.getY();
+        float wRes = -(x * vec.getX() + y * vec.getY() + z * vec.getZ());
+        float xRes = w * vec.getX() + z * vec.getY() - y * vec.getZ();
+        float yRes = w * vec.getY() + x * vec.getZ() - z * vec.getX();
+        float zRes = w * vec.getZ() + y * vec.getX() - x * vec.getY();
         x = xRes;
         y = yRes;
         z = zRes;

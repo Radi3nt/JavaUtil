@@ -20,6 +20,10 @@ public interface Quaternion {
 
     void multiply(Vector3f vec);
 
+    void transform(Vector3f vec);
+
+    void transformUnit(Vector3f result);
+
     void multiplyInv(Vector3f vec);
 
     void multiply(float s);
