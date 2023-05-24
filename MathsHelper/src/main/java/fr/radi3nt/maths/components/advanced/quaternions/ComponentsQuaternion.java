@@ -1,5 +1,6 @@
 package fr.radi3nt.maths.components.advanced.quaternions;
 
+import fr.radi3nt.maths.Maths;
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 
@@ -119,32 +120,18 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public void transform(Vector3f vec) {
-        Vector3f u = new SimpleVector3f(x, y, z);
+        float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
+        float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
+        float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
 
-        // Extract the scalar part of the quaternion
-        float s = w;
-
-        // Do the math
-        Vector3f result = new SimpleVector3f();
-        result.mul(u.duplicate().mul(2.0f * u.dot(vec)));
-        result.add(vec.duplicate().mul(s * s - u.dot(u)));
-        result.add(vec.duplicate().cross(u.duplicate()).mul(2.0f * s));
-
-        vec.copy(result);
+        vec.set(Maths.fma((xx - yy - zz + ww) * k, vec.getX(), Maths.fma(2 * (xy - zw) * k, vec.getY(), (2 * (xz + yw) * k) * vec.getZ())),
+                Maths.fma(2 * (xy + zw) * k, vec.getX(), Maths.fma((yy - xx - zz + ww) * k, vec.getY(), (2 * (yz - xw) * k) * vec.getZ())),
+                Maths.fma(2 * (xz - yw) * k, vec.getX(), Maths.fma(2 * (yz + xw) * k, vec.getY(), ((zz - xx - yy + ww) * k) * vec.getZ())));
     }
 
     @Override
     public void transformUnit(Vector3f vec) {
-        Vector3f u = new SimpleVector3f(x, y, z);
-
-        // Extract the scalar part of the quaternion
-        float s = w;
-
-        // Do the math
-        Vector3f result = new SimpleVector3f(vec);
-        result.add(vec.duplicate().cross(u.duplicate()).mul(s).add(vec.duplicate().cross(u.duplicate()).cross(u.duplicate())).mul(2));
-
-        vec.copy(result);
+        transform(vec);
     }
 
     @Override

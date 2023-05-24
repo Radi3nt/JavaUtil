@@ -100,6 +100,10 @@ public final class Maths {
         return a + f * (b - a);
     }
 
+    public static float fma(float a, float b, float c) {
+        return a * b + c;
+    }
+
     public static Matrix3x3 skew(Vector3f vec) {
         Matrix3x3 matrix3x3 = new ArrayMatrix3x3();
         matrix3x3.set(0, 0, 0);
