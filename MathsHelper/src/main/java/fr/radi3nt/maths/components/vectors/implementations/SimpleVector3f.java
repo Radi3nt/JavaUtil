@@ -188,6 +188,32 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
+    public void set(Vector3f set) {
+        this.set(set.getX(), set.getY(), set.getZ());
+    }
+
+    @Override
+    public void add(int row, float value) {
+        if (row == 0)
+            x += value;
+        if (row == 1)
+            y += value;
+        if (row == 2)
+            z += value;
+    }
+
+    @Override
+    public float get(int row) {
+        if (row == 0)
+            return x;
+        if (row == 1)
+            return y;
+        if (row == 2)
+            return z;
+        throw new IllegalArgumentException();
+    }
+
+    @Override
     public float length() {
         return (float) Math.sqrt(x * x + y * y + z * z);
     }

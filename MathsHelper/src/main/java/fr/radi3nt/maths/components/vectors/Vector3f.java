@@ -49,4 +49,10 @@ public interface Vector3f extends Vector {
     float lengthSquared();
 
     void copy(Vector3f vert1);
+
+    void set(Vector3f set);
+
+    void add(int row, float value);
+
+    float get(int row);
 }
