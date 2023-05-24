@@ -281,15 +281,15 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
 
         m[0][0] = 1 - 2 * (yy + zz);
-        m[0][1] = 2 * (xy - zw);
-        m[0][2] = 2 * (xz + yw);
+        m[1][0] = 2 * (xy - zw);
+        m[2][0] = 2 * (xz + yw);
 
-        m[1][0] = 2 * (xy + zw);
+        m[0][1] = 2 * (xy + zw);
         m[1][1] = 1 - 2 * (xx + zz);
-        m[1][2] = 2 * (yz - xw);
+        m[2][1] = 2 * (yz - xw);
 
-        m[2][0] = 2 * (xz - yw);
-        m[2][1] = 2 * (yz + xw);
+        m[0][2] = 2 * (xz - yw);
+        m[1][2] = 2 * (yz + xw);
         m[2][2] = 1 - 2 * (xx + yy);
 
         m[0][3] = m[1][3] = m[2][3] = m[3][0] = m[3][1] = m[3][2] = 0;

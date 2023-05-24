@@ -222,15 +222,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
 
         m[0][0] = 1 - 2 * (yy + zz);
-        m[0][1] = 2 * (xy - zw);
-        m[0][2] = 2 * (xz + yw);
+        m[1][0] = 2 * (xy - zw);
+        m[2][0] = 2 * (xz + yw);
 
-        m[1][0] = 2 * (xy + zw);
+        m[0][1] = 2 * (xy + zw);
         m[1][1] = 1 - 2 * (xx + zz);
-        m[1][2] = 2 * (yz - xw);
+        m[2][1] = 2 * (yz - xw);
 
-        m[2][0] = 2 * (xz - yw);
-        m[2][1] = 2 * (yz + xw);
+        m[0][2] = 2 * (xz - yw);
+        m[1][2] = 2 * (yz + xw);
         m[2][2] = 1 - 2 * (xx + yy);
     }
 
