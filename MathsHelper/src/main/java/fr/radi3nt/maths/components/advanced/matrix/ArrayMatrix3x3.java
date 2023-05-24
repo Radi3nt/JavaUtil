@@ -4,6 +4,7 @@ import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.advanced.quaternions.ComponentsQuaternion;
 import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Arrays;
 
@@ -256,12 +257,16 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
     @Override
     public void transform(Vector3f toTransform) {
-        float x = m[0][0] * toTransform.getX() + m[1][0] * toTransform.getY() + m[2][0] * toTransform.getZ();
-        float y = m[0][1] * toTransform.getX() + m[1][1] * toTransform.getY() + m[2][1] * toTransform.getZ();
-        float z = m[0][2] * toTransform.getX() + m[1][2] * toTransform.getY() + m[2][2] * toTransform.getZ();
-        toTransform.setX(x);
-        toTransform.setY(y);
-        toTransform.setZ(z);
+        Vector3f result = new SimpleVector3f();
+
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                float value = get(x, y) * toTransform.get(x);
+                result.add(y, value);
+            }
+        }
+
+        toTransform.copy(result);
     }
 
     @Override
