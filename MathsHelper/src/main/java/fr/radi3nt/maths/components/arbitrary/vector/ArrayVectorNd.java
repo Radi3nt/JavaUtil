@@ -36,6 +36,13 @@ public class ArrayVectorNd implements VectorNd {
         }
     }
 
+    @Override
+    public void scalar(double v) {
+        for (int i = 0; i < vector.length; i++) {
+            set(i, get(i) * v);
+        }
+    }
+
     public double get(int row) {
         return vector[row];
     }
