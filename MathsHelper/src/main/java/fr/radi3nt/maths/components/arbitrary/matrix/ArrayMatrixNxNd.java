@@ -54,12 +54,12 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
     }
 
     @Override
-    public ArrayMatrixNxNd multiplyTransposed(MatrixNxNd matrixNxN) {
+    public ArrayMatrixNxNd multiplyWithTransposed(MatrixNxNd matrixNxN) {
         if (this.width != matrixNxN.getWidth())
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
-        int resultWidth = this.height;
-        int resultHeight = matrixNxN.getHeight();
+        int resultWidth = matrixNxN.getHeight();
+        int resultHeight = this.height;
 
         BitSet nonZero = matrixNxN.nonZero();
 
@@ -68,8 +68,8 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
             for (int y = 0; y < result.height; y++) {
                 float total = 0;
                 for (int i = 0; i < this.width; i++) {
-                    if (nonZero.get(i + y * matrixNxN.getWidth()))
-                        total += this.get(i, x) * matrixNxN.get(i, y);
+                    if (nonZero.get(i + x * matrixNxN.getWidth()))
+                        total += this.get(i, y) * matrixNxN.get(i, x);
                 }
                 result.set(x, y, total);
             }
@@ -80,11 +80,11 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
     @Override
     public MatrixNxNd multiplyTransposedOther(MatrixNxNd matrixNxN) {
-        if (this.width != matrixNxN.getWidth())
+        if (matrixNxN.getWidth() != this.width)
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
-        int resultWidth = matrixNxN.getHeight();
-        int resultHeight = this.getHeight();
+        int resultWidth = this.height;
+        int resultHeight = matrixNxN.getHeight();
 
         BitSet nonZero = this.nonZero();
 
@@ -92,9 +92,9 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
                 float total = 0;
-                for (int i = 0; i < this.width; i++) {
-                    if (nonZero.get(i + y * this.getWidth()))
-                        total += matrixNxN.get(i, x) * this.get(i, y);
+                for (int i = 0; i < matrixNxN.getWidth(); i++) {
+                    if (nonZero.get(i + x * this.getWidth()))
+                        total += matrixNxN.get(i, y) * this.get(i, x);
                 }
                 result.set(x, y, total);
             }
@@ -147,6 +147,26 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
             }
         }
 
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArrayMatrixNxNd)) return false;
+
+        ArrayMatrixNxNd that = (ArrayMatrixNxNd) o;
+
+        if (width != that.width) return false;
+        if (height != that.height) return false;
+        return Arrays.equals(m, that.m);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = width;
+        result = 31 * result + height;
+        result = 31 * result + Arrays.hashCode(m);
         return result;
     }
 

@@ -20,7 +20,7 @@ public interface MatrixNxNd {
 
     MatrixNxNd multiply(MatrixNxNd matrixNxN);
 
-    MatrixNxNd multiplyTransposed(MatrixNxNd matrixNxN);
+    MatrixNxNd multiplyWithTransposed(MatrixNxNd matrixNxN);
 
     MatrixNxNd multiplyTransposedOther(MatrixNxNd matrixNxN);
 
