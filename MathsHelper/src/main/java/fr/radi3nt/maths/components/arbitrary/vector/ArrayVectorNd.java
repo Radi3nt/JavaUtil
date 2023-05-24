@@ -13,6 +13,13 @@ public class ArrayVectorNd implements VectorNd {
         vector = new double[size];
     }
 
+    public ArrayVectorNd(VectorNd copy) {
+        vector = new double[copy.size()];
+        for (int i = 0; i < copy.size(); i++) {
+            vector[i] = copy.get(i);
+        }
+    }
+
     @Override
     public float length() {
         throw new UnsupportedOperationException("Not implemented");
