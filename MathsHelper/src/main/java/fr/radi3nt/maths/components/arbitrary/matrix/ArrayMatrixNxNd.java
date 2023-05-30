@@ -46,7 +46,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
                     if (nonZero.get(x + i * matrixNxN.getWidth()))
                         total += this.get(i, y) * matrixNxN.get(x, i);
                 }
-                result.set(x, y, total);
+                result.add(x, y, total);
             }
         }
 
@@ -71,7 +71,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
                     if (nonZero.get(i + x * matrixNxN.getWidth()))
                         total += this.get(i, y) * matrixNxN.get(i, x);
                 }
-                result.set(x, y, total);
+                result.add(x, y, total);
             }
         }
 
@@ -96,7 +96,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
                     if (nonZero.get(i + x * this.getWidth()))
                         total += matrixNxN.get(i, y) * this.get(i, x);
                 }
-                result.set(x, y, total);
+                result.add(x, y, total);
             }
         }
 
@@ -112,6 +112,11 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
     public void set(int x, int y, double value) {
         m[x + y * width] = value;
         zeroSet.set(x + y * width, value != 0);
+    }
+
+    public void add(int x, int y, double total) {
+        m[x + y * width] += total;
+        zeroSet.set(x + y * width, true);
     }
 
     public int getWidth() {

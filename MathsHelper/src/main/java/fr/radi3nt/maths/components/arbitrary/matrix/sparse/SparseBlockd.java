@@ -56,6 +56,14 @@ public class SparseBlockd {
     }
 
     public boolean isInBound(int x, int y) {
-        return x >= startX && y >= startY && x < startX + width && y < startY + height;
+        return isInBoundX(x) && isInBoundY(y);
+    }
+
+    protected boolean isInBoundY(int y) {
+        return y >= startY && y < startY + height;
+    }
+
+    protected boolean isInBoundX(int x) {
+        return x >= startX && x < startX + width;
     }
 }

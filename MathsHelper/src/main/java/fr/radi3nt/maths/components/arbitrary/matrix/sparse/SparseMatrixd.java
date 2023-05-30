@@ -129,7 +129,7 @@ public class SparseMatrixd implements MatrixNxNd {
                     for (int i = sparseBlock.getStartX(); i < sparseBlock.getStartX() + sparseBlock.getWidth(); i++) {
                         total += sparseBlock.get(i, y) * matrixNxN.get(x, i);
                     }
-                    result.set(x, y, total);
+                    result.add(x, y, total);
                 }
             }
         }
@@ -154,7 +154,7 @@ public class SparseMatrixd implements MatrixNxNd {
                     for (int i = sparseBlock.getStartX(); i < sparseBlock.getStartX() + sparseBlock.getWidth(); i++) {
                         total += sparseBlock.get(i, y) * matrixNxN.get(i, x);
                     }
-                    result.set(x, y, total);
+                    result.add(x, y, total);
                 }
             }
         }
@@ -164,21 +164,28 @@ public class SparseMatrixd implements MatrixNxNd {
 
     @Override
     public MatrixNxNd multiplyTransposedOther(MatrixNxNd matrixNxN) {
-        if (this.width != matrixNxN.getWidth())
+        if (matrixNxN.getWidth() != this.width)
             throw new UnsupportedOperationException("Unable to multiply matrices: " + matrixNxN.getWidth() + "!=" + this.width);
 
         int resultWidth = this.height;
         int resultHeight = matrixNxN.getHeight();
 
-        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
+        BitSet bitSet = matrixNxN.nonZero();
 
+        ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (SparseBlockd sparseBlock : sparseBlocks) {
             for (int y = 0; y < resultHeight; y++) {
-                for (int x = sparseBlock.getStartX(); x < sparseBlock.getStartX() + sparseBlock.getWidth(); x++) {
+                for (int x = sparseBlock.getStartY(); x < sparseBlock.getStartY() + sparseBlock.getHeight(); x++) {
+                    float total = 0;
+                    boolean setOnce = false;
                     for (int i = sparseBlock.getStartX(); i < sparseBlock.getStartX() + sparseBlock.getWidth(); i++) {
-                        double total = matrixNxN.get(i, y) * sparseBlock.get(i, x);
-                        result.set(x, y, result.get(x, y) + total);
+                        if (bitSet.get(i + y * matrixNxN.getWidth())) {
+                            total += matrixNxN.get(i, y) * sparseBlock.get(i, x);
+                            setOnce = true;
+                        }
                     }
+                    if (setOnce)
+                        result.add(x, y, total);
                 }
             }
         }
