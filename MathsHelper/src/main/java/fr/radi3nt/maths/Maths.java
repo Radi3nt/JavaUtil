@@ -4,6 +4,7 @@ import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix3x3;
 import fr.radi3nt.maths.components.advanced.matrix.Matrix3x3;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public final class Maths {
@@ -109,12 +110,20 @@ public final class Maths {
         matrix3x3.set(0, 0, 0);
         matrix3x3.set(1, 0, -vec.getZ());
         matrix3x3.set(2, 0, vec.getY());
+
         matrix3x3.set(0, 1, vec.getZ());
         matrix3x3.set(1, 1, 0);
         matrix3x3.set(2, 1, -vec.getX());
+
         matrix3x3.set(0, 2, -vec.getY());
         matrix3x3.set(1, 2, vec.getX());
         matrix3x3.set(2, 2, 0);
         return matrix3x3;
+    }
+
+    public static double[] nCopies(int amount, double value) {
+        double[] array = new double[amount];
+        Arrays.fill(array, value);
+        return array;
     }
 }
