@@ -19,11 +19,8 @@ public interface VerticesSATShape extends SATShape {
         double max = min;
         for (int i = 1; i < vertices.length; i++) {
             double p = axis.dot(vertices[i]);
-            if (p < min) {
-                min = p;
-            } else if (p > max) {
-                max = p;
-            }
+            min = Math.min(p, min);
+            max = Math.max(p, max);
         }
 
         return provider.project(min, max);
