@@ -126,4 +126,10 @@ public final class Maths {
         Arrays.fill(array, value);
         return array;
     }
+
+    public static double[][] nCopies(int amount, double[] values) {
+        double[][] array = new double[amount][];
+        Arrays.fill(array, values);
+        return array;
+    }
 }
