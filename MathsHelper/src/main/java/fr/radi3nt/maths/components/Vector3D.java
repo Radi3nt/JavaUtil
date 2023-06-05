@@ -36,8 +36,8 @@ public class Vector3D implements Cloneable {
 
     public Vector3D(Vector3f vector) {
         this.x = vector.getX();
-        this.y = vector.getX();
-        this.z = vector.getX();
+        this.y = vector.getY();
+        this.z = vector.getZ();
     }
 
     public Vector3D add(Vector3D vec) {
