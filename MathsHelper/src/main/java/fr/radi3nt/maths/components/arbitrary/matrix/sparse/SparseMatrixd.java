@@ -129,7 +129,8 @@ public class SparseMatrixd implements MatrixNxNd {
                     for (int i = sparseBlock.getStartX(); i < sparseBlock.getStartX() + sparseBlock.getWidth(); i++) {
                         total += sparseBlock.get(i, y) * matrixNxN.get(x, i);
                     }
-                    result.add(x, y, total);
+                    if (total!=0)
+                        result.add(x, y, total);
                 }
             }
         }
@@ -177,14 +178,12 @@ public class SparseMatrixd implements MatrixNxNd {
             for (int y = 0; y < resultHeight; y++) {
                 for (int x = sparseBlock.getStartY(); x < sparseBlock.getStartY() + sparseBlock.getHeight(); x++) {
                     float total = 0;
-                    boolean setOnce = false;
                     for (int i = sparseBlock.getStartX(); i < sparseBlock.getStartX() + sparseBlock.getWidth(); i++) {
                         if (bitSet.get(i + y * matrixNxN.getWidth())) {
                             total += matrixNxN.get(i, y) * sparseBlock.get(i, x);
-                            setOnce = true;
                         }
                     }
-                    if (setOnce)
+                    if (total!=0)
                         result.add(x, y, total);
                 }
             }
