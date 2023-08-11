@@ -30,13 +30,11 @@ public class SatResolver {
 
         SatAxis[] axes1 = shape1.getAxes();
         SatAxis[] axes2 = shape2.getAxes();
-        // loop over the axes1
-        if (testOverlapOnAxes(axes1, -1, false)) return false;
-        // loop over the axes2
-        if (testOverlapOnAxes(axes2, 1, false)) return false;
+        if (testOverlapOnAxes(axes1)) return false;
+        if (testOverlapOnAxes(axes2)) return false;
 
         SatAxis[] edgeAxis = computeAxesFromEdges(shape1.getEdges(), shape2.getEdges());
-        return !testOverlapOnAxes(edgeAxis, 1, false);
+        return !testOverlapOnAxes(edgeAxis);
     }
 
     private SatAxis[] computeAxesFromEdges(SatEdge[] edges, SatEdge[] others) {
@@ -52,7 +50,7 @@ public class SatResolver {
         return axes;
     }
 
-    private boolean testOverlapOnAxes(SatAxis[] axes, int normal, boolean edge) {
+    private boolean testOverlapOnAxes(SatAxis[] axes) {
         for (SatAxis axis : axes) {
             if (axis.getNormal().lengthSquared() == 0 || Double.isNaN(axis.getNormal().lengthSquared()))
                 continue;
@@ -60,15 +58,14 @@ public class SatResolver {
             SatProjection p1 = shape1.project(provider0, axis);
             SatProjection p2 = shape2.project(provider1, axis);
 
-            if (!p1.noOverlap(p2)) {
-                double signedPenetration = p1.getOverlap(p2);
-                double penetration = Math.abs(signedPenetration);
-                if (this.penetration > penetration) {
-                    this.msa = axis;
-                    this.penetration = penetration;
-                }
-            } else {
+            if (p1.noOverlap(p2))
                 return true;
+
+            double signedPenetration = p1.getOverlap(p2);
+            double penetration = Math.abs(signedPenetration);
+            if (this.penetration > penetration) {
+                this.msa = axis;
+                this.penetration = penetration;
             }
         }
 
