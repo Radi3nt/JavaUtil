@@ -23,6 +23,7 @@
         <module>LanguageHelperV2</module>
         <module>DataStructures</module>
         <module>SplineHelper</module>
+        <module>AnimationHelper</module>
     </modules>
 
     <properties>
