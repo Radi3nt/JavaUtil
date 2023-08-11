@@ -1,6 +1,8 @@
-package fr.radi3nt.behavior.variable;
+package fr.radi3nt.behavior.variable.impl;
 
-public class DirectNodeVariable<T> implements NodeVariable<T> {
+import fr.radi3nt.behavior.variable.CompleteNodeVariable;
+
+public class DirectNodeVariable<T> implements CompleteNodeVariable<T> {
 
     private T value;
 
@@ -16,7 +18,8 @@ public class DirectNodeVariable<T> implements NodeVariable<T> {
         return value;
     }
 
-    public void setValue(T value) {
+    @Override
+    public void set(T value) {
         this.value = value;
     }
 }

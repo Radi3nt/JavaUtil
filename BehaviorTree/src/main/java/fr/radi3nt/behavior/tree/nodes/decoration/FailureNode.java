@@ -1,20 +1,17 @@
 package fr.radi3nt.behavior.tree.nodes.decoration;
 
+import fr.radi3nt.behavior.tree.nodes.BehaviorTreeNode;
 import fr.radi3nt.behavior.tree.nodes.NodeStatus;
-import fr.radi3nt.behavior.tree.nodes.TreeNode;
 
 public class FailureNode extends DecorationNode {
 
-    public FailureNode() {
-    }
-
-    public FailureNode(TreeNode treeNode) {
-        super(treeNode);
+    public FailureNode(BehaviorTreeNode node) {
+        super(node);
     }
 
     @Override
     public NodeStatus run() {
-        treeNode.run();
+        child.run();
         return NodeStatus.FAILURE;
     }
 
