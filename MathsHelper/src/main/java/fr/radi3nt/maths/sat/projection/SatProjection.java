@@ -40,14 +40,6 @@ public class SatProjection {
         return this.min <= p2.max ? this.max >= p2.min : this.min <= p2.min;
     }
 
-    public int normal(SatProjection p2) {
-        double negative = abs(this.min - p2.max);
-        double positive = abs(this.max - p2.min);
-        if (negative < positive)
-            return -1;
-        return 1;
-    }
-
     public void sweptOverlap(SatProjection p2, double speed) {
         double tEnter;
         double tLeave;
