@@ -98,6 +98,13 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void inverse() {
+        this.x = -x;
+        this.y = -y;
+        this.z = -z;
+    }
+
+    @Override
     public void normalise() {
         float magnitude = getMagnitude();
         this.x /= magnitude;

@@ -12,6 +12,8 @@ public interface Quaternion {
 
     float getW();
 
+    void inverse();
+
     void normalise();
 
     void add(Quaternion quaternion);
