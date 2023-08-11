@@ -1,6 +1,7 @@
 package fr.radi3nt.spline.curve.curves;
 
 import fr.radi3nt.spline.curve.CharacteristicCurve;
+import fr.radi3nt.spline.splines.builder.bezier.dim1.DirectCubicBezierCurveController;
 
 public class HermiteCurve extends CharacteristicCurve {
 
@@ -18,7 +19,7 @@ public class HermiteCurve extends CharacteristicCurve {
     }
 
     public CubicBezierCurve toBezier() {
-        return new CubicBezierCurve(startPoint, endPoint, startPoint+velocityStart/3, endPoint-velocityEnd/3);
+        return new CubicBezierCurve(new DirectCubicBezierCurveController(startPoint, endPoint, startPoint+velocityStart/3, endPoint-velocityEnd/3));
     }
 
     protected float computeP(float a, float t, float t2, float t3) {

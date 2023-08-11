@@ -8,7 +8,7 @@ public class EncapsulatingSpline3D implements Spline3D {
 
     private final Spline[] splines;
 
-    public EncapsulatingSpline3D(Spline[] splines) {
+    public EncapsulatingSpline3D(Spline... splines) {
         this.splines = splines;
     }
 

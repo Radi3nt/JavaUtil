@@ -4,23 +4,21 @@ import fr.radi3nt.spline.curve.CharacteristicCurve;
 
 public class CardinalCurve extends CharacteristicCurve {
 
-    private final float pointA;
-    private final float pointB;
-    private final float pointC;
-    private final float pointD;
+    private final CardinalCurveController cardinalCurveController;
 
-    private final float scale;
-
-    public CardinalCurve(float pointA, float pointB, float pointC, float pointD, float scale) {
-        this.pointA = pointA;
-        this.pointB = pointB;
-        this.pointC = pointC;
-        this.pointD = pointD;
-        this.scale = scale;
+    public CardinalCurve(CardinalCurveController cardinalCurveController) {
+        this.cardinalCurveController = cardinalCurveController;
     }
 
     @Override
     protected float computeP(float a, float t, float t2, float t3) {
+
+        float pointA = cardinalCurveController.getPositionA();
+        float pointB = cardinalCurveController.getPositionB();
+        float pointC = cardinalCurveController.getPositionC();
+        float pointD = cardinalCurveController.getPositionD();
+        float scale = cardinalCurveController.getScale();
+
         return a * pointB
                 + t *(-pointA*scale + pointC*scale)
                 + t2 *(2*pointA*scale + (scale-3)*pointB + (3-2*scale)*pointC - pointD*scale)
