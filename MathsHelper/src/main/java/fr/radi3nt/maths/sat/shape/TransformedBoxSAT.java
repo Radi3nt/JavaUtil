@@ -44,24 +44,24 @@ public class TransformedBoxSAT implements VerticesSATShape {
             Vector4f transformed = new SimpleVector4f((float) vertex.getX(), (float) vertex.getY(), (float) vertex.getZ(), 1);
             transform.transform(transformed);
 
-            vertex.set(transformed.getX(), transformed.getY(), transformed.getZ());
+            vertex.copy(transformed.getX(), transformed.getY(), transformed.getZ());
         }
     }
 
     public void set(Vector3D min, Vector3D max, Matrix4x4 transform) {
-        vertices[0].set(min);
-        vertices[1].set(max);
-        vertices[2].set(max.getX(), min.getY(), min.getZ());
-        vertices[3].set(max.getX(), max.getY(), min.getZ());
-        vertices[4].set(min.getX(), max.getY(), min.getZ());
-        vertices[5].set(min.getX(), max.getY(), max.getZ());
-        vertices[6].set(min.getX(), min.getY(), max.getZ());
-        vertices[7].set(max.getX(), min.getY(), max.getZ());
+        vertices[0].copy(min);
+        vertices[1].copy(max);
+        vertices[2].copy(max.getX(), min.getY(), min.getZ());
+        vertices[3].copy(max.getX(), max.getY(), min.getZ());
+        vertices[4].copy(min.getX(), max.getY(), min.getZ());
+        vertices[5].copy(min.getX(), max.getY(), max.getZ());
+        vertices[6].copy(min.getX(), min.getY(), max.getZ());
+        vertices[7].copy(max.getX(), min.getY(), max.getZ());
         Vector4f transformed = new SimpleVector4f();
         for (Vector3D vertex : vertices) {
             transformed.set((float) vertex.getX(), (float) vertex.getY(), (float) vertex.getZ(), 1);
             transform.transform(transformed);
-            vertex.set(transformed.getX(), transformed.getY(), transformed.getZ());
+            vertex.copy(transformed.getX(), transformed.getY(), transformed.getZ());
         }
         this.transform = transform;
     }
