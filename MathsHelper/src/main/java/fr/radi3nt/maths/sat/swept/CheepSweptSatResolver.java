@@ -35,15 +35,15 @@ public class CheepSweptSatResolver {
 
         SweptResult shapeOne = testOverlapOnAxes(axes1);
         if (shapeOne == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
         // loop over the axes2
         SweptResult shapeTwo = testOverlapOnAxes(axes2);
         if (shapeTwo == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
 
         SweptResult edges = testOverlapOnAxes(shape1.getEdges(), shape2.getEdges());
         if (edges == null)
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
 
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
@@ -69,18 +69,18 @@ public class CheepSweptSatResolver {
         tLeave = Math.min(edges.getTLeave(), tLeave);
 
         if (tEnter > tLeave) {
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        if (enterAxis!=null)
+            return new SweptResult(true, tEnter, tLeave, enterAxis);
+        return SweptResult.NO_CONTACT;
     }
 
     private SweptResult testOverlapOnAxes(SatEdge[] edges, SatEdge[] others) {
         double tEnter = -Double.MAX_VALUE;
         double tLeave = Double.MAX_VALUE;
         SatAxis enterAxis = null;
-
-        SweptResult resultPassing = new SweptResult();
 
         for (SatEdge edge : edges) {
             for (SatEdge other : others) {
@@ -95,24 +95,32 @@ public class CheepSweptSatResolver {
                 if (speed == 0) {
                     if (p1.noOverlap(p2)) {
                         return null;
+                    } else {
+                        if (tEnter<0) {
+                            tEnter = 0;
+                            tLeave = 1;
+                            enterAxis = axis;
+                        }
                     }
                     continue;
                 }
 
-                p1.sweptOverlap(p2, speed, resultPassing);
-                if (tEnter < resultPassing.getTEnter()) {
+                p1.sweptOverlap(p2, speed);
+                if (tEnter < p1.getTEnter()) {
                     enterAxis = axis.useNewNormalVector(new Vector3D());
-                    tEnter = resultPassing.getTEnter();
+                    tEnter = p1.getTEnter();
                     if (tEnter > 1)
                         return null;
                 }
-                tLeave = Math.min(resultPassing.getTLeave(), tLeave);
+                tLeave = Math.min(p1.getTLeave(), tLeave);
                 if (tLeave < 0)
                     return null;
             }
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        if (enterAxis!=null)
+            return new SweptResult(true, tEnter, tLeave, enterAxis);
+        return SweptResult.NO_CONTACT;
     }
 
     private SweptResult testOverlapOnAxes(SatAxis... axes) {
@@ -121,7 +129,6 @@ public class CheepSweptSatResolver {
         double tLeave = Double.MAX_VALUE;
         SatAxis enterAxis = null;
 
-        SweptResult resultPassing = new SweptResult();
         for (SatAxis axis : axes) {
             // project both shapes onto the axis
             SatProjection p1 = shape1.project(provider0, axis);
@@ -132,22 +139,28 @@ public class CheepSweptSatResolver {
             if (speed == 0) {
                 if (p1.noOverlap(p2)) {
                     return null;
+                } else {
+                    if (tEnter<0) {
+                        tEnter = 0;
+                        tLeave = 1;
+                        enterAxis = axis;
+                    }
                 }
                 continue;
             }
 
-            p1.sweptOverlap(p2, speed, resultPassing);
-            if (tEnter < resultPassing.getTEnter()) {
+            p1.sweptOverlap(p2, speed);
+            if (tEnter < p1.getTEnter()) {
                 enterAxis = axis;
-                tEnter = resultPassing.getTEnter();
+                tEnter = p1.getTEnter();
                 if (tEnter > 1)
                     return null;
             }
-            tLeave = Math.min(resultPassing.getTLeave(), tLeave);
+            tLeave = Math.min(p1.getTLeave(), tLeave);
             if (tLeave < 0)
                 return null;
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        return new SweptResult(true, tEnter, tLeave, enterAxis);
     }
 }

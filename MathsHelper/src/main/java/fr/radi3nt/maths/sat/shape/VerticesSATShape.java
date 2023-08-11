@@ -1,9 +1,13 @@
 package fr.radi3nt.maths.sat.shape;
 
 import fr.radi3nt.maths.components.Vector3D;
+import fr.radi3nt.maths.sat.clip.ClipPlanes;
+import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.projection.SatProjection;
 import fr.radi3nt.maths.sat.projection.SatProjectionProvider;
+
+import java.util.Collection;
 
 public interface VerticesSATShape extends SATShape {
 
@@ -15,15 +19,15 @@ public interface VerticesSATShape extends SATShape {
         double max = min;
         for (int i = 1; i < vertices.length; i++) {
             double p = axis.dot(vertices[i]);
-            if (p < min) {
-                min = p;
-            } else if (p > max) {
-                max = p;
-            }
+            min = Math.min(p, min);
+            max = Math.max(p, max);
         }
 
         return provider.project(min, max);
     }
 
     Vector3D[] getVertices();
+
+    ClipPlanes getClipPlanes();
+    Collection<Edge> getClipEdges();
 }

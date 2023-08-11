@@ -11,10 +11,10 @@ public class SatEdge {
     }
 
     public SatAxis axis(SatEdge other) {
-        return new SatAxis(other.edge.getCrossProduct(edge));
+        return new SatAxis(other.edge.getCrossProduct(edge, new Vector3D()).normalize());
     }
 
     public SatAxis axis(SatEdge other, Vector3D result) {
-        return new SatAxis(other.edge.getCrossProduct(edge, result));
+        return new SatAxis(other.edge.getCrossProduct(edge, result).normalize());
     }
 }

@@ -80,6 +80,14 @@ public class SimpleVector4f implements Vector4f {
         setW(w);
     }
 
+    @Override
+    public void set(float x, float y, float z, int w) {
+        setX(x);
+        setY(y);
+        setZ(z);
+        setW(w);
+    }
+
     public void div(float length) {
         this.setX(getX()/length);
         this.setY(getY()/length);
