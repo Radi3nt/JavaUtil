@@ -1,4 +1,4 @@
-package fr.radi3nt.spline.splines.hermite;
+package fr.radi3nt.spline.splines.hybrid.hermite;
 
 import fr.radi3nt.spline.curve.Curve;
 import fr.radi3nt.spline.curve.curves.HermiteCurve;

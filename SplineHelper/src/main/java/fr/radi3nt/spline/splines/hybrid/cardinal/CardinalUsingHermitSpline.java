@@ -1,7 +1,7 @@
-package fr.radi3nt.spline.splines.cardinal;
+package fr.radi3nt.spline.splines.hybrid.cardinal;
 
 import fr.radi3nt.spline.splines.Spline;
-import fr.radi3nt.spline.splines.hermite.HermiteSpline;
+import fr.radi3nt.spline.splines.hybrid.hermite.HermiteSpline;
 
 public class CardinalUsingHermitSpline implements Spline {
 
