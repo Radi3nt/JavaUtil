@@ -1,23 +1,24 @@
 package fr.radi3nt.behavior.tree.nodes.composite;
 
+import fr.radi3nt.behavior.tree.nodes.BehaviorTreeNode;
 import fr.radi3nt.behavior.tree.nodes.NodeStatus;
-import fr.radi3nt.behavior.tree.nodes.TreeNode;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
-/**
- * This BasicSelectorNode returns the first success or running result in its child. If not found, it returns 'NodeStatus.FAILURE'
- */
 public class FallbackNode extends CompositeNode {
 
-    public FallbackNode() {
-        super(new ArrayList<>());
+    public FallbackNode(Collection<BehaviorTreeNode> nodes) {
+        super(nodes);
+    }
+
+    public FallbackNode(BehaviorTreeNode... nodes) {
+        super(nodes);
     }
 
     @Override
     public NodeStatus run() {
-        for (TreeNode treeNode : treeNodes) {
-            NodeStatus nodeStatus = treeNode.run();
+        for (BehaviorTreeNode behaviorTreeNode : children) {
+            NodeStatus nodeStatus = behaviorTreeNode.run();
             if (nodeStatus != NodeStatus.FAILURE)
                 return nodeStatus;
         }

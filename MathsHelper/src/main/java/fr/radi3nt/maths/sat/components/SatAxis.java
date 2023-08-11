@@ -18,7 +18,6 @@ public class SatAxis {
         return normal.dot(dotted);
     }
 
-    @Deprecated
     public Vector3D getNormal() {
         return normal;
     }

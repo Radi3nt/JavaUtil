@@ -38,6 +38,10 @@ public class SimpleVector3f implements Vector3f {
         this(vector4f.getX(), vector4f.getY(), vector4f.getZ());
     }
 
+    public SimpleVector3f(double v, double v1, double v2) {
+        this((float) v, (float) v1, (float) v2);
+    }
+
     @Override
     public float getX() {
         return x;
@@ -181,6 +185,32 @@ public class SimpleVector3f implements Vector3f {
     @Override
     public void copy(Vector3f vert1) {
         this.set(vert1.getX(), vert1.getY(), vert1.getZ());
+    }
+
+    @Override
+    public void set(Vector3f set) {
+        this.set(set.getX(), set.getY(), set.getZ());
+    }
+
+    @Override
+    public void add(int row, float value) {
+        if (row == 0)
+            x += value;
+        if (row == 1)
+            y += value;
+        if (row == 2)
+            z += value;
+    }
+
+    @Override
+    public float get(int row) {
+        if (row == 0)
+            return x;
+        if (row == 1)
+            return y;
+        if (row == 2)
+            return z;
+        throw new IllegalArgumentException();
     }
 
     @Override

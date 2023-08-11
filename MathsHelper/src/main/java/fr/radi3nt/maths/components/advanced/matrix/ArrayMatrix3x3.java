@@ -4,6 +4,7 @@ import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.advanced.quaternions.ComponentsQuaternion;
 import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Arrays;
 
@@ -112,6 +113,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
     }
 
     @Override
+    public void subtract(Matrix3x3 skewRJ) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                this.set(i, j, this.get(i, j) - skewRJ.get(i, j));
+            }
+        }
+    }
+
+    @Override
     public Quaternion getRotation() {
         return getCopySignRotation();
     }
@@ -129,8 +139,8 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
     @Override
     public void add(Matrix3x3 other) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 this.m[i][j] += other.get(i, j);
             }
         }
@@ -212,15 +222,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
 
         m[0][0] = 1 - 2 * (yy + zz);
-        m[0][1] = 2 * (xy - zw);
-        m[0][2] = 2 * (xz + yw);
+        m[1][0] = 2 * (xy - zw);
+        m[2][0] = 2 * (xz + yw);
 
-        m[1][0] = 2 * (xy + zw);
+        m[0][1] = 2 * (xy + zw);
         m[1][1] = 1 - 2 * (xx + zz);
-        m[1][2] = 2 * (yz - xw);
+        m[2][1] = 2 * (yz - xw);
 
-        m[2][0] = 2 * (xz - yw);
-        m[2][1] = 2 * (yz + xw);
+        m[0][2] = 2 * (xz - yw);
+        m[1][2] = 2 * (yz + xw);
         m[2][2] = 1 - 2 * (xx + yy);
     }
 
@@ -247,12 +257,16 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
     @Override
     public void transform(Vector3f toTransform) {
-        float x = m[0][0] * toTransform.getX() + m[1][0] * toTransform.getY() + m[2][0] * toTransform.getZ();
-        float y = m[0][1] * toTransform.getX() + m[1][1] * toTransform.getY() + m[2][1] * toTransform.getZ();
-        float z = m[0][2] * toTransform.getX() + m[1][2] * toTransform.getY() + m[2][2] * toTransform.getZ();
-        toTransform.setX(x);
-        toTransform.setY(y);
-        toTransform.setZ(z);
+        Vector3f result = new SimpleVector3f();
+
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                float value = get(x, y) * toTransform.get(x);
+                result.add(y, value);
+            }
+        }
+
+        toTransform.copy(result);
     }
 
     @Override
@@ -306,5 +320,9 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
         stringBuilder.append("}");
 
         return stringBuilder.toString();
+    }
+
+    public float[][] getM() {
+        return m;
     }
 }

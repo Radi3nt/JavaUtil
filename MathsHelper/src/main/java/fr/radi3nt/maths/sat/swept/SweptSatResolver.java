@@ -28,10 +28,8 @@ public class SweptSatResolver {
     public SweptResult resolve() {
         SatAxis[] axes1 = shape1.getAxes();
         SatAxis[] axes2 = shape2.getAxes();
-        // loop over the axes1
 
         SweptResult shapeOne = testOverlapOnAxes(axes1);
-        // loop over the axes2
         SweptResult shapeTwo = testOverlapOnAxes(axes2);
 
         SatAxis[] edgeAxis = computeAxesFromEdges(shape1.getEdges(), shape2.getEdges());
@@ -61,10 +59,10 @@ public class SweptSatResolver {
         tLeave = Math.min(edges.getTLeave(), tLeave);
 
         if (tEnter > tLeave) {
-            return new SweptResult(Double.MAX_VALUE, -Double.MAX_VALUE, null);
+            return SweptResult.NO_CONTACT;
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        return new SweptResult(true, tEnter, tLeave, enterAxis);
     }
 
     private SatAxis[] computeAxesFromEdges(SatEdge[] edges, SatEdge[] others) {
@@ -86,12 +84,9 @@ public class SweptSatResolver {
         double tLeave = Double.MAX_VALUE;
         SatAxis enterAxis = null;
 
-        SweptResult resultPassing = new SweptResult();
         for (SatAxis axis : axes) {
-            // project both shapes onto the axis
             SatProjection p1 = shape1.project(provider0, axis);
             SatProjection p2 = shape2.project(provider1, axis);
-            // do the projections overlap?
 
             double speed = axis.dot(velocity);
             if (speed == 0) {
@@ -102,14 +97,14 @@ public class SweptSatResolver {
                 continue;
             }
 
-            p1.sweptOverlap(p2, speed, resultPassing);
-            if (tEnter < resultPassing.getTEnter()) {
+            p1.sweptOverlap(p2, speed);
+            if (tEnter < p1.getTEnter()) {
                 enterAxis = axis;
-                tEnter = resultPassing.getTEnter();
+                tEnter = p1.getTEnter();
             }
-            tLeave = Math.min(resultPassing.getTLeave(), tLeave);
+            tLeave = Math.min(p1.getTLeave(), tLeave);
         }
 
-        return new SweptResult(tEnter, tLeave, enterAxis);
+        return new SweptResult(true, tEnter, tLeave, enterAxis);
     }
 }

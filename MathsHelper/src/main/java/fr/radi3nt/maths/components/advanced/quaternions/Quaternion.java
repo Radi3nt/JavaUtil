@@ -12,6 +12,8 @@ public interface Quaternion {
 
     float getW();
 
+    void inverse();
+
     void normalise();
 
     void add(Quaternion quaternion);
@@ -19,6 +21,10 @@ public interface Quaternion {
     void multiply(Quaternion quaternion);
 
     void multiply(Vector3f vec);
+
+    void transform(Vector3f vec);
+
+    void transformUnit(Vector3f result);
 
     void multiplyInv(Vector3f vec);
 
@@ -35,4 +41,10 @@ public interface Quaternion {
     Quaternion duplicate();
 
     void copy(Quaternion rotation);
+
+    Vector3f getAxis();
+
+    void setX(float x);
+    void setY(float y);
+    void setZ(float z);
 }

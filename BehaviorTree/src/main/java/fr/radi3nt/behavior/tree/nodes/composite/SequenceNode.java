@@ -1,30 +1,24 @@
 package fr.radi3nt.behavior.tree.nodes.composite;
 
+import fr.radi3nt.behavior.tree.nodes.BehaviorTreeNode;
 import fr.radi3nt.behavior.tree.nodes.NodeStatus;
-import fr.radi3nt.behavior.tree.nodes.TreeNode;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
-/**
- * This BasicSelectorNode returns the first failure or running result in its child. If not found, it returns 'NodeStatus.SUCCESS'
- */
 public class SequenceNode extends CompositeNode {
 
-    public SequenceNode() {
-        super(new ArrayList<>());
+    public SequenceNode(Collection<BehaviorTreeNode> nodes) {
+        super(nodes);
     }
 
-    public SequenceNode(TreeNode... treeNodes) {
-        this();
-        for (TreeNode treeNode : treeNodes) {
-            add(treeNode);
-        }
+    public SequenceNode(BehaviorTreeNode... nodes) {
+        super(nodes);
     }
 
     @Override
     public NodeStatus run() {
-        for (TreeNode treeNode : treeNodes) {
-            NodeStatus nodeStatus = treeNode.run();
+        for (BehaviorTreeNode behaviorTreeNode : children) {
+            NodeStatus nodeStatus = behaviorTreeNode.run();
             if (nodeStatus != NodeStatus.SUCCESS)
                 return nodeStatus;
         }

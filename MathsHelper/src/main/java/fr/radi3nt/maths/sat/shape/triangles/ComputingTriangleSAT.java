@@ -3,9 +3,14 @@ package fr.radi3nt.maths.sat.shape.triangles;
 import fr.radi3nt.maths.components.Vector3D;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
+import fr.radi3nt.maths.sat.clip.ClipPlane;
+import fr.radi3nt.maths.sat.clip.ClipPlanes;
+import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 public class ComputingTriangleSAT implements TriangleSAT {
@@ -74,6 +79,24 @@ public class ComputingTriangleSAT implements TriangleSAT {
                 new SatEdge(sub(vert2, vert3)),
                 new SatEdge(sub(vert3, vert1)),
         };
+    }
+
+    @Override
+    public Collection<Edge> getClipEdges() {
+        Vector3D[] vertices = getVertices();
+        return Arrays.asList(
+                new Edge(vertices[0], vertices[1]),
+                new Edge(vertices[1], vertices[2]),
+                new Edge(vertices[2], vertices[0])
+        );
+    }
+
+    @Override
+    public ClipPlanes getClipPlanes() {
+        ClipPlane[] clipPlaneArray = new ClipPlane[] {
+                new ClipPlane(getAxes()[0].getNormal(), new Vector3D(vert1))
+        };
+        return new ClipPlanes(clipPlaneArray);
     }
 
     private Vector3D sub(Vector3f vert1, Vector3f vert2) {

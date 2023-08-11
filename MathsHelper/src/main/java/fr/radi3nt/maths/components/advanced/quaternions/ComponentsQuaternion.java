@@ -1,7 +1,10 @@
 package fr.radi3nt.maths.components.advanced.quaternions;
 
+import fr.radi3nt.maths.Maths;
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
+import fr.radi3nt.maths.components.advanced.matrix.angle.JavaMathAngle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
@@ -40,6 +43,18 @@ public class ComponentsQuaternion implements Quaternion {
         return new ComponentsQuaternion(x, y, z, cos_a);
     }
 
+    @Override
+    public Vector3f getAxis() {
+        float angle = (float) Math.asin(w);
+        float sin_a = (float) Math.sin(angle / 2);
+
+        float x = this.x / sin_a;
+        float y = this.y / sin_a;
+        float z = this.z / sin_a;
+
+        return new SimpleVector3f(x, y, z);
+    }
+
     public static Quaternion fromEulerAngles(Angle angleX, Angle angleY, Angle angleZ) {
         float sinPitch = (float) Math.sin(angleX.getRadiant() * 0.5F);
         float cosPitch = (float) Math.cos(angleX.getRadiant() * 0.5F);
@@ -56,6 +71,10 @@ public class ComponentsQuaternion implements Quaternion {
         float w = cosRoll * cosPitchCosYaw + sinRoll * sinPitchSinYaw;
 
         return new ComponentsQuaternion(x, y, z, w);
+    }
+
+    public static Quaternion zero() {
+        return ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), JavaMathAngle.zero());
     }
 
     @Override
@@ -79,6 +98,13 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void inverse() {
+        this.x = -x;
+        this.y = -y;
+        this.z = -z;
+    }
+
+    @Override
     public void normalise() {
         float magnitude = getMagnitude();
         this.x /= magnitude;
@@ -95,9 +121,9 @@ public class ComponentsQuaternion implements Quaternion {
         float otherZ = quaternion.getZ();
 
         float w = -this.x * otherX - this.y * otherY - this.z * otherZ + this.w * otherW;
-        float x = this.x * otherW + this.y * otherZ + this.z * otherY + this.w * otherX;
-        float y = -this.x * otherZ - this.y * otherW + this.z * otherX + this.w * otherY;
-        float z = this.x * otherY - this.y * otherX - this.z * otherW + this.w * otherZ;
+        float x = this.x * otherW + this.y * otherZ - this.z * otherY + this.w * otherX;
+        float y = -this.x * otherZ + this.y * otherW + this.z * otherX + this.w * otherY;
+        float z = this.x * otherY - this.y * otherX + this.z * otherW + this.w * otherZ;
 
         this.x = x;
         this.y = y;
@@ -107,10 +133,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public void multiply(Vector3f vec) {
-        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
-        float xRes = w*vec.getX() + y*vec.getZ() - z*vec.getY();
-        float yRes = w* vec.getY() + z* vec.getX() - x* vec.getZ();
-        float zRes = w* vec.getZ() + x*vec.getY() - y*vec.getX();
+        float wRes = -(x * vec.getX() + y * vec.getY() + z * vec.getZ());
+        float xRes = w * vec.getX() + y * vec.getZ() - z * vec.getY();
+        float yRes = w * vec.getY() + z * vec.getX() - x * vec.getZ();
+        float zRes = w * vec.getZ() + x * vec.getY() - y * vec.getX();
         x = xRes;
         y = yRes;
         z = zRes;
@@ -118,11 +144,27 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void transform(Vector3f vec) {
+        float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
+        float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
+        float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
+
+        vec.set(Maths.fma((xx - yy - zz + ww) * k, vec.getX(), Maths.fma(2 * (xy - zw) * k, vec.getY(), (2 * (xz + yw) * k) * vec.getZ())),
+                Maths.fma(2 * (xy + zw) * k, vec.getX(), Maths.fma((yy - xx - zz + ww) * k, vec.getY(), (2 * (yz - xw) * k) * vec.getZ())),
+                Maths.fma(2 * (xz - yw) * k, vec.getX(), Maths.fma(2 * (yz + xw) * k, vec.getY(), ((zz - xx - yy + ww) * k) * vec.getZ())));
+    }
+
+    @Override
+    public void transformUnit(Vector3f vec) {
+        transform(vec);
+    }
+
+    @Override
     public void multiplyInv(Vector3f vec) {
-        float wRes = -(x*vec.getX() + y*vec.getY() + z*vec.getZ());
-        float xRes = w*vec.getX() + z*vec.getY() - y*vec.getZ();
-        float yRes = w* vec.getY() + x* vec.getZ() - z* vec.getX();
-        float zRes = w* vec.getZ() + y*vec.getX() - x*vec.getY();
+        float wRes = -(x * vec.getX() + y * vec.getY() + z * vec.getZ());
+        float xRes = w * vec.getX() + z * vec.getY() - y * vec.getZ();
+        float yRes = w * vec.getY() + x * vec.getZ() - z * vec.getX();
+        float zRes = w * vec.getZ() + y * vec.getX() - x * vec.getY();
         x = xRes;
         y = yRes;
         z = zRes;
@@ -192,6 +234,21 @@ public class ComponentsQuaternion implements Quaternion {
         this.y = rotation.getY();
         this.z = rotation.getZ();
         this.w = rotation.getW();
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    @Override
+    public void setZ(float z) {
+        this.z = z;
     }
 
     @Override
