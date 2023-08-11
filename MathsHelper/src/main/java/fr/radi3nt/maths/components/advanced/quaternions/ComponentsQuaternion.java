@@ -121,9 +121,9 @@ public class ComponentsQuaternion implements Quaternion {
         float otherZ = quaternion.getZ();
 
         float w = -this.x * otherX - this.y * otherY - this.z * otherZ + this.w * otherW;
-        float x = this.x * otherW + this.y * otherZ + this.z * otherY + this.w * otherX;
-        float y = -this.x * otherZ - this.y * otherW + this.z * otherX + this.w * otherY;
-        float z = this.x * otherY - this.y * otherX - this.z * otherW + this.w * otherZ;
+        float x = this.x * otherW + this.y * otherZ - this.z * otherY + this.w * otherX;
+        float y = -this.x * otherZ + this.y * otherW + this.z * otherX + this.w * otherY;
+        float z = this.x * otherY - this.y * otherX + this.z * otherW + this.w * otherZ;
 
         this.x = x;
         this.y = y;
