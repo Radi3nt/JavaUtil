@@ -40,15 +40,15 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
         ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
-            for (int y = 0; y < result.height; y++) {
-                float total = 0;
-                for (int i = 0; i < this.width; i++) {
+            for (int i = 0; i < this.width; i++) {
+                double cache =  matrixNxN.get(x, i);
+                for (int y = 0; y < result.height; y++) {
                     if (nonZero.get(x + i * matrixNxN.getWidth()))
-                        total += this.get(i, y) * matrixNxN.get(x, i);
+                        result.add(x, y, this.get(i, y) * cache);
                 }
-                result.add(x, y, total);
             }
         }
+        result.markAllNonZero();
 
         return result;
     }
@@ -74,6 +74,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
                 result.add(x, y, total);
             }
         }
+        result.markAllNonZero();
 
         return result;
     }
@@ -99,6 +100,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
                 result.add(x, y, total);
             }
         }
+        result.markAllNonZero();
 
         return result;
     }
@@ -116,7 +118,10 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
     public void add(int x, int y, double total) {
         m[x + y * width] += total;
-        zeroSet.set(x + y * width, true);
+    }
+
+    public void markAllNonZero() {
+        zeroSet.set(0, height * width, true);
     }
 
     public int getWidth() {
