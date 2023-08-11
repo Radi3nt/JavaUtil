@@ -43,6 +43,18 @@ public class ComponentsQuaternion implements Quaternion {
         return new ComponentsQuaternion(x, y, z, cos_a);
     }
 
+    @Override
+    public Vector3f getAxis() {
+        float angle = (float) Math.asin(w);
+        float sin_a = (float) Math.sin(angle / 2);
+
+        float x = this.x / sin_a;
+        float y = this.y / sin_a;
+        float z = this.z / sin_a;
+
+        return new SimpleVector3f(x, y, z);
+    }
+
     public static Quaternion fromEulerAngles(Angle angleX, Angle angleY, Angle angleZ) {
         float sinPitch = (float) Math.sin(angleX.getRadiant() * 0.5F);
         float cosPitch = (float) Math.cos(angleX.getRadiant() * 0.5F);
@@ -215,6 +227,21 @@ public class ComponentsQuaternion implements Quaternion {
         this.y = rotation.getY();
         this.z = rotation.getZ();
         this.w = rotation.getW();
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    @Override
+    public void setZ(float z) {
+        this.z = z;
     }
 
     @Override

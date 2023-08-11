@@ -39,4 +39,10 @@ public interface Quaternion {
     Quaternion duplicate();
 
     void copy(Quaternion rotation);
+
+    Vector3f getAxis();
+
+    void setX(float x);
+    void setY(float y);
+    void setZ(float z);
 }
