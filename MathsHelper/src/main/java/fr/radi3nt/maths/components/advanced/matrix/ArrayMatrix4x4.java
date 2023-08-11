@@ -41,11 +41,11 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public void identity() {
-        zero();
-        m[0][0] = 1;
-        m[1][1] = 1;
-        m[2][2] = 1;
-        m[3][3] = 1;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                m[i][j] = i==j ? 1 : 0;
+            }
+        }
     }
 
     @Override
