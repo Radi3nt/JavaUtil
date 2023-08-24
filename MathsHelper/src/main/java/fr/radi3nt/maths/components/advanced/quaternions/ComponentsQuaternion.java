@@ -22,6 +22,10 @@ public class ComponentsQuaternion implements Quaternion {
         this.w = w;
     }
 
+    public ComponentsQuaternion(Vector3f vector, float w) {
+        this(vector.getX(), vector.getY(), vector.getZ(), w);
+    }
+
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
         float w = (float) (Math.sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
