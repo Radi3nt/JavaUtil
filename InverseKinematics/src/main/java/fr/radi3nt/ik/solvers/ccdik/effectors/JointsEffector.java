@@ -12,17 +12,11 @@ public class JointsEffector implements Effector {
     private final Vector3f upAxis;
 
     private final CCDJoint[] joints;
-    private final float totalLength;
 
     public JointsEffector(Vector3f startPos, Vector3f upAxis, CCDJoint... joints) {
         this.startPos = startPos;
         this.joints = joints;
         this.upAxis = upAxis;
-        float totalLengthChain = 0;
-        for (CCDJoint joint : joints) {
-            totalLengthChain+=joint.getLength();
-        }
-        totalLength = totalLengthChain;
     }
 
     @Override
