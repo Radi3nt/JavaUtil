@@ -8,6 +8,9 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 public class ComponentsQuaternion implements Quaternion {
 
     private float x;
@@ -28,7 +31,7 @@ public class ComponentsQuaternion implements Quaternion {
 
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
-        float w = (float) (Math.sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
+        float w = (float) (sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
         Quaternion componentsQuaternion = new ComponentsQuaternion(vector.getX(), vector.getY(), vector.getZ(), w);
         componentsQuaternion.normalise();
         return componentsQuaternion;
@@ -188,15 +191,15 @@ public class ComponentsQuaternion implements Quaternion {
         double cosHalfTheta = dot(quaternionEnd);
 
         // if qa=quaternionEnd or qa=-quaternionEnd then theta = 0 and we can return qa
-        if (Math.abs(cosHalfTheta) >= 1.0) {
+        if (abs(cosHalfTheta) >= 1.0) {
             return;
         }
         // Calculate temporary values.
         double halfTheta = Math.acos(cosHalfTheta);
-        double sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+        double sinHalfTheta = sqrt(1.0 - cosHalfTheta * cosHalfTheta);
         // if theta = 180 degrees then result is not fully defined
         // we could rotate around any axis normal to qa or quaternionEnd
-        if (Math.abs(sinHalfTheta) < 0) { // fabs is floating point absolute
+        if (abs(sinHalfTheta) < 0) { // fabs is floating point absolute
             this.w = (w * 0.5f + quaternionEnd.getW() * 0.5f);
             this.x = (x * 0.5f + quaternionEnd.getX() * 0.5f);
             this.y = (y * 0.5f + quaternionEnd.getY() * 0.5f);
@@ -219,7 +222,7 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public float getMagnitude() {
-        return (float) Math.sqrt(w * w + x * x + y * y + z * z);
+        return (float) sqrt(w * w + x * x + y * y + z * z);
     }
 
     @Override
