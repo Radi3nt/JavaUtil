@@ -37,33 +37,36 @@ public class CCDIKSolver extends IkIterativeSolver {
 
     @Override
     protected void iteration() {
-        for (int i = getEndJointIndex(); i >= 0; i--) {
-            CCDJoint joint = joints[i];
-            Quaternion fromToQuat = getRotationBetweenEndEffectorAndGoalUsingWorldSpace(joint, i);
-            joint.rotation.multiply(fromToQuat);
+        for (int jointIndex = getEndJointIndex(); jointIndex >= 0; jointIndex--) {
+            CCDJoint joint = joints[jointIndex];
+            Quaternion fromToQuaternion = getRotationBetweenEndEffectorAndGoalUsingWorldSpace(jointIndex);
+            joint.rotation.multiply(fromToQuaternion);
             joint.constrain();
             joint.limit();
         }
     }
 
-    private Quaternion getRotationBetweenEndEffectorAndGoalUsingWorldSpace(CCDJoint joint, int i) {
+    private Quaternion getRotationBetweenEndEffectorAndGoalUsingWorldSpace(int joinIndex) {
         Vector3f ei = lastEndEffectorWorldPosition==null ? endEffector.getWorldPosition().duplicate() : lastEndEffectorWorldPosition.duplicate();
         Vector3f et = goal.duplicate();
         lastEndEffectorWorldPosition = null;
 
-        Vector3f bonePos = getBonePos(i);
-        Quaternion invLinkRot = getAllPreviousRotation(i+1);
+        Vector3f bonePos = getBonePos(joinIndex);
+        Quaternion invLinkRot = getAllPreviousRotation(joinIndex+1);
         invLinkRot.inverse();
 
-        Vector3f localEi = ei.duplicate().sub(bonePos);
-        invLinkRot.transform(localEi);
+        Vector3f localEi = convertToBoneLocalSpace(ei, bonePos, invLinkRot);
         localEi.normalize();
-        Vector3f localEt = et.duplicate().sub(bonePos);
-        invLinkRot.transform(localEt);
+        Vector3f localEt = convertToBoneLocalSpace(et, bonePos, invLinkRot);
         localEt.normalize();
 
-        Quaternion quaternion = ComponentsQuaternion.fromTwoVectors(localEi, localEt);
-        return quaternion;
+        return ComponentsQuaternion.fromTwoVectors(localEi, localEt);
+    }
+
+    private static Vector3f convertToBoneLocalSpace(Vector3f worldPosition, Vector3f bonePos, Quaternion invLinkRot) {
+        Vector3f localEi = worldPosition.duplicate().sub(bonePos);
+        invLinkRot.transform(localEi);
+        return localEi;
     }
 
     private Vector3f getBonePos(int index) {
@@ -83,34 +86,6 @@ public class CCDIKSolver extends IkIterativeSolver {
         return worldPos;
     }
 
-    private Quaternion getRotationBetweenEndEffectorAndGoalUsingFabrikVersion(CCDJoint joint, int index) {
-        Vector3f startPos = endEffector.getWorldPosition().duplicate();
-        Vector3f endPos = goal.duplicate();
-        Vector3f dirEndToStart = startPos.duplicate().sub(endPos);
-        dirEndToStart.normalize();
-        dirEndToStart.mul(joint.getLength());
-        Quaternion quaternion = ComponentsQuaternion.fromVectorToAnother(new SimpleVector3f(0, 0, -1), dirEndToStart);
-
-        Quaternion localSpaceRotation = getAllPreviousRotation(index);
-        localSpaceRotation.inverse();
-        localSpaceRotation.multiply(quaternion);
-        return localSpaceRotation;
-    }
-
-    private Quaternion getRotationBetweenEndEffectorAndGoalUsingAdaptedVersion(CCDJoint joint, int index) {
-        Vector3f tipPosition = endEffector.getWorldPosition();
-
-        Vector3f dif = tipPosition.duplicate().duplicate().sub(goal);
-        dif.normalize();
-
-        Quaternion allPrevious = getAllPreviousRotation(index);
-        allPrevious.inverse();
-        allPrevious.transform(dif);
-
-        return ComponentsQuaternion.fromVectorToAnother(new SimpleVector3f(0, 0, 1), dif);
-    }
-
-
     public void setGoal(Vector3f goal) {
         this.goal = goal;
     }
@@ -122,14 +97,6 @@ public class CCDIKSolver extends IkIterativeSolver {
             localSpaceRotation.multiply(linkInverseRot);
         }
         return localSpaceRotation;
-    }
-
-    private float getLengthFromIndex(int index) {
-        float length = 0;
-        for (int i = 0; i < index; i++) {
-            length += joints[i].getLength();
-        }
-        return length;
     }
 
     private int getEndJointIndex() {
