@@ -3,7 +3,9 @@ package fr.radi3nt.loghelper.logs.logs.implementations;
 import fr.radi3nt.loghelper.logs.actions.LogAction;
 import fr.radi3nt.loghelper.logs.logs.WritableLog;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TemplateLog implements WritableLog {
