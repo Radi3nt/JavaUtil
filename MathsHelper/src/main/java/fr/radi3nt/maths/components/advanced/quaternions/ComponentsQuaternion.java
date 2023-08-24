@@ -111,6 +111,12 @@ public class ComponentsQuaternion implements Quaternion {
             return axis;
         return vector;
     }
+
+    @Override
+    public Vector3f getVector() {
+        return new SimpleVector3f(x, y, z);
+    }
+
     @Override
     public float getX() {
         return x;
@@ -240,6 +246,17 @@ public class ComponentsQuaternion implements Quaternion {
         x = (float) (x * ratioA + quaternionEnd.getX() * ratioB);
         y = (float) (y * ratioA + quaternionEnd.getY() * ratioB);
         z = (float) (z * ratioA + quaternionEnd.getZ() * ratioB);
+    }
+
+    @Override
+    public Vector3f velocity(Quaternion other, float delta) {
+        Vector3f vel = new SimpleVector3f(
+                this.w * other.getX() - this.x * other.getW() - this.y * other.getZ() + this.z * other.getY(),
+                this.w * other.getY() + this.x * other.getZ() - this.y * other.getW() - this.z * other.getX(),
+                this.w * other.getZ() - this.x * other.getY() + this.y * other.getX() - this.z * other.getW()
+        );
+        vel.mul((2 / delta));
+        return vel;
     }
 
     @Override
