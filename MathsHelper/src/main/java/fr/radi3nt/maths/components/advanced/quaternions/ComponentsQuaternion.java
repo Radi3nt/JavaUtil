@@ -233,10 +233,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public void multiply(float s) {
-        this.x*=s;
-        this.y*=s;
-        this.z*=s;
-        this.w*=s;
+        this.x *= s;
+        this.y *= s;
+        this.z *= s;
+        this.w *= s;
     }
 
     @Override
