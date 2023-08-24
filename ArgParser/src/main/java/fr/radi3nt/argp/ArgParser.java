@@ -2,8 +2,8 @@ package fr.radi3nt.argp;
 
 import fr.radi3nt.argp.exceptions.ArgumentException;
 import fr.radi3nt.argp.parsing.ArgumentParser;
-import fr.radi3nt.argp.parsing.result.ArgumentParseResult;
 import fr.radi3nt.argp.parsing.repo.ArgumentRepository;
+import fr.radi3nt.argp.parsing.result.ArgumentParseResult;
 import fr.radi3nt.argp.parsing.result.ParserResult;
 import fr.radi3nt.argp.parsing.result.ParserResultBuilder;
 import fr.radi3nt.argp.parsing.result.ParserResultBuilderFactory;
