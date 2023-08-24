@@ -1,16 +1,25 @@
 package fr.radi3nt.maths.components.advanced.quaternions;
 
+import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 
 public interface Quaternion {
 
     float getX();
 
+    void setX(float x);
+
     float getY();
+
+    void setY(float y);
 
     float getZ();
 
+    void setZ(float z);
+
     float getW();
+
+    void setW(float w);
 
     void inverse();
 
@@ -32,6 +41,8 @@ public interface Quaternion {
 
     void interpolate(Quaternion quaternionEnd, float ease);
 
+    Vector3f velocity(Quaternion other, float delta);
+
     float dot(Quaternion other);
 
     float getMagnitude();
@@ -42,9 +53,9 @@ public interface Quaternion {
 
     void copy(Quaternion rotation);
 
-    Vector3f getAxis();
+    Vector3f getAxisOrDefault(Vector3f axis);
 
-    void setX(float x);
-    void setY(float y);
-    void setZ(float z);
+    Vector3f getVector();
+
+    Angle getAngle();
 }
