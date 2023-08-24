@@ -30,12 +30,35 @@ public class ComponentsQuaternion implements Quaternion {
         this(vector.getX(), vector.getY(), vector.getZ(), w);
     }
 
+    @Deprecated
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
         float w = (float) (sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
         Quaternion componentsQuaternion = new ComponentsQuaternion(vector.getX(), vector.getY(), vector.getZ(), w);
         componentsQuaternion.normalise();
         return componentsQuaternion;
+    }
+
+    public static Quaternion fromTwoVectors(Vector3f u, Vector3f v) {
+        float norm_u_norm_v = (float) sqrt(u.lengthSquared() * v.lengthSquared());
+        float real_part = norm_u_norm_v + u.dot(v);
+        Vector3f w;
+
+        if (real_part < 1.e-6f * norm_u_norm_v) {
+            /* If u and v are exactly opposite, rotate 180 degrees
+             * around an arbitrary orthogonal axis. Axis normalisation
+             * can happen later, when we normalise the quaternion. */
+            real_part = 0.0f;
+            w = abs(u.getX()) > abs(u.getZ()) ? new SimpleVector3f(-u.getY(), u.getX(), 0.f)
+                    : new SimpleVector3f(0.f, -u.getZ(), u.getY());
+        } else {
+            /* Otherwise, build quaternion the standard way. */
+            w = u.duplicate().cross(v);
+        }
+
+        Quaternion quaternion = new ComponentsQuaternion(w.getX(), w.getY(), w.getZ(), real_part);
+        quaternion.normalise();
+        return quaternion;
     }
 
     public static Quaternion fromAxisAndAngle(Vector3f axis, Angle angle) {
