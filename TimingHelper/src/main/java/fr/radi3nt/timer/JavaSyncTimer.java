@@ -7,6 +7,14 @@ public class JavaSyncTimer implements SyncTimer {
     private double fps;
     private double delta;
 
+    public JavaSyncTimer(double delta) {
+        this.delta = delta;
+        this.fps = 1d / delta;
+    }
+
+    public JavaSyncTimer() {
+    }
+
     @Override
     public void start() {
         lastTime = System.nanoTime();
