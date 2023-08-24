@@ -4,7 +4,6 @@ import fr.radi3nt.ik.solvers.ccdik.constraint.JointConstraint;
 import fr.radi3nt.ik.solvers.ccdik.limit.JointLimit;
 import fr.radi3nt.maths.components.advanced.quaternions.ComponentsQuaternion;
 import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
-import fr.radi3nt.maths.components.vectors.Vector3f;
 
 public class CCDJoint {
 
