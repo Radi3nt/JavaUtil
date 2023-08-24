@@ -123,8 +123,18 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
     public float getY() {
         return y;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
     }
 
     @Override
@@ -133,8 +143,18 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void setZ(float z) {
+        this.z = z;
+    }
+
+    @Override
     public float getW() {
         return w;
+    }
+
+    @Override
+    public void setW(float w) {
+        this.w = w;
     }
 
     @Override
@@ -288,18 +308,8 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    @Override
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    @Override
-    public void setZ(float z) {
-        this.z = z;
+    public JavaMathAngle getAngle() {
+        return JavaMathAngle.fromRadiant(2 * Math.acos(clamp(w, -1, 1)));
     }
 
     @Override
