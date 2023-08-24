@@ -8,6 +8,7 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
+import static fr.radi3nt.maths.Maths.clamp;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
@@ -47,7 +48,7 @@ public class ComponentsQuaternion implements Quaternion {
         float y = actualAxis.getY() * sin_a;
         float z = actualAxis.getZ() * sin_a;
 
-        return new ComponentsQuaternion(x, y, z, cos_a);
+        return new ComponentsQuaternion(x, y, z, clamp(cos_a, -1, 1));
     }
 
     @Override
