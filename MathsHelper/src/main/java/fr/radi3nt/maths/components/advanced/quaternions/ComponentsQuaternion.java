@@ -8,6 +8,10 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
+import static fr.radi3nt.maths.Maths.clamp;
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 public class ComponentsQuaternion implements Quaternion {
 
     private float x;
@@ -22,12 +26,39 @@ public class ComponentsQuaternion implements Quaternion {
         this.w = w;
     }
 
+    public ComponentsQuaternion(Vector3f vector, float w) {
+        this(vector.getX(), vector.getY(), vector.getZ(), w);
+    }
+
+    @Deprecated
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
-        float w = (float) (Math.sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
+        float w = (float) (sqrt((v1.lengthSquared()) * (v2.lengthSquared())) + v1.dot(v2));
         Quaternion componentsQuaternion = new ComponentsQuaternion(vector.getX(), vector.getY(), vector.getZ(), w);
         componentsQuaternion.normalise();
         return componentsQuaternion;
+    }
+
+    public static Quaternion fromTwoVectors(Vector3f u, Vector3f v) {
+        float norm_u_norm_v = (float) sqrt(u.lengthSquared() * v.lengthSquared());
+        float real_part = norm_u_norm_v + u.dot(v);
+        Vector3f w;
+
+        if (real_part < 1.e-6f * norm_u_norm_v) {
+            /* If u and v are exactly opposite, rotate 180 degrees
+             * around an arbitrary orthogonal axis. Axis normalisation
+             * can happen later, when we normalise the quaternion. */
+            real_part = 0.0f;
+            w = abs(u.getX()) > abs(u.getZ()) ? new SimpleVector3f(-u.getY(), u.getX(), 0.f)
+                    : new SimpleVector3f(0.f, -u.getZ(), u.getY());
+        } else {
+            /* Otherwise, build quaternion the standard way. */
+            w = u.duplicate().cross(v);
+        }
+
+        Quaternion quaternion = new ComponentsQuaternion(w.getX(), w.getY(), w.getZ(), real_part);
+        quaternion.normalise();
+        return quaternion;
     }
 
     public static Quaternion fromAxisAndAngle(Vector3f axis, Angle angle) {
@@ -40,19 +71,7 @@ public class ComponentsQuaternion implements Quaternion {
         float y = actualAxis.getY() * sin_a;
         float z = actualAxis.getZ() * sin_a;
 
-        return new ComponentsQuaternion(x, y, z, cos_a);
-    }
-
-    @Override
-    public Vector3f getAxis() {
-        float angle = (float) Math.asin(w);
-        float sin_a = (float) Math.sin(angle / 2);
-
-        float x = this.x / sin_a;
-        float y = this.y / sin_a;
-        float z = this.z / sin_a;
-
-        return new SimpleVector3f(x, y, z);
+        return new ComponentsQuaternion(x, y, z, clamp(cos_a, -1, 1));
     }
 
     public static Quaternion fromEulerAngles(Angle angleX, Angle angleY, Angle angleZ) {
@@ -78,8 +97,34 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public Vector3f getAxisOrDefault(Vector3f axis) {
+        float sinFromCos = (float) sqrt(Math.max(0, 1 - w * w));
+        if (sinFromCos == 0 || Float.isNaN(sinFromCos))
+            return axis;
+
+        float x = this.x / sinFromCos;
+        float y = this.y / sinFromCos;
+        float z = this.z / sinFromCos;
+
+        Vector3f vector = new SimpleVector3f(x, y, z);
+        if (vector.lengthSquared() == 0)
+            return axis;
+        return vector;
+    }
+
+    @Override
+    public Vector3f getVector() {
+        return new SimpleVector3f(x, y, z);
+    }
+
+    @Override
     public float getX() {
         return x;
+    }
+
+    @Override
+    public void setX(float x) {
+        this.x = x;
     }
 
     @Override
@@ -88,13 +133,28 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    @Override
     public float getZ() {
         return z;
     }
 
     @Override
+    public void setZ(float z) {
+        this.z = z;
+    }
+
+    @Override
     public float getW() {
         return w;
+    }
+
+    @Override
+    public void setW(float w) {
+        this.w = w;
     }
 
     @Override
@@ -173,10 +233,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public void multiply(float s) {
-        this.x*=s;
-        this.y*=s;
-        this.z*=s;
-        this.w*=s;
+        this.x *= s;
+        this.y *= s;
+        this.z *= s;
+        this.w *= s;
     }
 
     @Override
@@ -184,15 +244,15 @@ public class ComponentsQuaternion implements Quaternion {
         double cosHalfTheta = dot(quaternionEnd);
 
         // if qa=quaternionEnd or qa=-quaternionEnd then theta = 0 and we can return qa
-        if (Math.abs(cosHalfTheta) >= 1.0) {
+        if (abs(cosHalfTheta) >= 1.0) {
             return;
         }
         // Calculate temporary values.
         double halfTheta = Math.acos(cosHalfTheta);
-        double sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+        double sinHalfTheta = sqrt(1.0 - cosHalfTheta * cosHalfTheta);
         // if theta = 180 degrees then result is not fully defined
         // we could rotate around any axis normal to qa or quaternionEnd
-        if (Math.abs(sinHalfTheta) < 0) { // fabs is floating point absolute
+        if (abs(sinHalfTheta) < 0) { // fabs is floating point absolute
             this.w = (w * 0.5f + quaternionEnd.getW() * 0.5f);
             this.x = (x * 0.5f + quaternionEnd.getX() * 0.5f);
             this.y = (y * 0.5f + quaternionEnd.getY() * 0.5f);
@@ -209,13 +269,24 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public Vector3f velocity(Quaternion other, float delta) {
+        Vector3f vel = new SimpleVector3f(
+                this.w * other.getX() - this.x * other.getW() - this.y * other.getZ() + this.z * other.getY(),
+                this.w * other.getY() + this.x * other.getZ() - this.y * other.getW() - this.z * other.getX(),
+                this.w * other.getZ() - this.x * other.getY() + this.y * other.getX() - this.z * other.getW()
+        );
+        vel.mul((2 / delta));
+        return vel;
+    }
+
+    @Override
     public float dot(Quaternion other) {
         return x * other.getX() + y * other.getY() + z * other.getZ() + w * other.getW();
     }
 
     @Override
     public float getMagnitude() {
-        return (float) Math.sqrt(w * w + x * x + y * y + z * z);
+        return (float) sqrt(w * w + x * x + y * y + z * z);
     }
 
     @Override
@@ -237,18 +308,8 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    @Override
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    @Override
-    public void setZ(float z) {
-        this.z = z;
+    public JavaMathAngle getAngle() {
+        return JavaMathAngle.fromRadiant(2 * Math.acos(clamp(w, -1, 1)));
     }
 
     @Override
