@@ -1,6 +1,6 @@
 package fr.radi3nt.spline.splines.builder.bezier.dim1;
 
-import fr.radi3nt.spline.curve.curves.CubicBezierCurve;
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurve;
 import fr.radi3nt.spline.splines.CollectionSpline;
 import fr.radi3nt.spline.splines.Spline;
 import fr.radi3nt.spline.splines.builder.SplineBuilder;

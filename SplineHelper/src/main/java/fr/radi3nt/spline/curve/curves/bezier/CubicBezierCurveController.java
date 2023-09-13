@@ -1,4 +1,4 @@
-package fr.radi3nt.spline.splines.builder.bezier.dim1;
+package fr.radi3nt.spline.curve.curves.bezier;
 
 public interface CubicBezierCurveController {
 

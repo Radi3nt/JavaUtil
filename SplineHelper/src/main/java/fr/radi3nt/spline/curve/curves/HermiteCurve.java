@@ -1,6 +1,7 @@
 package fr.radi3nt.spline.curve.curves;
 
 import fr.radi3nt.spline.curve.CharacteristicCurve;
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurve;
 import fr.radi3nt.spline.splines.builder.bezier.dim1.DirectCubicBezierCurveController;
 
 public class HermiteCurve extends CharacteristicCurve {

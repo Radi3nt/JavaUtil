@@ -30,4 +30,8 @@ public class EncapsulatingSpline3D implements Spline3D {
     private float velocityIndex(int index, float t) {
         return splines[index].velocity(t);
     }
+
+    public Spline[] getSplines() {
+        return splines;
+    }
 }

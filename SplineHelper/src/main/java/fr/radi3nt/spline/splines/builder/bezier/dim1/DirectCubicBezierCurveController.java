@@ -1,5 +1,7 @@
 package fr.radi3nt.spline.splines.builder.bezier.dim1;
 
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurveController;
+
 public class DirectCubicBezierCurveController implements CubicBezierCurveController {
 
     private final float startPoint;

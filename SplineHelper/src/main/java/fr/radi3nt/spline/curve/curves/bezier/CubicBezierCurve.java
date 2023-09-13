@@ -1,7 +1,7 @@
-package fr.radi3nt.spline.curve.curves;
+package fr.radi3nt.spline.curve.curves.bezier;
 
 import fr.radi3nt.spline.curve.CharacteristicCurve;
-import fr.radi3nt.spline.splines.builder.bezier.dim1.CubicBezierCurveController;
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurveController;
 
 public class CubicBezierCurve extends CharacteristicCurve {
 
