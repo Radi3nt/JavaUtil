@@ -92,6 +92,7 @@ public class AStarPathfinder {
                 if (opened) {
                     pathQueue.update(neighbourPoint);
                 } else {
+                    neighbourPoint.open();
                     pathQueue.queue(neighbourPoint);
                 }
             }
