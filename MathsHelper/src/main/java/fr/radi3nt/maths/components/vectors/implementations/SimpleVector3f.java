@@ -1,6 +1,7 @@
 package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.Vector3D;
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.maths.components.vectors.Vector3i;
 import fr.radi3nt.maths.components.vectors.Vector4f;
@@ -121,6 +122,31 @@ public class SimpleVector3f implements Vector3f {
     @Override
     public Vector3f mul(float mul) {
         return mul(mul, mul, mul);
+    }
+
+    @Override
+    public OperatingVectorNf add(OperatingVectorNf other) {
+        if (other.size()!=this.size())
+            throw new IllegalArgumentException();
+        this.x += other.get(0);
+        this.y += other.get(1);
+        this.z += other.get(2);
+        return this;
+    }
+
+    @Override
+    public OperatingVectorNf sub(OperatingVectorNf other) {
+        if (other.size()!=this.size())
+            throw new IllegalArgumentException();
+        this.x -= other.get(0);
+        this.y -= other.get(1);
+        this.z -= other.get(2);
+        return this;
+    }
+
+    @Override
+    public int size() {
+        return 3;
     }
 
     @Override

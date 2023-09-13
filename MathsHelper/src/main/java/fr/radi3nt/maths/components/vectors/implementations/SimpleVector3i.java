@@ -1,5 +1,6 @@
 package fr.radi3nt.maths.components.vectors.implementations;
 
+import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.maths.components.vectors.Vector3i;
 
 public class SimpleVector3i implements Vector3i {
@@ -19,6 +20,16 @@ public class SimpleVector3i implements Vector3i {
     }
 
     public SimpleVector3i() {
+    }
+
+    public SimpleVector3i(Vector3f position) {
+        this.x = (int) Math.floor(position.getX());
+        this.y = (int) Math.floor(position.getY());
+        this.z = (int) Math.floor(position.getZ());
+    }
+
+    public static Vector3i fromRound(Vector3f start) {
+        return new SimpleVector3i(Math.round(start.getX()), Math.round(start.getY()), Math.round(start.getZ()));
     }
 
     @Override
@@ -194,11 +205,20 @@ public class SimpleVector3i implements Vector3i {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + x;
-        result = prime * result + y;
-        result = prime * result + z;
-        return result;
+        int seed = 3;
+        {
+            seed = getSeed(this.x, seed);
+            seed = getSeed(this.y, seed);
+            seed = getSeed(this.z, seed);
+        }
+        return seed;
+    }
+
+    private static int getSeed(int number, int seed) {
+        int x = ((number >> 16) ^ number) * 0x45d9f3b;
+        x = ((x >> 16) ^ x) * 0x45d9f3b;
+        x = (x >> 16) ^ x;
+        seed ^= x + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        return seed;
     }
 }

@@ -1,6 +1,8 @@
 package fr.radi3nt.maths.components.vectors;
 
-public interface Vector4f extends Vector {
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
+
+public interface Vector4f extends Vector, OperatingVectorNf {
 
     float getX();
     void setX(float x);
@@ -11,7 +13,8 @@ public interface Vector4f extends Vector {
     float getW();
     void setW(float w);
 
-    void div(float div);
+    Vector4f div(float div);
+    float dot(Vector4f other);
 
     void normalize();
 
