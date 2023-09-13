@@ -1,6 +1,8 @@
 package fr.radi3nt.maths.components.vectors;
 
-public interface Vector3f extends Vector {
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
+
+public interface Vector3f extends Vector, OperatingVectorNf {
 
     float getX();
 
