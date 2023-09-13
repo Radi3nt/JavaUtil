@@ -1,6 +1,7 @@
 package fr.radi3nt.maths.components.arbitrary.vector;
 
 import fr.radi3nt.maths.Maths;
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
 import fr.radi3nt.maths.components.arbitrary.VectorNf;
 
 import java.util.ArrayList;
@@ -14,9 +15,17 @@ public class ExtensibleVectorNf implements VectorNf {
         vector = new ArrayList<>();
     }
 
+    private ExtensibleVectorNf(List<Float> vector) {
+        this.vector = vector;
+    }
+
     @Override
     public float length() {
-        throw new UnsupportedOperationException("Not implemented");
+        float total = 0;
+        for (float v : vector) {
+            total+=v*v;
+        }
+        return (float) Math.sqrt(total);
     }
 
     public int size() {
@@ -25,6 +34,43 @@ public class ExtensibleVectorNf implements VectorNf {
 
     public float get(int row) {
         return vector.get(row);
+    }
+
+    @Override
+    public ExtensibleVectorNf duplicate() {
+        return new ExtensibleVectorNf(new ArrayList<>(vector));
+    }
+
+    @Override
+    public OperatingVectorNf div(float number) {
+        vector.replaceAll(aFloat -> aFloat/number);
+        return this;
+    }
+
+    @Override
+    public OperatingVectorNf mul(float number) {
+        vector.replaceAll(aFloat -> aFloat*number);
+        return this;
+    }
+
+    @Override
+    public OperatingVectorNf add(OperatingVectorNf other) {
+        if (other.size()!=this.size())
+            throw new IllegalArgumentException();
+        for (int i = 0; i < vector.size(); i++) {
+            vector.set(i, vector.get(i)+other.get(i));
+        }
+        return this;
+    }
+
+    @Override
+    public OperatingVectorNf sub(OperatingVectorNf other) {
+        if (other.size()!=this.size())
+            throw new IllegalArgumentException();
+        for (int i = 0; i < vector.size(); i++) {
+            vector.set(i, vector.get(i)-other.get(i));
+        }
+        return this;
     }
 
     public void set(int row, float v) {

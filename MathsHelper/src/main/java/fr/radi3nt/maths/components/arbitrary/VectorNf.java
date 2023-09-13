@@ -2,7 +2,7 @@ package fr.radi3nt.maths.components.arbitrary;
 
 import fr.radi3nt.maths.components.vectors.Vector;
 
-public interface VectorNf extends Vector {
+public interface VectorNf extends Vector, OperatingVectorNf {
 
     float get(int row);
 
@@ -15,5 +15,4 @@ public interface VectorNf extends Vector {
     void clamp(int row, float min, float max);
 
     int size();
-
 }
