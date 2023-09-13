@@ -4,6 +4,7 @@ import fr.radi3nt.maths.Maths;
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.advanced.matrix.angle.JavaMathAngle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.Vector4f;
 import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
@@ -94,6 +95,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     public static Quaternion zero() {
         return ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), JavaMathAngle.zero());
+    }
+
+    public static Quaternion fromVec4(Vector4f response) {
+        return new ComponentsQuaternion(response.getX(), response.getY(), response.getZ(), response.getW());
     }
 
     @Override
