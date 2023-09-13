@@ -1,5 +1,7 @@
 package fr.radi3nt.spline.splines.builder.bezier.dim1;
 
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurveController;
+
 public class InferredCubicBezierCurveController implements CubicBezierCurveController {
 
     private final int index;

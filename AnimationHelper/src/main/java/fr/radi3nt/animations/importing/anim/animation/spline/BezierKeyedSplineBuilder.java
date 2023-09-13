@@ -4,7 +4,7 @@ import fr.radi3nt.animations.importing.anim.animation.data.key.CurveHandleData;
 import fr.radi3nt.animations.importing.anim.animation.data.key.InterpolationType;
 import fr.radi3nt.animations.importing.anim.animation.data.key.KeyData;
 import fr.radi3nt.spline.curve.Curve;
-import fr.radi3nt.spline.curve.curves.CubicBezierCurve;
+import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurve;
 import fr.radi3nt.spline.splines.CollectionSpline;
 import fr.radi3nt.spline.splines.Spline;
 import fr.radi3nt.spline.splines.builder.bezier.dim1.DirectCubicBezierCurveController;
