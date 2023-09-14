@@ -120,8 +120,8 @@ public class TransformedBoxSAT implements VerticesSATShape {
     }
 
     @Override
-    public Collection<Edge> getClipEdges() {
-        return Arrays.asList(
+    public Edge[] getClipEdges() {
+        return new Edge[] {
                 new Edge(vertices[0], vertices[6]),
                 new Edge(vertices[0], vertices[4]),
                 new Edge(vertices[0], vertices[2]),
@@ -138,6 +138,6 @@ public class TransformedBoxSAT implements VerticesSATShape {
 
                 new Edge(vertices[5], vertices[6]),
                 new Edge(vertices[3], vertices[2])
-        );
+        };
     }
 }

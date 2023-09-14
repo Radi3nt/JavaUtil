@@ -8,9 +8,6 @@ import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 public class BoxSAT implements VerticesSATShape {
 
     private static final AxisAndVertexIndex[] SAT_CLIP_PLANES = new AxisAndVertexIndex[]{
@@ -75,8 +72,8 @@ public class BoxSAT implements VerticesSATShape {
     }
 
     @Override
-    public Collection<Edge> getClipEdges() {
-        return Arrays.asList(
+    public Edge[] getClipEdges() {
+        return new Edge[] {
                 new Edge(vertices[0], vertices[6]),
                 new Edge(vertices[0], vertices[4]),
                 new Edge(vertices[0], vertices[2]),
@@ -93,6 +90,6 @@ public class BoxSAT implements VerticesSATShape {
 
                 new Edge(vertices[5], vertices[6]),
                 new Edge(vertices[3], vertices[2])
-        );
+        };
     }
 }
