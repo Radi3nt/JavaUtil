@@ -25,6 +25,7 @@
         <module>SplineHelper</module>
         <module>AnimationHelper</module>
         <module>InverseKinematics</module>
+        <module>Pathfinding</module>
     </modules>
 
     <properties>
