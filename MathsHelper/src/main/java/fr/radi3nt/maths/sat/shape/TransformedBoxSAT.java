@@ -11,9 +11,6 @@ import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 public class TransformedBoxSAT implements VerticesSATShape {
 
     private static final AxisAndVertexIndex[] SAT_CLIP_PLANES = new AxisAndVertexIndex[]{
@@ -26,6 +23,8 @@ public class TransformedBoxSAT implements VerticesSATShape {
     };
 
     private final Vector3D[] vertices;
+    private Vector3D[] axis;
+    private SatAxis[] satAxes;
     private Matrix4x4 transform;
 
     public TransformedBoxSAT(Vector3D min, Vector3D max, Matrix4x4 transform) {
@@ -46,6 +45,8 @@ public class TransformedBoxSAT implements VerticesSATShape {
 
             vertex.copy(transformed.getX(), transformed.getY(), transformed.getZ());
         }
+        computeBoxAxes();
+        computeAxis();
     }
 
     public void set(Vector3D min, Vector3D max, Matrix4x4 transform) {
@@ -64,20 +65,21 @@ public class TransformedBoxSAT implements VerticesSATShape {
             vertex.copy(transformed.getX(), transformed.getY(), transformed.getZ());
         }
         this.transform = transform;
+        computeBoxAxes();
+        computeAxis();
     }
 
     @Override
     public SatAxis[] getAxes() {
-        return computeAxis();
+        return satAxes;
     }
 
-    private SatAxis[] computeAxis() {
-        SatAxis[] axes = new SatAxis[3];
-        Vector3D[] axis = computeBoxAxes();
-        for (int i = 0; i < axes.length; i++) {
-            axes[i] = new SatAxis(axis[i]);
+    private void computeAxis() {
+        satAxes = new SatAxis[3];
+        Vector3D[] axis = this.axis;
+        for (int i = 0; i < satAxes.length; i++) {
+            satAxes[i] = new SatAxis(axis[i]);
         }
-        return axes;
     }
 
     @Override
@@ -107,7 +109,7 @@ public class TransformedBoxSAT implements VerticesSATShape {
     }
 
     private Vector3D[] computeBoxAxes() {
-        Vector3D[] axis = new Vector3D[3];
+        axis = new Vector3D[3];
         axis[0] = vertices[6].clone().subtract(vertices[0]).normalize();
         axis[1] = vertices[4].clone().subtract(vertices[0]).normalize();
         axis[2] = vertices[2].clone().subtract(vertices[0]).normalize();
@@ -120,8 +122,8 @@ public class TransformedBoxSAT implements VerticesSATShape {
     }
 
     @Override
-    public Collection<Edge> getClipEdges() {
-        return Arrays.asList(
+    public Edge[] getClipEdges() {
+        return new Edge[] {
                 new Edge(vertices[0], vertices[6]),
                 new Edge(vertices[0], vertices[4]),
                 new Edge(vertices[0], vertices[2]),
@@ -138,6 +140,6 @@ public class TransformedBoxSAT implements VerticesSATShape {
 
                 new Edge(vertices[5], vertices[6]),
                 new Edge(vertices[3], vertices[2])
-        );
+        };
     }
 }

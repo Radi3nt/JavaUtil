@@ -8,9 +8,6 @@ import fr.radi3nt.maths.sat.clip.Edge;
 import fr.radi3nt.maths.sat.components.SatAxis;
 import fr.radi3nt.maths.sat.components.SatEdge;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 public class StoringTriangleSAT implements TriangleSAT {
 
     private final Vector3D[] vertices = new Vector3D[3];
@@ -52,12 +49,12 @@ public class StoringTriangleSAT implements TriangleSAT {
     }
 
     @Override
-    public Collection<Edge> getClipEdges() {
-        return Arrays.asList(
+    public Edge[] getClipEdges() {
+        return new Edge[] {
                 new Edge(vertices[0], vertices[1]),
                 new Edge(vertices[1], vertices[2]),
                 new Edge(vertices[2], vertices[0])
-        );
+        };
     }
 
     @Override

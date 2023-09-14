@@ -40,6 +40,10 @@ public class SatProjection {
         return this.min <= p2.max ? this.max >= p2.min : this.min <= p2.min;
     }
 
+    public boolean overlap(double p2) {
+        return this.min < p2 && this.max > p2;
+    }
+
     public void sweptOverlap(SatProjection p2, double speed) {
         double tEnter;
         double tLeave;
