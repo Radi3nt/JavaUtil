@@ -4,8 +4,8 @@ import fr.radi3nt.maths.components.Vector3D;
 
 public class Edge {
 
-    private final Vector3D vertex1;
-    private final Vector3D vertex2;
+    private Vector3D vertex1;
+    private Vector3D vertex2;
 
     public Edge(Vector3D vertex1, Vector3D vertex2) {
         this.vertex1 = vertex1;
@@ -19,4 +19,10 @@ public class Edge {
     public Vector3D getVertex2() {
         return vertex2;
     }
+
+    public void setVertices(Vector3D vertex1, Vector3D vertex2) {
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
+    }
+
 }
