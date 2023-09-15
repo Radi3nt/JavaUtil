@@ -111,8 +111,13 @@ public class SimpleVector2f implements Vector2f {
     }
 
     @Override
+    public float lengthSquared() {
+        return x * x + y * y;
+    }
+
+    @Override
     public float length() {
-        return (float) Math.sqrt(x * x + y * y);
+        return (float) Math.sqrt(lengthSquared());
     }
 
     @Override
