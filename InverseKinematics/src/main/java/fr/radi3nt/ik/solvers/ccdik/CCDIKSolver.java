@@ -47,8 +47,8 @@ public class CCDIKSolver extends IkIterativeSolver {
     }
 
     private Quaternion getRotationBetweenEndEffectorAndGoalUsingWorldSpace(int joinIndex) {
-        Vector3f ei = lastEndEffectorWorldPosition==null ? endEffector.getWorldPosition().duplicate() : lastEndEffectorWorldPosition.duplicate();
-        Vector3f et = goal.duplicate();
+        Vector3f ei = lastEndEffectorWorldPosition==null ? endEffector.getWorldPosition() : lastEndEffectorWorldPosition;
+        Vector3f et = goal;
         lastEndEffectorWorldPosition = null;
 
         Vector3f bonePos = getBonePos(joinIndex);
