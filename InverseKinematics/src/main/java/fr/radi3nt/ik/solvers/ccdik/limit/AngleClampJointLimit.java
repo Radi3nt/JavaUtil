@@ -1,6 +1,5 @@
 package fr.radi3nt.ik.solvers.ccdik.limit;
 
-import fr.radi3nt.ik.solvers.ccdik.CCDJoint;
 import fr.radi3nt.ik.solvers.ccdik.constraint.HingeJointConstraint;
 import fr.radi3nt.maths.Maths;
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
@@ -32,7 +31,7 @@ public class AngleClampJointLimit implements JointLimit {
     }
 
     @Override
-    public void limit(CCDJoint ccdJoint) {
+    public void limit(Quaternion rotation) {
 
         double minAngleRadiant = minAngle.getRadiant();
         double maxAngleRadiant = maxAngle.getRadiant();
@@ -40,14 +39,14 @@ public class AngleClampJointLimit implements JointLimit {
         double max = Math.max(maxAngleRadiant, minAngleRadiant);
         double min = Math.min(maxAngleRadiant, minAngleRadiant);
 
-        Quaternion q1 = ccdJoint.rotation.duplicate();
+        Quaternion q1 = rotation.duplicate();
         Quaternion q2 = zeroAngle.duplicate();
         q1.inverse();
         q1.multiply(q2);
 
-        double angle = (2 * Math.atan2(q1.getVector().length(), q1.getW()));
+        double angle = (2 * Math.atan2(q1.getVector().length()+0f, q1.getW()));
 
-        Vector3f axis = ccdJoint.rotation.getAxisOrDefault(defaultAxis.duplicate());
+        Vector3f axis = rotation.getAxisOrDefault(defaultAxis.duplicate());
         if (axis.dot(defaultAxis)<0) {
             angle=-angle;
             axis.negate();
@@ -56,6 +55,6 @@ public class AngleClampJointLimit implements JointLimit {
         angle = Maths.clamp(angle, min, max);
 
         Quaternion result = ComponentsQuaternion.fromAxisAndAngle(axis, JavaMathAngle.fromRadiant(angle));
-        ccdJoint.rotation.copy(result);
+        rotation.copy(result);
     }
 }

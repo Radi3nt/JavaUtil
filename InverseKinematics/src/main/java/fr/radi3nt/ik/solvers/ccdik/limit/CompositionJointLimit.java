@@ -1,6 +1,6 @@
 package fr.radi3nt.ik.solvers.ccdik.limit;
 
-import fr.radi3nt.ik.solvers.ccdik.CCDJoint;
+import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
 
 public class CompositionJointLimit implements JointLimit {
 
@@ -12,7 +12,7 @@ public class CompositionJointLimit implements JointLimit {
 
 
     @Override
-    public void limit(CCDJoint ccdJoint) {
+    public void limit(Quaternion ccdJoint) {
         for (JointLimit jointLimit : jointLimits) {
             jointLimit.limit(ccdJoint);
         }

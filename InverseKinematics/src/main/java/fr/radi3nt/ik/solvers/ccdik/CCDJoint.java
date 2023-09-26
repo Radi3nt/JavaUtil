@@ -24,7 +24,7 @@ public class CCDJoint {
     }
 
     public void limit() {
-        jointLimit.limit(this);
+        jointLimit.limit(this.rotation);
     }
 
     public float getLength() {
