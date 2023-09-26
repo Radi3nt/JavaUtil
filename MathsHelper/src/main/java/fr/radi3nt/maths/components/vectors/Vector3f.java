@@ -57,4 +57,6 @@ public interface Vector3f extends Vector, OperatingVectorNf {
     void add(int row, float value);
 
     float get(int row);
+
+    Vector3f normalizeSafely();
 }

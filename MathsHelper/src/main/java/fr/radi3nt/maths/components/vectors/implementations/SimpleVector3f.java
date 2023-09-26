@@ -240,6 +240,13 @@ public class SimpleVector3f implements Vector3f {
     }
 
     @Override
+    public Vector3f normalizeSafely() {
+        if (this.lengthSquared()!=0)
+            this.normalize();
+        return this;
+    }
+
+    @Override
     public float length() {
         return (float) Math.sqrt(x * x + y * y + z * z);
     }
