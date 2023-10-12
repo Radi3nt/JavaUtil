@@ -36,6 +36,11 @@ public class IndexedPath implements Path {
         return positions[positions.length-1];
     }
 
+    @Override
+    public boolean isEmpty() {
+        return positions.length==0;
+    }
+
     public PathNode[] getPositions() {
         return positions;
     }

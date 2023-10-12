@@ -38,6 +38,8 @@ public class AStarPathfinder {
         pathfinderPointSupplier.prepare();
 
         FindNode startPoint = pathfinderPointSupplier.pointFromPosition(start);
+        if (isEnd(end, startPoint))
+            return new IndexedPath(new PathNode[0]);
 
         FindNode lastPoint = startPoint;
         float lastDistanceToEnd = heuristicEvaluator.distanceBetween(startPoint.getFloatPosition(), end);

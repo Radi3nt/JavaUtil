@@ -12,4 +12,5 @@ public interface Path {
 
     PathNode getGoal();
 
+    boolean isEmpty();
 }
