@@ -11,17 +11,17 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
     private final int width;
     private final int height;
-    private final double[] m;
+    private final double[][] m;
     private final BitSet zeroSet;
 
     public ArrayMatrixNxNd(int width, int height) {
         this.width = width;
         this.height = height;
-        m = new double[width * height];
+        m = new double[width][height];
         zeroSet = new BitSet(this.width * this.height);
     }
 
-    protected ArrayMatrixNxNd(int width, int height, double[] m) {
+    protected ArrayMatrixNxNd(int width, int height, double[][] m) {
         this.width = width;
         this.height = height;
         this.m = m;
@@ -66,7 +66,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
         ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
-                float total = 0;
+                double total = 0;
                 for (int i = 0; i < this.width; i++) {
                     if (nonZero.get(i + x * matrixNxN.getWidth()))
                         total += this.get(i, y) * matrixNxN.get(i, x);
@@ -92,7 +92,7 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
         ArrayMatrixNxNd result = new ArrayMatrixNxNd(resultWidth, resultHeight);
         for (int x = 0; x < result.width; x++) {
             for (int y = 0; y < result.height; y++) {
-                float total = 0;
+                double total = 0;
                 for (int i = 0; i < matrixNxN.getWidth(); i++) {
                     if (nonZero.get(i + x * this.getWidth()))
                         total += matrixNxN.get(i, y) * this.get(i, x);
@@ -105,19 +105,30 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
         return result;
     }
 
+    public double[] getWidthArray(int x) {
+        return m[x];
+    }
+
     @Override
     public double get(int x, int y) {
-        return m[x + y * width];
+        double[] array = m[x];
+        return array==null ? 0 : array[y];
     }
 
     @Override
     public void set(int x, int y, double value) {
-        m[x + y * width] = value;
-        zeroSet.set(x + y * width, value != 0);
+        double[] array = m[x];
+        if (array==null)
+            m[x] = array = new double[this.width];
+        array[y] = value;
+        zeroSet.set(x + y * this.width, value != 0);
     }
 
     public void add(int x, int y, double total) {
-        m[x + y * width] += total;
+        double[] array = m[x];
+        if (array==null)
+            m[x] = array = new double[this.width];
+        array[y] += total;
     }
 
     public void markAllNonZero() {
@@ -139,10 +150,10 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
     @Override
     public ArrayMatrixNxNd duplicate() {
-        return new ArrayMatrixNxNd(width, height, Arrays.copyOf(m, m.length));
+        return new ArrayMatrixNxNd(width, height, deepCopy(m));
     }
 
-    public double[] getM() {
+    public double[][] getM() {
         return m;
     }
 
@@ -169,14 +180,14 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
 
         if (width != that.width) return false;
         if (height != that.height) return false;
-        return Arrays.equals(m, that.m);
+        return Arrays.deepEquals(m, that.m);
     }
 
     @Override
     public int hashCode() {
         int result = width;
         result = 31 * result + height;
-        result = 31 * result + Arrays.hashCode(m);
+        result = 31 * result + Arrays.deepHashCode(m);
         return result;
     }
 
@@ -197,5 +208,17 @@ public class ArrayMatrixNxNd implements MatrixNxNd {
         stringBuilder.append("}");
 
         return stringBuilder.toString();
+    }
+
+    public static double[][] deepCopy(double[][] original) {
+        if (original == null) {
+            return null;
+        }
+
+        final double[][] result = new double[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            result[i] = Arrays.copyOf(original[i], original[i].length);
+        }
+        return result;
     }
 }

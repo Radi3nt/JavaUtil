@@ -16,8 +16,6 @@ public interface MatrixNxNd {
 
     BitSet nonZero();
 
-    double[] getM();
-
     MatrixNxNd multiply(MatrixNxNd matrixNxN);
 
     MatrixNxNd multiplyWithTransposed(MatrixNxNd matrixNxN);
