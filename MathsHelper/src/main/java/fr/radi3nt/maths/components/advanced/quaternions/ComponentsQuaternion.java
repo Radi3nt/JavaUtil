@@ -31,6 +31,10 @@ public class ComponentsQuaternion implements Quaternion {
         this(vector.getX(), vector.getY(), vector.getZ(), w);
     }
 
+    public ComponentsQuaternion(Vector4f vector) {
+        this(vector.getX(), vector.getY(), vector.getZ(), vector.getW());
+    }
+
     @Deprecated
     public static Quaternion fromVectorToAnother(Vector3f v1, Vector3f v2) {
         Vector3f vector = v1.duplicate().cross(v2);
