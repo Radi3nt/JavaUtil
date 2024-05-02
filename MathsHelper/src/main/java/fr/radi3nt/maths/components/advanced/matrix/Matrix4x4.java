@@ -38,4 +38,6 @@ public interface Matrix4x4 extends Matrix {
     void copy(Matrix result);
 
     Matrix4x4 duplicate();
+
+    void scalar(Vector3f size);
 }

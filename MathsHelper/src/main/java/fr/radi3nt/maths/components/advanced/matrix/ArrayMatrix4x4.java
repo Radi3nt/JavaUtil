@@ -172,6 +172,21 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
+    public void scalar(Vector3f size) {
+        m[0][0]*=size.getX();
+        m[0][1]*=size.getX();
+        m[0][2]*=size.getX();
+
+        m[1][0]*=size.getY();
+        m[1][1]*=size.getY();
+        m[1][2]*=size.getY();
+
+        m[2][0]*=size.getZ();
+        m[2][1]*=size.getZ();
+        m[2][2]*=size.getZ();
+    }
+
+    @Override
     public Quaternion getRotation() {
         return getCopySignRotation();
     }
