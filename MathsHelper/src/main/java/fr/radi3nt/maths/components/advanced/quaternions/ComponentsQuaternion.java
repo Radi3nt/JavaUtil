@@ -98,7 +98,7 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     public static Quaternion zero() {
-        return ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), JavaMathAngle.zero());
+        return new ComponentsQuaternion(0, 0, 0, 1);
     }
 
     public static Quaternion fromVec4(Vector4f response) {
