@@ -1,9 +1,6 @@
 package fr.radi3nt.spline.splines.builder.bspline.dim1;
 
 import fr.radi3nt.spline.curve.curves.bcurve.BCurveController;
-import fr.radi3nt.spline.curve.curves.cardinal.CardinalCurveController;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 public class InferredBCurveController implements BCurveController {
 

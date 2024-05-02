@@ -2,7 +2,6 @@ package fr.radi3nt.spline.splines.builder.bspline.dim3;
 
 import fr.radi3nt.maths.components.vectors.Vector3f;
 import fr.radi3nt.spline.splines.builder.bspline.dim1.BSplineBuilder;
-import fr.radi3nt.spline.splines.builder.cardinal.dim1.CardinalSplineBuilder;
 import fr.radi3nt.spline.splines.dimensions.EncapsulatingSpline3D;
 import fr.radi3nt.spline.splines.dimensions.Spline3D;
 
