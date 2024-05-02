@@ -1,8 +1,6 @@
 package fr.radi3nt.spline.splines.builder.bspline.dim1;
 
 import fr.radi3nt.spline.curve.curves.bcurve.BCurve;
-import fr.radi3nt.spline.curve.curves.bcurve.BCurveController;
-import fr.radi3nt.spline.curve.curves.cardinal.CardinalCurve;
 import fr.radi3nt.spline.splines.CollectionSpline;
 import fr.radi3nt.spline.splines.Spline;
 import fr.radi3nt.spline.splines.builder.SplineBuilder;
