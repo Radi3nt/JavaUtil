@@ -15,4 +15,15 @@ public interface VectorNf extends Vector, OperatingVectorNf {
     void clamp(int row, float min, float max);
 
     int size();
+
+    VectorNf duplicate();
+
+    default void copy(OperatingVectorNf other) {
+        if (other.size()!=this.size()) {
+            throw new IllegalArgumentException("Other vector doesn't have the same size");
+        }
+        for (int i = 0; i < this.size(); i++) {
+            this.set(i, other.get(i));
+        }
+    }
 }

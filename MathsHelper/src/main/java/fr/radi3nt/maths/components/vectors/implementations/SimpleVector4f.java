@@ -174,6 +174,17 @@ public class SimpleVector4f implements Vector4f {
     }
 
     @Override
+    public void copy(OperatingVectorNf other) {
+        if (other.size()!=this.size()) {
+            throw new IllegalArgumentException("Other vector doesn't have the same size");
+        }
+        x = other.get(0);
+        y = other.get(1);
+        z = other.get(2);
+        w = other.get(3);
+    }
+
+    @Override
     public String toString() {
         return "SimpleVector4f{" +
                 "x=" + x +
