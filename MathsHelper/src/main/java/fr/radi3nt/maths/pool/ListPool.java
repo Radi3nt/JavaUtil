@@ -1,15 +1,18 @@
 package fr.radi3nt.maths.pool;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class QueuedPool<T> implements ObjectPool<T> {
+public abstract class ListPool<T> implements ObjectPool<T> {
 
-    protected final Deque<T> queue = new ArrayDeque<>();
+    protected final List<T> queue = new ArrayList<>();
 
     @Override
     public T borrow() {
-        T object = queue.pollLast();
+        if (queue.isEmpty())
+            return create();
+
+        T object = queue.remove(queue.size()-1);
         if (object == null)
             return create();
 
