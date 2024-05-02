@@ -295,7 +295,12 @@ public class ComponentsQuaternion implements Quaternion {
 
     @Override
     public float getMagnitude() {
-        return (float) sqrt(w * w + x * x + y * y + z * z);
+        return (float) sqrt(getSquaredMagnitude());
+    }
+
+    @Override
+    public float getSquaredMagnitude() {
+        return w * w + x * x + y * y + z * z;
     }
 
     @Override

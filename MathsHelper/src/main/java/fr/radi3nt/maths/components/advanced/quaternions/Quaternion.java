@@ -46,6 +46,7 @@ public interface Quaternion {
     float dot(Quaternion other);
 
     float getMagnitude();
+    float getSquaredMagnitude();
 
     Quaternion getConjugate();
 
