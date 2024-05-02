@@ -11,26 +11,41 @@ import java.util.Arrays;
 
 public class ArrayMatrix4x4 implements Matrix4x4 {
 
-    private final float[][] m = new float[4][4];
+    private final float[][] m;
 
     public ArrayMatrix4x4(fr.radi3nt.maths.components.matrices.Matrix copy) {
+        m = new float[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 set(i, j, copy.get(i, j));
             }
         }
+
     }
 
     public ArrayMatrix4x4() {
+        m = new float[4][4];
+    }
 
+    public ArrayMatrix4x4(float[][] m) {
+        this.m = m;
     }
 
     public ArrayMatrix4x4(ArrayMatrix4x4 copy) {
+        m = new float[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 set(i, j, copy.get(i, j));
             }
         }
+    }
+
+    public static ArrayMatrix4x4 from(float[] m) {
+        float[][] correctM = new float[][] {new float[4], new float[4], new float[4], new float[4]};
+        for (int i = 0; i < m.length; i++) {
+            correctM[i%4][i/4] = m[i];
+        }
+        return new ArrayMatrix4x4(correctM);
     }
 
     public static ArrayMatrix4x4 newIdentity() {
@@ -154,6 +169,21 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     @Override
     public Matrix4x4 duplicate() {
         return new ArrayMatrix4x4(this);
+    }
+
+    @Override
+    public void scalar(Vector3f size) {
+        m[0][0]*=size.getX();
+        m[0][1]*=size.getX();
+        m[0][2]*=size.getX();
+
+        m[1][0]*=size.getY();
+        m[1][1]*=size.getY();
+        m[1][2]*=size.getY();
+
+        m[2][0]*=size.getZ();
+        m[2][1]*=size.getZ();
+        m[2][2]*=size.getZ();
     }
 
     @Override

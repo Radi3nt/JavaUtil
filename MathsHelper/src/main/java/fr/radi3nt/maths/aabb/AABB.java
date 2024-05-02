@@ -1,26 +1,13 @@
 package fr.radi3nt.maths.aabb;
 
-public class AABB {
+public interface AABB {
 
-    private final AxisMapping xMapping;
-    private final AxisMapping yMapping;
-    private final AxisMapping zMapping;
+    AxisMapping getxMapping();
+    AxisMapping getxMapping(AxisMapping mapping);
+    AxisMapping getyMapping();
+    AxisMapping getyMapping(AxisMapping mapping);
+    AxisMapping getzMapping();
+    AxisMapping getzMapping(AxisMapping mapping);
 
-    public AABB(AxisMapping xMapping, AxisMapping yMapping, AxisMapping zMapping) {
-        this.xMapping = xMapping;
-        this.yMapping = yMapping;
-        this.zMapping = zMapping;
-    }
 
-    public AxisMapping getxMapping() {
-        return xMapping;
-    }
-
-    public AxisMapping getyMapping() {
-        return yMapping;
-    }
-
-    public AxisMapping getzMapping() {
-        return zMapping;
-    }
 }

@@ -7,6 +7,10 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
     private DynamicsConstants constants;
     protected T inputPrevious, inputCurrent;
     protected T response, responseDerivative;
+
+    private final T inputDerivativeCache;
+    private final T responseDerivativeCache;
+
     private float speed = 0;
 
     public VectorSmoothDynamics(DynamicsConstants constants, T start) {
@@ -15,13 +19,16 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
         this.inputCurrent = (T) start.duplicate();
         this.inputPrevious = (T) start.duplicate();
         responseDerivative = (T) start.duplicate().mul(0);
+        inputDerivativeCache = (T) start.duplicate().mul(0);
+        responseDerivativeCache = (T) start.duplicate().mul(0);
     }
 
     public void update(float step) {
         if (step==0)
             return;
-        OperatingVectorNf inputDerivative = inputCurrent.duplicate().sub(inputPrevious).div(step);
-        inputPrevious = (T) inputCurrent.duplicate();
+        inputDerivativeCache.copy(inputCurrent);
+        inputDerivativeCache.sub(inputPrevious).div(step);
+        inputPrevious.copy(inputCurrent);
         float k1Stable, k2Stable;
         if (systemIsAtHighSpeed(constants, step)) {
             k1Stable = constants.getK1();
@@ -31,10 +38,12 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
             k2Stable = Math.max(constants.getK2(), Math.max(step*step/2 + step*k1Stable/2, step*k1Stable));
         }
 
-        response.add(responseDerivative.duplicate().mul(step));
-        //responseDerivative.add(inputDerivative.mul(constants.getK3()).add(inputCurrent).sub(response).sub(responseDerivative.duplicate().mul(k1Stable)).div(k2Stable).mul(step));
-        OperatingVectorNf multipliedByTTerm = inputDerivative.mul(constants.getK3()).add(inputCurrent).sub(response).mul(step);
-        responseDerivative = (T) multipliedByTTerm.add(responseDerivative.duplicate().mul(k2Stable)).div(k2Stable+step*k1Stable);
+        responseDerivativeCache.copy(responseDerivative);
+        response.add(responseDerivativeCache.mul(step));
+        responseDerivativeCache.copy(responseDerivative);
+
+        OperatingVectorNf multipliedByTTerm = inputDerivativeCache.mul(constants.getK3()).add(inputCurrent).sub(response).mul(step);
+        responseDerivative.copy(multipliedByTTerm.add(responseDerivativeCache.mul(k2Stable)).div(k2Stable+step*k1Stable));
         speed = responseDerivative.length();
     }
 
@@ -48,6 +57,10 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
 
     public void setInputCurrent(T inputCurrent) {
         this.inputCurrent = inputCurrent;
+    }
+
+    public T getInputCurrent() {
+        return inputCurrent;
     }
 
     public T getResponse() {

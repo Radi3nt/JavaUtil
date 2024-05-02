@@ -14,7 +14,7 @@ public class ArrayVectorNf implements VectorNf {
         vector = new float[size];
     }
 
-    private ArrayVectorNf(float[] vector) {
+    public ArrayVectorNf(float... vector) {
         this.vector = vector;
     }
 
@@ -59,7 +59,7 @@ public class ArrayVectorNf implements VectorNf {
     @Override
     public ArrayVectorNf add(OperatingVectorNf other) {
         if (other.size()!=this.size())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("This vector's size (" + size() +") does not match the argument vector size (" + other.size() + ")");
         for (int i = 0; i < vector.length; i++) {
             vector[i]+=other.get(i);
         }
@@ -69,7 +69,7 @@ public class ArrayVectorNf implements VectorNf {
     @Override
     public ArrayVectorNf sub(OperatingVectorNf other) {
         if (other.size()!=this.size())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("This vector's size (" + size() +") does not match the argument vector size (" + other.size() + ")");
         for (int i = 0; i < vector.length; i++) {
             vector[i]-=other.get(i);
         }

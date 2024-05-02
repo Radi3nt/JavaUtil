@@ -10,13 +10,14 @@ import java.util.Arrays;
 
 public class ArrayMatrix3x3 implements Matrix3x3 {
 
-    private final float[][] m = new float[3][3];
+    private final float[][] m;
 
     public ArrayMatrix3x3() {
-
+        m = new float[3][3];
     }
 
     public ArrayMatrix3x3(ArrayMatrix3x3 copy) {
+        m = new float[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 set(i, j, copy.get(i, j));
@@ -24,10 +25,22 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
         }
     }
 
+    public ArrayMatrix3x3(float[][] m) {
+        this.m = m;
+    }
+
     public static ArrayMatrix3x3 newIdentity() {
         ArrayMatrix3x3 arrayMatrix4x4 = new ArrayMatrix3x3();
         arrayMatrix4x4.identity();
         return arrayMatrix4x4;
+    }
+
+    public static ArrayMatrix3x3 from(float[] m) {
+        float[][] correctM = new float[][] {new float[3], new float[3], new float[3]};
+        for (int i = 0; i < m.length; i++) {
+            correctM[i%3][i/3] = m[i];
+        }
+        return new ArrayMatrix3x3(correctM);
     }
 
     @Override

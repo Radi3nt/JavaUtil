@@ -2,6 +2,7 @@ package fr.radi3nt.maths.sat.shape;
 
 import fr.radi3nt.maths.aabb.AABB;
 import fr.radi3nt.maths.aabb.AxisMapping;
+import fr.radi3nt.maths.aabb.SetAABB;
 import fr.radi3nt.maths.components.Vector3D;
 import fr.radi3nt.maths.sat.clip.ClipPlanes;
 import fr.radi3nt.maths.sat.clip.Edge;
@@ -53,7 +54,7 @@ public interface VerticesSATShape extends SATShape {
             minZ = (float) Math.min(minZ, vertex.getZ());
         }
 
-        aabb = new AABB(
+        aabb = new SetAABB(
                 new AxisMapping(minX, maxX),
                 new AxisMapping(minY, maxY),
                 new AxisMapping(minZ, maxZ));

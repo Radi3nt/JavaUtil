@@ -15,4 +15,6 @@ public interface OperatingVectorNf {
     int size();
 
     float length();
+
+    void copy(OperatingVectorNf other);
 }
