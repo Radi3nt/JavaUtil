@@ -173,34 +173,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
-/*
-    public JsonObject merge(final JsonObject object) {
-        if (object == null) {
-            throw new NullPointerException("object is null");
-        }
-        ArrayList<Member> arrayList = new ArrayList<>();
-        for (Member member : object) {
-            arrayList.add(member);
-        }
-        Collections.reverse(arrayList);
-        Member lastJson = new Member("null", new JsonString("null"));
-        for (Member member : arrayList) {
-            final int index = this.indexOf(member.getName());
-            if (index!=0) {
-                JsonObject jsonObject= new JsonObject().add(member.getName(), member.getValue());
-                jsonObject.add(lastJson.getName(), member.getValue());
-                this.set(member.getName(), jsonObject);
-            } else {
-                this.add(member.getName(), member.getValue());
-            }
-            lastJson=member;
-        }
-        return this;
-    }
-
- */
-
     public JsonValue get(final String name) {
         if (name == null) {
             throw new NullPointerException("name is null");

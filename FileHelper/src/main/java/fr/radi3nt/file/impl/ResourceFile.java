@@ -4,13 +4,14 @@ import fr.radi3nt.file.files.ReadableFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ResourceFile implements ReadableFile {
 
 	private static final String FILE_SEPARATOR = "/";
 	private static final String BASE_PATH = "";
 
-	private String path;
+	private final String path;
 	private final String name;
 
 	public ResourceFile(String path) {
@@ -20,10 +21,11 @@ public class ResourceFile implements ReadableFile {
 	}
 
 	public ResourceFile(String... paths) {
-		this.path = BASE_PATH;
+		String path = BASE_PATH;
 		for (final String part : paths) {
-			this.path += FILE_SEPARATOR + part;
+			path += FILE_SEPARATOR + part;
 		}
+		this.path = path;
 		final String[] dirs = this.path.split(FILE_SEPARATOR);
 		this.name = dirs[dirs.length - 1];
 	}
@@ -34,10 +36,11 @@ public class ResourceFile implements ReadableFile {
 	}
 
 	public ResourceFile(ResourceFile file, String... subFiles) {
-		this.path = file.path;
+		String path = file.path;
 		for (String part : subFiles) {
-			this.path += (FILE_SEPARATOR + part);
+			path += (FILE_SEPARATOR + part);
 		}
+		this.path = path;
 		String[] dirs = path.split(FILE_SEPARATOR);
 		this.name = dirs[dirs.length - 1];
 	}
@@ -74,5 +77,21 @@ public class ResourceFile implements ReadableFile {
 		}
 
 		return exists;
+	}
+
+	@Override
+	public final boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ResourceFile)) return false;
+
+		ResourceFile that = (ResourceFile) o;
+		return Objects.equals(path, that.path) && Objects.equals(name, that.name);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Objects.hashCode(path);
+		result = 31 * result + Objects.hashCode(name);
+		return result;
 	}
 }
