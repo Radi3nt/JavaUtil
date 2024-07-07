@@ -81,6 +81,15 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
         speed = 0;
     }
 
+    public void reset(T currentLocalPos) {
+        response.copy(currentLocalPos);
+        inputCurrent.copy(currentLocalPos);
+        inputPrevious.copy(currentLocalPos);
+
+        responseDerivative = (T) currentLocalPos.duplicate().mul(0);
+        speed = 0;
+    }
+
     public T getInputPrevious() {
         return inputPrevious;
     }

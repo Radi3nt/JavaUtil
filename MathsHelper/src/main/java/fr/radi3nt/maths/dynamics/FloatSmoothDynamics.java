@@ -45,6 +45,10 @@ public class FloatSmoothDynamics {
         return response;
     }
 
+    public float getInputCurrent() {
+        return inputCurrent;
+    }
+
     private boolean systemIsAtHighSpeed(DynamicsConstants constants, float step) {
         return constants.getW()*step >= constants.getZ();
     }

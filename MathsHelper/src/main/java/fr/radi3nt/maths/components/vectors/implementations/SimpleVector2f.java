@@ -111,8 +111,24 @@ public class SimpleVector2f implements Vector2f {
     }
 
     @Override
+    public Vector2f normalizeSafely() {
+        float length = length();
+        if (length==0)
+            mul(0);
+        else
+            div(length);
+        return this;
+    }
+
+    @Override
     public float lengthSquared() {
         return x * x + y * y;
+    }
+
+    @Override
+    public void copy(Vector2f vector2f) {
+        this.setX(vector2f.getX());
+        this.setY(vector2f.getY());
     }
 
     @Override

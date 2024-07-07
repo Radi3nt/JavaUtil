@@ -25,6 +25,9 @@ public interface Vector2f extends Vector {
 
     float dot(Vector2f vector2f);
     Vector2f normalize();
+    Vector2f normalizeSafely();
 
     float lengthSquared();
+
+    void copy(Vector2f vector2f);
 }

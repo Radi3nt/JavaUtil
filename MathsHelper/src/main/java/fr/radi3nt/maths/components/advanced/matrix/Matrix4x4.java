@@ -31,6 +31,8 @@ public interface Matrix4x4 extends Matrix {
 
     void directionRotation(Vector3f direction, Vector3f up);
 
+    void orthographic(float right, float left, float top, float bottom, float near, float far);
+
     void transform(Vector4f toTransform);
 
     void multiply(Matrix matrix);
