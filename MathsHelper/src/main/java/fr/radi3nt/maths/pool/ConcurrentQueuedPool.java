@@ -1,15 +1,15 @@
 package fr.radi3nt.maths.pool;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
-public abstract class QueuedPool<T> implements ObjectPool<T> {
+public abstract class ConcurrentQueuedPool<T> implements ObjectPool<T> {
 
-    protected final Deque<T> queue = new ArrayDeque<>();
+    protected final Deque<T> queue = new ConcurrentLinkedDeque<>();
 
     @Override
     public T borrow() {
-        T object = queue.pollLast();
+        T object = queue.pollFirst();
         if (object == null)
             return create();
 
@@ -20,6 +20,6 @@ public abstract class QueuedPool<T> implements ObjectPool<T> {
 
     @Override
     public void free(T object) {
-        queue.add(object);
+        queue.addFirst(object);
     }
 }
