@@ -55,7 +55,10 @@ public class ResourceFile implements ReadableFile {
 	}
 
 	public InputStream getInputStream() {
-		return ResourceFile.class.getResourceAsStream(path);
+		InputStream stream = ResourceFile.class.getResourceAsStream(path);
+		if (stream==null)
+			throw new IllegalStateException("Could not get resource '" + path + "', as it doesn't seem to exist");
+		return stream;
 	}
 
 	public String getName() {
