@@ -13,16 +13,6 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     private final float[][] m;
 
-    public ArrayMatrix4x4(fr.radi3nt.maths.components.matrices.Matrix copy) {
-        m = new float[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                set(i, j, copy.get(i, j));
-            }
-        }
-
-    }
-
     public ArrayMatrix4x4() {
         m = new float[4][4];
     }
@@ -372,6 +362,21 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
         m[3][1] = -(top + bottom) / (top - bottom);
         m[3][2] = -(far + near) / (far - near);
         m[3][3] = 1;
+    }
+
+    @Override
+    public void perspective(float fov, float aspect, float near, float far) {
+        identity();
+
+        float y_scale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))));
+        float frustum_length = far - near;
+
+        set(0, 0, y_scale);
+        set(1, 1, y_scale*aspect);
+        set(2, 2, -((far + near) / frustum_length));
+        set(2, 3, -1);
+        set(3, 2, -((2 * near * far) / frustum_length));
+        set(3, 3, 0);
     }
 
     @Override
