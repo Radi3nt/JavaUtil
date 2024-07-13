@@ -1,5 +1,6 @@
 package fr.radi3nt.maths.components.vectors.implementations;
 
+import fr.radi3nt.maths.components.Vector2D;
 import fr.radi3nt.maths.components.vectors.Vector2f;
 
 import java.util.Objects;
@@ -15,6 +16,11 @@ public class SimpleVector2f implements Vector2f {
     }
 
     public SimpleVector2f() {
+    }
+
+    public SimpleVector2f(Vector2D vector) {
+        this.x = (float) vector.getX();
+        this.y = (float) vector.getY();
     }
 
     @Override
