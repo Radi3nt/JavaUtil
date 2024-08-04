@@ -97,15 +97,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
 
         ArrayMatrix3x3 invM = new ArrayMatrix3x3();
 
-        set(0, 0, (get(1, 1) * get(2, 2) - get(2, 1) * get(1, 2)) * invdet);
-        set(0, 1, (get(0, 2) * get(2, 1) - get(0, 1) * get(2, 2)) * invdet);
-        set(0, 2, (get(0, 1) * get(1, 2) - get(0, 2) * get(1, 1)) * invdet);
-        set(1, 0, (get(1, 2) * get(2, 0) - get(1, 0) * get(2, 2)) * invdet);
-        set(1, 1, (get(0, 0) * get(2, 2) - get(0, 2) * get(2, 0)) * invdet);
-        set(1, 2, (get(1, 0) * get(0, 2) - get(0, 0) * get(1, 2)) * invdet);
-        set(2, 0, (get(1, 0) * get(2, 1) - get(2, 0) * get(1, 1)) * invdet);
-        set(2, 1, (get(2, 0) * get(0, 1) - get(0, 0) * get(2, 1)) * invdet);
-        set(2, 2, (get(0, 0) * get(1, 1) - get(1, 0) * get(0, 1)) * invdet);
+        invM.set(0, 0, (get(1, 1) * get(2, 2) - get(2, 1) * get(1, 2)) * invdet);
+        invM.set(0, 1, (get(0, 2) * get(2, 1) - get(0, 1) * get(2, 2)) * invdet);
+        invM.set(0, 2, (get(0, 1) * get(1, 2) - get(0, 2) * get(1, 1)) * invdet);
+        invM.set(1, 0, (get(1, 2) * get(2, 0) - get(1, 0) * get(2, 2)) * invdet);
+        invM.set(1, 1, (get(0, 0) * get(2, 2) - get(0, 2) * get(2, 0)) * invdet);
+        invM.set(1, 2, (get(1, 0) * get(0, 2) - get(0, 0) * get(1, 2)) * invdet);
+        invM.set(2, 0, (get(1, 0) * get(2, 1) - get(2, 0) * get(1, 1)) * invdet);
+        invM.set(2, 1, (get(2, 0) * get(0, 1) - get(0, 0) * get(2, 1)) * invdet);
+        invM.set(2, 2, (get(0, 0) * get(1, 1) - get(1, 0) * get(0, 1)) * invdet);
 
         this.copy(invM);
     }
