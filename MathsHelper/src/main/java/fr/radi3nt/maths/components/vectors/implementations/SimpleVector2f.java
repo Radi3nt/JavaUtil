@@ -1,6 +1,7 @@
 package fr.radi3nt.maths.components.vectors.implementations;
 
 import fr.radi3nt.maths.components.Vector2D;
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
 import fr.radi3nt.maths.components.vectors.Vector2f;
 
 import java.util.Objects;
@@ -21,6 +22,10 @@ public class SimpleVector2f implements Vector2f {
     public SimpleVector2f(Vector2D vector) {
         this.x = (float) vector.getX();
         this.y = (float) vector.getY();
+    }
+
+    public SimpleVector2f(Vector2f vector) {
+        this.copy(vector);
     }
 
     @Override
@@ -85,6 +90,21 @@ public class SimpleVector2f implements Vector2f {
     }
 
     @Override
+    public OperatingVectorNf add(OperatingVectorNf other) {
+        return add(other.get(0), other.get(1));
+    }
+
+    @Override
+    public OperatingVectorNf sub(OperatingVectorNf other) {
+        return sub(other.get(0), other.get(1));
+    }
+
+    @Override
+    public int size() {
+        return 2;
+    }
+
+    @Override
     public Vector2f div(Vector2f vector2f) {
         return div(vector2f.getX(), vector2f.getY());
     }
@@ -94,6 +114,18 @@ public class SimpleVector2f implements Vector2f {
         this.setX(this.getX()/x);
         this.setY(this.getY()/y);
         return this;
+    }
+
+    @Override
+    public float get(int row) {
+        if (row>1 || row<0)
+            throw new UnsupportedOperationException();
+        return row == 0 ? x : y;
+    }
+
+    @Override
+    public Vector2f duplicate() {
+        return clone();
     }
 
     @Override
@@ -140,6 +172,11 @@ public class SimpleVector2f implements Vector2f {
     @Override
     public float length() {
         return (float) Math.sqrt(lengthSquared());
+    }
+
+    @Override
+    public void copy(OperatingVectorNf other) {
+        this.copy(new SimpleVector2f(other.get(0), other.get(1)));
     }
 
     @Override

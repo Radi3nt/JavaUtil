@@ -1,6 +1,8 @@
 package fr.radi3nt.maths.components.vectors;
 
-public interface Vector2f extends Vector {
+import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
+
+public interface Vector2f extends Vector, OperatingVectorNf {
 
     float getX();
     void setX(float x);
@@ -22,6 +24,7 @@ public interface Vector2f extends Vector {
     Vector2f div(float mul);
 
     Vector2f clone();
+    Vector2f duplicate();
 
     float dot(Vector2f vector2f);
     Vector2f normalize();
