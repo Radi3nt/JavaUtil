@@ -86,7 +86,7 @@ public class SimpleVector4f implements Vector4f {
     }
 
     @Override
-    public void set(Vector3f vector3f, int w) {
+    public void set(Vector3f vector3f, float w) {
         setX(vector3f.getX());
         setY(vector3f.getY());
         setZ(vector3f.getZ());
@@ -94,7 +94,7 @@ public class SimpleVector4f implements Vector4f {
     }
 
     @Override
-    public void set(float x, float y, float z, int w) {
+    public void set(float x, float y, float z, float w) {
         setX(x);
         setY(y);
         setZ(z);

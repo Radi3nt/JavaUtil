@@ -18,8 +18,8 @@ public interface Vector4f extends Vector, OperatingVectorNf {
 
     void normalize();
 
-    void set(Vector3f vector3f, int w);
-    void set(float x, float y, float z, int w);
+    void set(Vector3f vector3f, float w);
+    void set(float x, float y, float z, float w);
 
     Vector4f duplicate();
 
