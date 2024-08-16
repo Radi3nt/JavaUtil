@@ -5,4 +5,5 @@ public interface Spline {
     float interpolate(float t);
     float velocity(float t);
 
+    int getSegmentCount();
 }

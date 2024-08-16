@@ -16,16 +16,26 @@ public class CollectionSpline implements Spline {
 
     @Override
     public float interpolate(float t) {
-        int index = (int) Math.nextDown(t);
+        int index = (int) Math.floor(t);
+        if (t==curves.size())
+            index = curves.size()-1;
         Curve curve = getCurveAtIndex(index);
         return curve.interpolate(t-index);
     }
 
     @Override
     public float velocity(float t) {
-        int index = (int) Math.nextDown(t);
+        int index = (int) Math.floor(t);
+        if (t==curves.size())
+            index = curves.size()-1;
+
         Curve curve = getCurveAtIndex(index);
         return curve.velocity(t-index);
+    }
+
+    @Override
+    public int getSegmentCount() {
+        return curves.size();
     }
 
     protected Curve getCurveAtIndex(int index) {

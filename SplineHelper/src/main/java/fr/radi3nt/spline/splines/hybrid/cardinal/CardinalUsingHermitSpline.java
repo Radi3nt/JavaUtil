@@ -40,4 +40,9 @@ public class CardinalUsingHermitSpline implements Spline {
     public float velocity(float t) {
         return hermiteSpline.velocity(t);
     }
+
+    @Override
+    public int getSegmentCount() {
+        return hermiteSpline.getSegmentCount();
+    }
 }
