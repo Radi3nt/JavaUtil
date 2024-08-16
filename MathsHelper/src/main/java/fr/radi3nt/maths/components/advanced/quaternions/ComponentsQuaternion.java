@@ -80,21 +80,14 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     public static Quaternion fromEulerAngles(Angle angleX, Angle angleY, Angle angleZ) {
-        float sinPitch = (float) Math.sin(angleX.getRadiant() * 0.5F);
-        float cosPitch = (float) Math.cos(angleX.getRadiant() * 0.5F);
-        float sinYaw = (float) Math.sin(angleY.getRadiant() * 0.5F);
-        float cosYaw = (float) Math.cos(angleY.getRadiant() * 0.5F);
-        float sinRoll = (float) Math.sin(angleZ.getRadiant() * 0.5F);
-        float cosRoll = (float) Math.cos(angleZ.getRadiant() * 0.5F);
-        float cosPitchCosYaw = (cosPitch * cosYaw);
-        float sinPitchSinYaw = (sinPitch * sinYaw);
+        Quaternion rotationX = ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(1, 0, 0), angleX);
+        Quaternion rotationY = ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), angleY);
+        Quaternion rotationZ = ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 0, 1), angleZ);
 
-        float x = sinRoll * cosPitchCosYaw - cosRoll * sinPitchSinYaw;
-        float y = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
-        float z = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
-        float w = cosRoll * cosPitchCosYaw + sinRoll * sinPitchSinYaw;
+        rotationX.multiply(rotationY);
+        rotationX.multiply(rotationZ);
 
-        return new ComponentsQuaternion(x, y, z, w);
+        return rotationX;
     }
 
     public static Quaternion zero() {
