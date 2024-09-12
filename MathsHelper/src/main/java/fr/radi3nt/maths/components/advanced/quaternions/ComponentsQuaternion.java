@@ -99,6 +99,24 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public Quaternion getRotationComponentAboutAxis(
+            Vector3f direction) {
+        Vector3f rotationAxis = new SimpleVector3f(this.x, this.y, this.z);
+        float dotProd = direction.dot(rotationAxis);
+        // Shortcut calculation of `projection` requires `direction` to be normalized
+        Vector3f projection = direction.duplicate().mul(dotProd);
+        ComponentsQuaternion twist = new ComponentsQuaternion(
+                projection.getX(), projection.getY(), projection.getZ(), this.w);
+        twist.normalise();
+        if (dotProd < 0.0) {
+            // Ensure `twist` points towards `direction`
+            twist.w = -twist.w;
+            // Rotation angle `twist.angle()` is now reliable
+        }
+        return twist;
+    }
+
+    @Override
     public Vector3f getAxisOrDefault(Vector3f axis) {
         float sinFromCos = (float) sqrt(Math.max(0, 1 - w * w));
         if (sinFromCos == 0 || Float.isNaN(sinFromCos))

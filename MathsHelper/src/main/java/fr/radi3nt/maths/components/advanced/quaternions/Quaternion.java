@@ -54,6 +54,9 @@ public interface Quaternion {
 
     void copy(Quaternion rotation);
 
+    Quaternion getRotationComponentAboutAxis(
+            Vector3f direction);
+
     Vector3f getAxisOrDefault(Vector3f axis);
 
     Vector3f getVector();
