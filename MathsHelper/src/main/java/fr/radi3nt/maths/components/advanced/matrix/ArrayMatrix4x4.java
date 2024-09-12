@@ -9,7 +9,6 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Arrays;
 
-import static java.lang.Math.copySign;
 import static java.lang.Math.sqrt;
 
 public class ArrayMatrix4x4 implements Matrix4x4 {
