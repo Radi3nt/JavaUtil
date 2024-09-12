@@ -52,4 +52,11 @@ public class JavaMathAngle implements Angle {
     public void setDegree(double degree) {
         angleValueInRadiant = Math.toRadians(degree);
     }
+
+    @Override
+    public String toString() {
+        return "JavaMathAngle{" +
+                "angleValueInRadiant=" + angleValueInRadiant +
+                '}';
+    }
 }
