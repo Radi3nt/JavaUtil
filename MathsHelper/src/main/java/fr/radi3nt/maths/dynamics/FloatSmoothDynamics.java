@@ -65,4 +65,11 @@ public class FloatSmoothDynamics {
     public void setCurrentBypass(float currentLocalPos) {
         response = currentLocalPos;
     }
+
+    public void setCurrentAll(float currentLocalPos, float responseDerivative) {
+        response = currentLocalPos;
+        inputCurrent = currentLocalPos;
+        inputPrevious = currentLocalPos;
+        this.responseDerivative = responseDerivative;
+    }
 }
