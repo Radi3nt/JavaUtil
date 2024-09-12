@@ -33,12 +33,12 @@ public class NioFile implements CompleteFile {
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return Files.newInputStream(path.toFile().toPath());
+        return Files.newInputStream(path);
     }
 
     @Override
     public OutputStream getOutputSteam() throws IOException {
-        return Files.newOutputStream(path.toFile().toPath());
+        return Files.newOutputStream(path);
     }
 
     @Override
