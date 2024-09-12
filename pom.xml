@@ -27,6 +27,7 @@
         <module>Pathfinding</module>
         <module>AnimationsImport</module>
         <module>Animations</module>
+        <module>glTF</module>
     </modules>
 
     <properties>
