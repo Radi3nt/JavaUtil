@@ -23,7 +23,6 @@
         <module>LanguageHelperV2</module>
         <module>DataStructures</module>
         <module>SplineHelper</module>
-        <module>AnimationHelper</module>
         <module>InverseKinematics</module>
         <module>Pathfinding</module>
     </modules>
