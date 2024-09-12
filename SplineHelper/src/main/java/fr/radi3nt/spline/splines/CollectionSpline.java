@@ -17,8 +17,11 @@ public class CollectionSpline implements Spline {
     @Override
     public float interpolate(float t) {
         int index = (int) Math.floor(t);
-        if (t==curves.size())
+        if (t==curves.size()) {
             index = curves.size()-1;
+            if (curves.isEmpty())
+                index = 0;
+        }
         Curve curve = getCurveAtIndex(index);
         return curve.interpolate(t-index);
     }
@@ -26,8 +29,11 @@ public class CollectionSpline implements Spline {
     @Override
     public float velocity(float t) {
         int index = (int) Math.floor(t);
-        if (t==curves.size())
+        if (t==curves.size()) {
             index = curves.size()-1;
+            if (curves.isEmpty())
+                index = 0;
+        }
 
         Curve curve = getCurveAtIndex(index);
         return curve.velocity(t-index);
