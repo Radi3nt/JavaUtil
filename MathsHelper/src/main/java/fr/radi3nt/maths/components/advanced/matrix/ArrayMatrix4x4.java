@@ -9,6 +9,9 @@ import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Arrays;
 
+import static java.lang.Math.copySign;
+import static java.lang.Math.sqrt;
+
 public class ArrayMatrix4x4 implements Matrix4x4 {
 
     private final float[][] m;
@@ -178,17 +181,42 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public Quaternion getRotation() {
-        return getCopySignRotation();
+        return getOtherRotation();
     }
 
-    private Quaternion getCopySignRotation() {
-        float w = (float) (sqrt(Math.max(0, 1 + m[0][0] + m[1][1] + m[2][2])) / 2);
-        float x = (float) (sqrt(Math.max(0, 1 + m[0][0] - m[1][1] - m[2][2])) / 2);
-        float y = (float) (sqrt(Math.max(0, 1 - m[0][0] + m[1][1] - m[2][2])) / 2);
-        float z = (float) (sqrt(Math.max(0, 1 - m[0][0] - m[1][1] + m[2][2])) / 2);
-        x = copySign(x, m[1][2] - m[2][1]);
-        y = copySign(y, m[2][0] - m[0][2]);
-        z = copySign(z, m[0][1] - m[1][0]);
+    private Quaternion getOtherRotation() {
+        float x;
+        float y;
+        float z;
+        float w;
+        float trace = m[0][0] + m[1][1] + m[2][2]; // I removed + 1.0f; see discussion with Ethan
+        if( trace > 0 ) {// I changed M_EPSILON to 0
+            float s = (float) (0.5f / sqrt(trace+ 1.0f));
+            w = 0.25f / s;
+            x = (m[1][2] - m[2][1]) * s;
+            y = (m[2][0] - m[0][2]) * s;
+            z = (m[0][1] - m[1][0]) * s;
+        } else {
+            if ( m[0][0] > m[1][1] && m[0][0] > m[2][2] ) {
+                float s = (float) (2.0f * sqrt( 1.0f + m[0][0] - m[1][1] - m[2][2]));
+                w = (m[1][2] - m[2][1]) / s;
+                x = 0.25f * s;
+                y = (m[0][1] + m[1][0] ) / s;
+                z = (m[0][2] + m[2][0] ) / s;
+            } else if (m[1][1] > m[2][2]) {
+                float s = (float) (2.0f * sqrt( 1.0f + m[1][1] - m[0][0] - m[2][2]));
+                w = (m[2][0] - m[0][2]) / s;
+                x = (m[0][1] + m[1][0] ) / s;
+                y = 0.25f * s;
+                z = (m[1][2] + m[2][1] ) / s;
+            } else {
+                float s = (float) (2.0f * sqrt( 1.0f + m[2][2] - m[0][0] - m[1][1] ));
+                w = (m[0][1] - m[1][0]) / s;
+                x = (m[0][2] + m[2][0] ) / s;
+                y = (m[1][2] + m[2][1] ) / s;
+                z = 0.25f * s;
+            }
+        }
         return new ComponentsQuaternion(x, y, z, w);
     }
 
