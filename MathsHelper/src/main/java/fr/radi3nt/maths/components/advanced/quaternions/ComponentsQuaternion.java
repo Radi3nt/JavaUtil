@@ -84,10 +84,10 @@ public class ComponentsQuaternion implements Quaternion {
         Quaternion rotationY = ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 1, 0), angleY);
         Quaternion rotationZ = ComponentsQuaternion.fromAxisAndAngle(new SimpleVector3f(0, 0, 1), angleZ);
 
-        rotationX.multiply(rotationY);
-        rotationX.multiply(rotationZ);
+        rotationZ.multiply(rotationY);
+        rotationZ.multiply(rotationX);
 
-        return rotationX;
+        return rotationZ;
     }
 
     public static Quaternion zero() {
