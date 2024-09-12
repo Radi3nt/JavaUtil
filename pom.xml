@@ -28,6 +28,7 @@
         <module>AnimationsImport</module>
         <module>Animations</module>
         <module>glTF</module>
+        <module>Armature</module>
     </modules>
 
     <properties>
