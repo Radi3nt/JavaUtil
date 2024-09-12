@@ -182,13 +182,13 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     private Quaternion getCopySignRotation() {
-        float w = (float) (Math.sqrt(Math.max(0, 1 + m[0][0] + m[1][1] + m[2][2])) / 2);
-        float x = (float) (Math.sqrt(Math.max(0, 1 + m[0][0] - m[1][1] - m[2][2])) / 2);
-        float y = (float) (Math.sqrt(Math.max(0, 1 - m[0][0] + m[1][1] - m[2][2])) / 2);
-        float z = (float) (Math.sqrt(Math.max(0, 1 - m[0][0] - m[1][1] + m[2][2])) / 2);
-        x *= Math.signum(m[2][1] - m[1][2]);
-        y *= Math.signum(m[0][2] - m[2][0]);
-        z *= Math.signum(m[1][0] - m[0][1]);
+        float w = (float) (sqrt(Math.max(0, 1 + m[0][0] + m[1][1] + m[2][2])) / 2);
+        float x = (float) (sqrt(Math.max(0, 1 + m[0][0] - m[1][1] - m[2][2])) / 2);
+        float y = (float) (sqrt(Math.max(0, 1 - m[0][0] + m[1][1] - m[2][2])) / 2);
+        float z = (float) (sqrt(Math.max(0, 1 - m[0][0] - m[1][1] + m[2][2])) / 2);
+        x = copySign(x, m[1][2] - m[2][1]);
+        y = copySign(y, m[2][0] - m[0][2]);
+        z = copySign(z, m[0][1] - m[1][0]);
         return new ComponentsQuaternion(x, y, z, w);
     }
 
