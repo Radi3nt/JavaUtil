@@ -41,10 +41,18 @@ public class WorldRestedBoneDriver implements BoneDriver {
         set(translate, rotate);
     }
 
+    public Vector3f getTranslation() {
+        return translation;
+    }
+
+    public Quaternion getRotation() {
+        return rotation;
+    }
+
     @Override
     public Matrix4x4 getModelSpaceTransform(Matrix4x4 parentModelSpace) {
-        localTransform.quaternionRotation(rotation);
-        localTransform.translation(translation);
+        localTransform.quaternionRotation(getRotation());
+        localTransform.translation(getTranslation());
 
         resultTransform.copy(localRestTransform);
         resultTransform.multiply(localTransform);
