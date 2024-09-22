@@ -17,6 +17,10 @@ public class BoneRestData {
         this.scale = scale;
     }
 
+    public static BoneRestData fromMatrix(Matrix4x4 matrix) {
+        return new BoneRestData(matrix.getTranslation(), matrix.getRotation(), matrix.getScale());
+    }
+
     public Matrix4x4 toMatrix() {
         Matrix4x4 result = ArrayMatrix4x4.newIdentity();
         result.quaternionRotation(rotation);
@@ -35,5 +39,11 @@ public class BoneRestData {
 
     public Vector3f getScale() {
         return scale;
+    }
+
+    public BoneRestData child(BoneRestData child) {
+        Matrix4x4 matrix4x4 = toMatrix();
+        matrix4x4.multiply(child.toMatrix());
+        return BoneRestData.fromMatrix(matrix4x4);
     }
 }
