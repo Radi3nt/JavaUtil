@@ -3,7 +3,7 @@ package fr.radi3nt.maths.components.advanced.matrix.angle;
 public class JavaMathAngle implements Angle {
 
     public static final Angle POSITIVE_RIGHT_ANGLE = JavaMathAngle.fromDegree(90);
-    public static final Angle NEAGTIVE_RIGHT_ANGLE = JavaMathAngle.fromDegree(-90);
+    public static final Angle NEGATIVE_RIGHT_ANGLE = JavaMathAngle.fromDegree(-90);
 
     private double angleValueInRadiant;
 
