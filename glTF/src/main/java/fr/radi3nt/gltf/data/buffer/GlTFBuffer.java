@@ -1,7 +1,6 @@
 package fr.radi3nt.gltf.data.buffer;
 
 import fr.radi3nt.file.files.ReadableFile;
-import sun.misc.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +31,7 @@ public class GlTFBuffer {
         while (totalSkipped < offset) {
             totalSkipped+=inputStream.skip(offset -totalSkipped);
         }
-        byte[] bytes = IOUtils.readNBytes(inputStream, length);
+        byte[] bytes = readNBytes(inputStream, length);
         inputStream.close();
 
         ByteBuffer wrap = ByteBuffer.wrap(bytes);
@@ -55,9 +54,24 @@ public class GlTFBuffer {
         while (totalSkipped < offset) {
             totalSkipped+=inputStream.skip(offset -totalSkipped);
         }
-        byte[] bytes = IOUtils.readNBytes(inputStream, length);
+        byte[] bytes = readNBytes(inputStream, length);
         inputStream.close();
 
         result.put(bytes);
+    }
+
+
+    private byte[] readNBytes(InputStream stream, int length) {
+        byte[] bytes = new byte[length];
+
+        int readBytes = 0;
+        while (readBytes < length) {
+            try {
+                readBytes+=stream.read(bytes, readBytes, length-readBytes);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return bytes;
     }
 }
