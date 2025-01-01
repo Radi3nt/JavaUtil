@@ -12,7 +12,7 @@ public final class RecursiveResourceVisitor {
         if (location.getProtocol().equals("file")) {
             Path path = Paths.get(location.toURI());
             if (location.getPath().endsWith(".jar")) {
-                try (FileSystem fs = FileSystems.newFileSystem(path, null)) {
+                try (FileSystem fs = FileSystems.newFileSystem(path, (ClassLoader) null)) {
                     walkTree(consumer, fs.getPath("/" + root));
                 }
             } else {
