@@ -34,6 +34,23 @@ public class CubicBezierSplineBuilder3D {
         splineBuilders[2] = new CubicBezierSplineBuilder(zPos);
     }
 
+    public CubicBezierSplineBuilder3D(int length) {
+        BezierPoint[] xPos = new BezierPoint[length];
+        BezierPoint[] yPos = new BezierPoint[length];
+        BezierPoint[] zPos = new BezierPoint[length];
+
+        for (int i = 0; i < length; i++) {
+            BezierPoint3D position = new BezierPoint3D(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            xPos[i] = position.getXAxis();
+            yPos[i] = position.getYAxis();
+            zPos[i] = position.getZAxis();
+        }
+
+        splineBuilders[0] = new CubicBezierSplineBuilder(xPos);
+        splineBuilders[1] = new CubicBezierSplineBuilder(yPos);
+        splineBuilders[2] = new CubicBezierSplineBuilder(zPos);
+    }
+
     public Spline3D build() {
         return new EncapsulatingSpline3D(splineBuilders[0].build(), splineBuilders[1].build(), splineBuilders[2].build());
     }
