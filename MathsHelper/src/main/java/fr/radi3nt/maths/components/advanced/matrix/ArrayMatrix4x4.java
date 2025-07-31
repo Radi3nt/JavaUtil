@@ -523,17 +523,66 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public void multiply(Matrix matrix) {
-        Matrix result = new ArrayMatrix4x4();
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
-                result.set(x, y, this.get(0, y) * matrix.get(x, 0) +
-                        this.get(1, y) * matrix.get(x, 1) +
-                        this.get(2, y) * matrix.get(x, 2) +
-                        this.get(3, y) * matrix.get(x, 3));
-            }
-        }
 
-        this.copy(result);
+        float a00 = this.get(0, 0);
+        float a01 = this.get(0, 1);
+        float a02 = this.get(0, 2);
+        float a03 = this.get(0, 3);
+
+        float a10 = this.get(1, 0);
+        float a11 = this.get(1, 1);
+        float a12 = this.get(1, 2);
+        float a13 = this.get(1, 3);
+
+        float a20 = this.get(2, 0);
+        float a21 = this.get(2, 1);
+        float a22 = this.get(2, 2);
+        float a23 = this.get(2, 3);
+
+        float a30 = this.get(3, 0);
+        float a31 = this.get(3, 1);
+        float a32 = this.get(3, 2);
+        float a33 = this.get(3, 3);
+
+        float b00 = matrix.get(0, 0);
+        float b01 = matrix.get(0, 1);
+        float b02 = matrix.get(0, 2);
+        float b03 = matrix.get(0, 3);
+
+        float b10 = matrix.get(1, 0);
+        float b11 = matrix.get(1, 1);
+        float b12 = matrix.get(1, 2);
+        float b13 = matrix.get(1, 3);
+
+        float b20 = matrix.get(2, 0);
+        float b21 = matrix.get(2, 1);
+        float b22 = matrix.get(2, 2);
+        float b23 = matrix.get(2, 3);
+
+        float b30 = matrix.get(3, 0);
+        float b31 = matrix.get(3, 1);
+        float b32 = matrix.get(3, 2);
+        float b33 = matrix.get(3, 3);
+
+        this.set(0, 0, a00*b00+a10*b01+a20*b02+a30*b03);
+        this.set(1, 0, a00*b10+a10*b11+a20*b12+a30*b13);
+        this.set(2, 0, a00*b20+a10*b21+a20*b22+a30*b23);
+        this.set(3, 0, a00*b30+a10*b31+a20*b32+a30*b33);
+
+        this.set(0, 1, a01*b00+a11*b01+a21*b02+a31*b03);
+        this.set(1, 1, a01*b10+a11*b11+a21*b12+a31*b13);
+        this.set(2, 1, a01*b20+a11*b21+a21*b22+a31*b23);
+        this.set(3, 1, a01*b30+a11*b31+a21*b32+a31*b33);
+
+        this.set(0, 2, a02*b00+a12*b01+a22*b02+a32*b03);
+        this.set(1, 2, a02*b10+a12*b11+a22*b12+a32*b13);
+        this.set(2, 2, a02*b20+a12*b21+a22*b22+a32*b23);
+        this.set(3, 2, a02*b30+a12*b31+a22*b32+a32*b33);
+
+        this.set(0, 3, a03*b00+a13*b01+a23*b02+a33*b03);
+        this.set(1, 3, a03*b10+a13*b11+a23*b12+a33*b13);
+        this.set(2, 3, a03*b20+a13*b21+a23*b22+a33*b23);
+        this.set(3, 3, a03*b30+a13*b31+a23*b32+a33*b33);
     }
 
     @Override
