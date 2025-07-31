@@ -43,4 +43,7 @@ public interface Matrix4x4 extends Matrix {
     Matrix4x4 duplicate();
 
     void scalar(Vector3f size);
+
+    void scalar(float x, float y, float z);
+
 }
