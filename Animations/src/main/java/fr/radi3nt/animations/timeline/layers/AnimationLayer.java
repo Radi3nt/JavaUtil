@@ -1,18 +1,27 @@
 package fr.radi3nt.animations.timeline.layers;
 
-import fr.radi3nt.animations.ProcessedAnimation;
-
-import java.util.ArrayList;
-import java.util.List;
+import fr.radi3nt.animations.timeline.AnimationTimeline;
+import fr.radi3nt.animations.timeline.SetAnimationTimeline;
 
 public class AnimationLayer {
 
-    private final List<ProcessedAnimation> animations = new ArrayList<>();
-    private final LayerMode layerMode;
+    private final AnimationTimeline timeline;
+    private final LayerBlending layerMode;
 
-    public AnimationLayer(LayerMode layerMode) {
+    public AnimationLayer(AnimationTimeline timeline, LayerBlending layerMode) {
+        this.timeline = timeline;
         this.layerMode = layerMode;
     }
 
+    public AnimationLayer(LayerBlending layerMode) {
+        this(new SetAnimationTimeline(), layerMode);
+    }
 
+    public LayerBlending getLayerMode() {
+        return layerMode;
+    }
+
+    public AnimationTimeline getTimeline() {
+        return timeline;
+    }
 }

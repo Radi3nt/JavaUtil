@@ -7,8 +7,7 @@ import java.util.Collection;
 public interface AnimationTimeline {
 
     void update(float delta);
-
-    <T> T getAnimatedPropertyOrDefault(ChannelIdentifier channelIdentifier, T defaultResult);
-
+    <T> T get(ChannelIdentifier channelIdentifier, T defaultResult);
     Collection<String> getAvailableObjects();
+
 }
