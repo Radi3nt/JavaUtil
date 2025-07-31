@@ -21,6 +21,8 @@ public interface Quaternion {
 
     void setW(float w);
 
+    void set(float x, float y, float z, float w);
+
     void inverse();
 
     void normalise();
