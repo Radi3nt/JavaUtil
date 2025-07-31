@@ -69,4 +69,6 @@ public interface Quaternion {
     Angle getAngle();
 
     void copy(Vector4f quaternion);
+
+    Angle getAxisAngle(Vector3f axis);
 }

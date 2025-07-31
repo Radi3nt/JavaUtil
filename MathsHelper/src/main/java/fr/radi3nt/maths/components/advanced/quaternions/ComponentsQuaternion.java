@@ -365,6 +365,12 @@ public class ComponentsQuaternion implements Quaternion {
     }
 
     @Override
+    public Angle getAxisAngle(Vector3f axis) {
+        axis.copy(getAxisOrDefault(axis));
+        return getAngle();
+    }
+
+    @Override
     public void add(Quaternion quaternion) {
         this.x += quaternion.getX();
         this.y += quaternion.getY();
