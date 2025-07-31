@@ -10,11 +10,11 @@ import java.util.Map;
 
 public class Primitive {
 
-    private final Map<GlTFAttribute, Integer> attributesToAccessors;
+    private final Map<String, Integer> attributesToAccessors;
     private final int indicesAccessor;
     private final int materialSlot;
 
-    public Primitive(Map<GlTFAttribute, Integer> attributesToAccessors, int indicesAccessor, int materialSlot) {
+    public Primitive(Map<String, Integer> attributesToAccessors, int indicesAccessor, int materialSlot) {
         this.attributesToAccessors = attributesToAccessors;
         this.indicesAccessor = indicesAccessor;
         this.materialSlot = materialSlot;
@@ -34,13 +34,23 @@ public class Primitive {
         return bufferAccessor.getByteSize();
     }
 
+    public int getComponentByte(GlTFAttribute attribute, GlTFResult result) {
+        BufferAccessor bufferAccessor = getAccessor(attribute, result);
+        return bufferAccessor.getComponentBytes();
+    }
+
+    public int getComponentCount(GlTFAttribute attribute, GlTFResult result) {
+        BufferAccessor bufferAccessor = getAccessor(attribute, result);
+        return bufferAccessor.getComponentCount();
+    }
+
     public int getCount(GlTFAttribute attribute, GlTFResult result) {
         BufferAccessor bufferAccessor = getAccessor(attribute, result);
         return bufferAccessor.getCount();
     }
 
     private BufferAccessor getAccessor(GlTFAttribute attribute, GlTFResult result) {
-        int accessor = attributesToAccessors.get(attribute);
+        int accessor = attributesToAccessors.get(attribute.getId());
         return result.bufferAccessors[accessor];
     }
 
@@ -53,6 +63,8 @@ public class Primitive {
     }
 
     public GlTFMaterial getMaterial(GlTFResult result) {
+        if (materialSlot==-1)
+            return null;
         return result.materials[materialSlot];
     }
 

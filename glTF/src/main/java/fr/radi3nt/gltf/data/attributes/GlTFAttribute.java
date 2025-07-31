@@ -1,10 +1,7 @@
 package fr.radi3nt.gltf.data.attributes;
 
-public enum GlTFAttribute {
+public interface GlTFAttribute {
 
-    POSITION,
-    NORMAL,
-    JOINTS_0,
-    WEIGHTS_0
+    String getId();
 
 }

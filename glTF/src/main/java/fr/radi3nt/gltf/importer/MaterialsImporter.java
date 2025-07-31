@@ -8,6 +8,8 @@ import fr.radi3nt.json.JsonObject;
 public class MaterialsImporter implements GlTFImporter {
 
     public void parse(JsonObject file, GlTFResult result) {
+        if (file.get("materials")==null)
+            return;
 
         JsonArray materialsJson = file.get("materials").asArray();
         GlTFMaterial[] materials = new GlTFMaterial[materialsJson.size()];

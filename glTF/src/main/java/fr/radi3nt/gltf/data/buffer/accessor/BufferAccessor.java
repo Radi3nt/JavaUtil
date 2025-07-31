@@ -41,6 +41,14 @@ public class BufferAccessor {
         return count*type.amount()*componentType.bytes();
     }
 
+    public int getComponentBytes() {
+        return componentType.bytes();
+    }
+
+    public int getComponentCount() {
+        return type.amount();
+    }
+
     public int getCount() {
         return count;
     }

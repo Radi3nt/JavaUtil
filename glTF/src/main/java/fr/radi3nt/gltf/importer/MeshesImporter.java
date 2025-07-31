@@ -2,6 +2,7 @@ package fr.radi3nt.gltf.importer;
 
 import fr.radi3nt.gltf.data.GlTFResult;
 import fr.radi3nt.gltf.data.attributes.GlTFAttribute;
+import fr.radi3nt.gltf.data.attributes.StringGLTFAttribute;
 import fr.radi3nt.gltf.data.mesh.GlTFMesh;
 import fr.radi3nt.gltf.data.mesh.Primitive;
 import fr.radi3nt.json.JsonArray;
@@ -24,11 +25,10 @@ public class MeshesImporter implements GlTFImporter {
             for (int j = 0; j < primitivesJson.size(); j++) {
                 JsonObject primitiveJson = primitivesJson.get(j).asObject();
                 JsonObject attributes = primitiveJson.get("attributes").asObject();
-                Map<GlTFAttribute, Integer> attributesMap = new HashMap<>();
+                Map<String, Integer> attributesMap = new HashMap<>();
                 for (JsonObject.Member attribute : attributes) {
-                    GlTFAttribute glTFAttribute = GlTFAttribute.valueOf(attribute.getName());
                     int accessorIndex = attribute.getValue().asInt();
-                    attributesMap.put(glTFAttribute, accessorIndex);
+                    attributesMap.put(attribute.getName(), accessorIndex);
                 }
 
                 int indicesIndex = primitiveJson.getInt("indices", -1);

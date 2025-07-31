@@ -13,8 +13,14 @@ import java.util.Collection;
 
 public class GltfAllImporter {
 
+    public GlTFResult importFile(String fullPath) throws IOException {
+        int last = fullPath.lastIndexOf("/");
+        String path = fullPath.substring(0, last);
+        String name = fullPath.substring(last+1);
+        return importFile(path, name);
+    }
 
-    public GlTFResult importFile(String filePath, String fileName) throws IOException {
+    public GlTFResult importFile(String parent, String fileName) throws IOException {
         GlTFResult result = new GlTFResult();
 
 
@@ -28,10 +34,10 @@ public class GltfAllImporter {
             importers.add(new SkinsImporter());
             importers.add(new ViewImporter());
         }
-        importers.add(new BuffersImporter(filePath));
+        importers.add(new BuffersImporter(parent));
 
-        JsonValue parsed = Json.parse(new InputStreamReader(new ResourceFile(filePath + "/" + fileName).getInputStream()));
-        importers.parallelStream().forEach(importer -> {importer.parse(parsed.asObject(), result);});
+        JsonValue parsed = Json.parse(new InputStreamReader(new ResourceFile(parent + "/" + fileName).getInputStream()));
+        importers.parallelStream().forEach(importer -> importer.parse(parsed.asObject(), result));
 
         return result;
     }
