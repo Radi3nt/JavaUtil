@@ -2,6 +2,7 @@ package fr.radi3nt.maths.components.advanced.quaternions;
 
 import fr.radi3nt.maths.components.advanced.matrix.angle.Angle;
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.Vector4f;
 
 public interface Quaternion {
 
@@ -66,4 +67,6 @@ public interface Quaternion {
     Vector3f getVector();
 
     Angle getAngle();
+
+    void copy(Vector4f quaternion);
 }
