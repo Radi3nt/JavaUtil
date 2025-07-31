@@ -27,8 +27,8 @@ public final class Maths {
         return Math.max(Math.min(value, max), min);
     }
 
-    public static double exactDistance(Vector3f vec1, Vector3f vec2) {
-        return Math.abs(Math.sqrt(Math.pow(vec1.getX()-vec2.getX(), 2) + Math.pow(vec1.getY() - vec2.getY(), 2) + Math.pow(vec1.getZ() - vec2.getZ(), 2)));
+    public static float fastAbs(float v) {
+        return Float.intBitsToFloat(0x7fffffff & Float.floatToRawIntBits(v));
     }
 
     public static byte[] floatToByteArray(float[] value) {
@@ -131,5 +131,31 @@ public final class Maths {
         double[][] array = new double[amount][];
         Arrays.fill(array, values);
         return array;
+    }
+
+    public static boolean inRange(float v1, float v2, float c) {
+        return fastAbs(v1-v2) <= c;
+    }
+
+    public static double max(double a, double b, double c) {
+        double maximum = a;
+
+        if (maximum < b)
+            maximum = b;
+
+        if (maximum < c)
+            maximum = c;
+        return maximum;
+    }
+
+    public static double min(double a, double b, double c) {
+        double minimum = a;
+
+        if (minimum > b)
+            minimum = b;
+
+        if (minimum > c)
+            minimum = c;
+        return minimum;
     }
 }
