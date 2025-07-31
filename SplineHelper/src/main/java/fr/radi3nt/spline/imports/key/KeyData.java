@@ -1,11 +1,11 @@
-package fr.radi3nt.animations.importing.anim.animation.data.key;
+package fr.radi3nt.spline.imports.key;
 
 import java.util.Arrays;
 
 public class KeyData {
 
-    private final float frameIndex;
-    private final float correspondingData;
+    private final float x;
+    private final float y;
 
     private final InterpolationType inInterpolation;
     private final InterpolationType outInterpolation;
@@ -16,9 +16,9 @@ public class KeyData {
     private final CurveHandleData[] curveHandleData;
 
 
-    public KeyData(float frameIndex, float correspondingData, InterpolationType inInterpolation, InterpolationType outInterpolation, boolean tangentLocked, boolean weightLocked, CurveHandleData[] curveHandleData) {
-        this.frameIndex = frameIndex;
-        this.correspondingData = correspondingData;
+    public KeyData(float x, float y, InterpolationType inInterpolation, InterpolationType outInterpolation, boolean tangentLocked, boolean weightLocked, CurveHandleData[] curveHandleData) {
+        this.x = x;
+        this.y = y;
         this.inInterpolation = inInterpolation;
         this.outInterpolation = outInterpolation;
         this.tangentLocked = tangentLocked;
@@ -26,12 +26,12 @@ public class KeyData {
         this.curveHandleData = curveHandleData;
     }
 
-    public float getFrameIndex() {
-        return frameIndex;
+    public float getX() {
+        return x;
     }
 
-    public float getCorrespondingData() {
-        return correspondingData;
+    public float getY() {
+        return y;
     }
 
     public InterpolationType getInInterpolation() {
@@ -57,8 +57,8 @@ public class KeyData {
     @Override
     public String toString() {
         return "KeyData{" +
-                "frameIndex=" + frameIndex +
-                ", correspondingData=" + correspondingData +
+                "x=" + x +
+                ", y=" + y +
                 ", inInterpolation=" + inInterpolation +
                 ", outInterpolation=" + outInterpolation +
                 ", tangentLocked=" + tangentLocked +

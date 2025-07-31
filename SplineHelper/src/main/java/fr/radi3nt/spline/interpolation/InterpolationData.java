@@ -1,4 +1,4 @@
-package fr.radi3nt.animations.channels.interpolation;
+package fr.radi3nt.spline.interpolation;
 
 public interface InterpolationData {
 

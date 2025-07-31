@@ -1,7 +1,7 @@
 package fr.radi3nt.animations.channels.types;
 
 import fr.radi3nt.animations.channels.KeyframeChannel;
-import fr.radi3nt.animations.channels.interpolation.InterpolationData;
+import fr.radi3nt.spline.interpolation.InterpolationData;
 import fr.radi3nt.maths.components.vectors.Vector3f;
 
 public class KeyframeTranslateChannel implements KeyframeChannel<Vector3f> {

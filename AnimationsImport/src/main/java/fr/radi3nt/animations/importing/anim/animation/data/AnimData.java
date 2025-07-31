@@ -1,6 +1,6 @@
 package fr.radi3nt.animations.importing.anim.animation.data;
 
-import fr.radi3nt.animations.importing.anim.animation.data.key.KeyframesData;
+import fr.radi3nt.spline.imports.key.KeyframesData;
 import fr.radi3nt.animations.importing.anim.header.AnimHeader;
 import fr.radi3nt.animations.importing.anim.units.AnimUnit;
 import fr.radi3nt.animations.importing.anim.units.UnitType;

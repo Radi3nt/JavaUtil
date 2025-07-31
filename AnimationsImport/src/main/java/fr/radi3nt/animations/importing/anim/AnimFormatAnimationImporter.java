@@ -2,8 +2,8 @@ package fr.radi3nt.animations.importing.anim;
 
 import fr.radi3nt.animations.AnimationClip;
 import fr.radi3nt.animations.channels.ChannelIdentifier;
-import fr.radi3nt.animations.channels.interpolation.InterpolationData;
-import fr.radi3nt.animations.channels.interpolation.PlotInterpolationData;
+import fr.radi3nt.spline.interpolation.InterpolationData;
+import fr.radi3nt.spline.interpolation.PlotInterpolationData;
 import fr.radi3nt.animations.channels.types.KeyframeSplitEulerXYZRotationChannel;
 import fr.radi3nt.animations.channels.types.KeyframeSplitInterpolationDataChannel;
 import fr.radi3nt.animations.channels.types.KeyframeSplitVectorChannel;
@@ -57,16 +57,16 @@ public class AnimFormatAnimationImporter {
             for (Map.Entry<ChannelInfo, AnimData> channelInfoAnimDataEntry : animationBody.getAnimData().entrySet()) {
                 AnimData value = channelInfoAnimDataEntry.getValue();
                 ChannelInfo key = channelInfoAnimDataEntry.getKey();
-                Supplier<KeyframeSplitInterpolationDataChannel<?>> channelSupplier = createChanneSupplier(key);
+                Supplier<KeyframeSplitInterpolationDataChannel<?>> channelSupplier = createChannelSupplier(key);
                 KeyframeSplitInterpolationDataChannel<?> keyframeChannel = channels.computeIfAbsent(new ChannelIdentifier(key.getObjectName(), key.getMainChannelType()), (c) -> channelSupplier.get());
                 Spline2D spline = value.getKeyframesData().getDataSpline();
-                keyframeChannel.getInterpolationData()[key.getAttributeInt()] = PlotInterpolationData.create(spline, duration, spline.getSegmentCount(), 0, (int) Math.nextUp(duration*POINTS_PER_SECONDS));
+                keyframeChannel.getInterpolationData()[key.getAttributeInt()] = PlotInterpolationData.create(spline, duration, spline.getSegmentCount(), 0, (int) Math.ceil(duration*POINTS_PER_SECONDS), 50);
             }
 
             return new AnimationClip(duration, channels);
         }
 
-        private static Supplier<KeyframeSplitInterpolationDataChannel<?>> createChanneSupplier(ChannelInfo key) {
+        private static Supplier<KeyframeSplitInterpolationDataChannel<?>> createChannelSupplier(ChannelInfo key) {
             Supplier<KeyframeSplitInterpolationDataChannel<?>> channelSupplier = null;
             switch (key.getMainChannelType()) {
                 case "rotate":

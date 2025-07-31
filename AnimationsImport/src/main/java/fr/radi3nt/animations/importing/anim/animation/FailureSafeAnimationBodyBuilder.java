@@ -2,11 +2,11 @@ package fr.radi3nt.animations.importing.anim.animation;
 
 import fr.radi3nt.animations.importing.anim.animation.data.AnimData;
 import fr.radi3nt.animations.importing.anim.animation.data.ChannelInfo;
-import fr.radi3nt.animations.importing.anim.animation.data.key.CurveHandleData;
-import fr.radi3nt.animations.importing.anim.animation.data.key.InterpolationType;
-import fr.radi3nt.animations.importing.anim.animation.data.key.KeyData;
-import fr.radi3nt.animations.importing.anim.animation.data.key.KeyframesData;
-import fr.radi3nt.animations.importing.anim.animation.spline.KeyedSplineBuilder;
+import fr.radi3nt.spline.imports.key.CurveHandleData;
+import fr.radi3nt.spline.imports.key.InterpolationType;
+import fr.radi3nt.spline.imports.key.KeyData;
+import fr.radi3nt.spline.imports.key.KeyframesData;
+import fr.radi3nt.spline.imports.spline.KeyedSplineBuilder;
 import fr.radi3nt.animations.importing.anim.content.AnimFileContent;
 import fr.radi3nt.animations.importing.anim.header.AnimHeader;
 import fr.radi3nt.animations.importing.anim.units.UnitType;
@@ -77,6 +77,11 @@ public class FailureSafeAnimationBodyBuilder implements AnimationBodyBuilder {
     }
 
     private KeyframesData buildKeysData(AnimFileContent content, AnimHeader header) {
+        List<KeyData> keyData = getKeyData(content);
+        return new KeyframesData(keyData, splineBuilder.build(keyData, 1f/header.getTimeUnit().getFrameEquivalent()));
+    }
+
+    private List<KeyData> getKeyData(AnimFileContent content) {
         List<KeyData> keyData = new ArrayList<>();
         while (content.hasLine()) {
             String line = content.readLine();
@@ -102,7 +107,7 @@ public class FailureSafeAnimationBodyBuilder implements AnimationBodyBuilder {
             keyData.add(new KeyData(frameIndex, correspondingValue, inInterpolation, outInterpolation, tanLocked, weightLocked, curveHandleData));
         }
         content.nextLine();
-        return new KeyframesData(keyData, splineBuilder.build(keyData, header.getTimeUnit().getFrameEquivalent()));
+        return keyData;
     }
 
     private boolean stringToBool(String str) {

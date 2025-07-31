@@ -1,4 +1,4 @@
-package fr.radi3nt.animations.importing.anim.animation.data.key;
+package fr.radi3nt.spline.imports.key;
 
 public enum InterpolationType {
 

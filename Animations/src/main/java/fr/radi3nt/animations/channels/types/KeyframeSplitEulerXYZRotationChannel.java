@@ -1,6 +1,6 @@
 package fr.radi3nt.animations.channels.types;
 
-import fr.radi3nt.animations.channels.interpolation.InterpolationData;
+import fr.radi3nt.spline.interpolation.InterpolationData;
 import fr.radi3nt.maths.components.advanced.matrix.angle.JavaMathAngle;
 import fr.radi3nt.maths.components.advanced.quaternions.ComponentsQuaternion;
 import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;

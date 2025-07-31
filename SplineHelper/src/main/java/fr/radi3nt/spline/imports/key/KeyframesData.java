@@ -1,4 +1,4 @@
-package fr.radi3nt.animations.importing.anim.animation.data.key;
+package fr.radi3nt.spline.imports.key;
 
 import fr.radi3nt.spline.splines.dimensions.Spline2D;
 

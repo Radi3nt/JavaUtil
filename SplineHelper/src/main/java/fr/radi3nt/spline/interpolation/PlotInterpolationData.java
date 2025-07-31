@@ -1,4 +1,4 @@
-package fr.radi3nt.animations.channels.interpolation;
+package fr.radi3nt.spline.interpolation;
 
 import fr.radi3nt.spline.splines.dimensions.Spline2D;
 
@@ -15,7 +15,7 @@ public class PlotInterpolationData implements InterpolationData {
         this.plotInterval = plotInterval;
     }
 
-    public static PlotInterpolationData create(Spline2D spline, float splineDuration, int splineSegments, float splineOffset, int points) {
+    public static PlotInterpolationData create(Spline2D spline, float splineDuration, int splineSegments, float splineOffset, int points, int iterations) {
         float[] plots = new float[points];
         float lastT = 0;
 
@@ -23,15 +23,15 @@ public class PlotInterpolationData implements InterpolationData {
 
         for (int i = 0; i < points; i++) {
             float x = i*plotInterval + splineOffset;
-            float correspondingT = lastT = newtonRaphsonMethod(x, lastT, spline, splineSegments);
+            float correspondingT = lastT = newtonRaphsonMethod(x, lastT, spline, splineSegments, iterations);
             plots[i] = spline.interpolateY(correspondingT);
         }
         return new PlotInterpolationData(plots, plotInterval);
     }
 
-    private static float newtonRaphsonMethod(float expectedX, float startT, Spline2D spline, int splineSegments) {
+    private static float newtonRaphsonMethod(float expectedX, float startT, Spline2D spline, int splineSegments, int iterations) {
         float currentGuess = startT;
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < iterations; i++) {
             if (currentGuess>=splineSegments)
                 currentGuess = splineSegments;
             if (currentGuess<0)
@@ -41,8 +41,8 @@ public class PlotInterpolationData implements InterpolationData {
                 break;
             }
             float vel = spline.velocityX(currentGuess);
-            if (vel==0)
-                vel = EPSILON; //preventing catastrophic failure
+            if (Math.abs(vel)<=EPSILON)
+                vel = EPSILON*Math.copySign(1, vel); //preventing catastrophic failure
             currentGuess = currentGuess - (value-expectedX)/(vel);
         }
 
@@ -73,7 +73,7 @@ public class PlotInterpolationData implements InterpolationData {
 
         float startValue = plotted[index];
         float endValue = plotted[indexPlusOne];
-        float relativeTime = (t-index*plotInterval)/plotInterval;
+        float relativeTime = t/plotInterval - index;
 
         return relativeTime*endValue+(1-relativeTime)*startValue;
     }

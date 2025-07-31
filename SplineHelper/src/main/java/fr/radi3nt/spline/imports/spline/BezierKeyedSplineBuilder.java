@@ -1,11 +1,11 @@
-package fr.radi3nt.animations.importing.anim.animation.spline;
+package fr.radi3nt.spline.imports.spline;
 
-import fr.radi3nt.animations.importing.anim.animation.data.key.CurveHandleData;
-import fr.radi3nt.animations.importing.anim.animation.data.key.InterpolationType;
-import fr.radi3nt.animations.importing.anim.animation.data.key.KeyData;
-import fr.radi3nt.animations.importing.anim.animation.spline.handle.AutoHandleDataBuilder;
-import fr.radi3nt.animations.importing.anim.animation.spline.handle.FixedHandleDataBuilder;
-import fr.radi3nt.animations.importing.anim.animation.spline.handle.GeneratedHandleDataBuilder;
+import fr.radi3nt.spline.imports.key.CurveHandleData;
+import fr.radi3nt.spline.imports.key.InterpolationType;
+import fr.radi3nt.spline.imports.key.KeyData;
+import fr.radi3nt.spline.imports.spline.handle.AutoHandleDataBuilder;
+import fr.radi3nt.spline.imports.spline.handle.FixedHandleDataBuilder;
+import fr.radi3nt.spline.imports.spline.handle.GeneratedHandleDataBuilder;
 import fr.radi3nt.spline.curve.Curve;
 import fr.radi3nt.spline.curve.curves.bezier.CubicBezierCurve;
 import fr.radi3nt.spline.splines.CollectionSpline;
@@ -30,21 +30,29 @@ public class BezierKeyedSplineBuilder implements KeyedSplineBuilder {
 
 
     private final Map<InterpolationType, CurveHandleDataBuilder> curveHandleDataBuilderMap;
+    private final float offsetX;
+    private final float offsetY;
     private final float scaleX;
     private final float scaleY;
 
-    public BezierKeyedSplineBuilder(Map<InterpolationType, CurveHandleDataBuilder> curveHandleDataBuilderMap, float scaleX, float scaleY) {
+    public BezierKeyedSplineBuilder(Map<InterpolationType, CurveHandleDataBuilder> curveHandleDataBuilderMap, float offsetX, float offsetY, float scaleX, float scaleY) {
         this.curveHandleDataBuilderMap = curveHandleDataBuilderMap;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
         this.scaleX = scaleX;
         this.scaleY = scaleY;
     }
 
     public static KeyedSplineBuilder newDefault(float scaleX, float scaleY) {
-        return new BezierKeyedSplineBuilder(DEFAULT_INTERPOLATIONS, scaleX, scaleY);
+        return new BezierKeyedSplineBuilder(DEFAULT_INTERPOLATIONS, 0, 0, scaleX, scaleY);
+    }
+
+    public static KeyedSplineBuilder newDefault(float offsetX, float offsetY, float scaleX, float scaleY) {
+        return new BezierKeyedSplineBuilder(DEFAULT_INTERPOLATIONS, offsetX, offsetY, scaleX, scaleY);
     }
 
     @Override
-    public Spline2D build(List<KeyData> keyData, float animFrameRate) {
+    public Spline2D build(List<KeyData> keyData, float scaleX) {
         List<Curve> xCurves = new ArrayList<>();
         List<Curve> yCurves = new ArrayList<>();
         Spline xSpline = new CollectionSpline(xCurves);
@@ -59,25 +67,25 @@ public class BezierKeyedSplineBuilder implements KeyedSplineBuilder {
             CurveHandleData startCurveData = curveHandleDataBuilderMap.get(startSplineType).buildStartHandleData(keyData, i, start, end);
             CurveHandleData endCurveData = curveHandleDataBuilderMap.get(endSplineType).buildEndHandleData(keyData, i, start, end);
 
-            float cappedStartLength = capTangentLength(end.getFrameIndex()-start.getFrameIndex(), startCurveData);
-            float cappedEndLength = capTangentLength(end.getFrameIndex()-start.getFrameIndex(), endCurveData);
+            float cappedStartLength = capTangentLength(end.getX()-start.getX(), startCurveData);
+            float cappedEndLength = capTangentLength(end.getX()-start.getX(), endCurveData);
 
-            float startXPointControl =(start.getFrameIndex()+calcPosX(startCurveData, cappedStartLength));
-            float endXPointControl = (end.getFrameIndex()-calcPosX(endCurveData, cappedEndLength));
+            float startXPointControl =(start.getX()+calcPosX(startCurveData, cappedStartLength));
+            float endXPointControl = (end.getX()-calcPosX(endCurveData, cappedEndLength));
 
-            float startYPointControl = (start.getCorrespondingData()+calcPosY(startCurveData, cappedStartLength));
-            float endYPointControl = (end.getCorrespondingData()-calcPosY(endCurveData, cappedEndLength));
+            float startYPointControl = (start.getY()+calcPosY(startCurveData, cappedStartLength));
+            float endYPointControl = (end.getY()-calcPosY(endCurveData, cappedEndLength));
 
             CubicBezierCurve curveX = new CubicBezierCurve(new DirectCubicBezierCurveController(
-                    start.getFrameIndex()*scaleX/animFrameRate,
-                    end.getFrameIndex()*scaleX/animFrameRate,
-                    startXPointControl*scaleX/animFrameRate,
-                    endXPointControl*scaleX/animFrameRate));
+                    start.getX()* this.scaleX *scaleX+offsetX,
+                    end.getX()* this.scaleX *scaleX+offsetX,
+                    startXPointControl* this.scaleX *scaleX+offsetX,
+                    endXPointControl* this.scaleX *scaleX+offsetX));
             CubicBezierCurve curveY = new CubicBezierCurve(new DirectCubicBezierCurveController(
-                    start.getCorrespondingData()*scaleY,
-                    end.getCorrespondingData()*scaleY,
-                    startYPointControl*scaleY,
-                    endYPointControl*scaleY));
+                    start.getY()*scaleY+offsetY,
+                    end.getY()*scaleY+offsetY,
+                    startYPointControl*scaleY+offsetY,
+                    endYPointControl*scaleY+offsetY));
 
             xCurves.add(curveX);
             yCurves.add(curveY);

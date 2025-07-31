@@ -1,8 +1,8 @@
-package fr.radi3nt.animations.importing.anim.animation.spline.handle;
+package fr.radi3nt.spline.imports.spline.handle;
 
-import fr.radi3nt.animations.importing.anim.animation.data.key.CurveHandleData;
-import fr.radi3nt.animations.importing.anim.animation.data.key.KeyData;
-import fr.radi3nt.animations.importing.anim.animation.spline.CurveHandleDataBuilder;
+import fr.radi3nt.spline.imports.key.CurveHandleData;
+import fr.radi3nt.spline.imports.key.KeyData;
+import fr.radi3nt.spline.imports.spline.CurveHandleDataBuilder;
 
 import java.util.List;
 

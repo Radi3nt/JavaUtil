@@ -1,4 +1,4 @@
-package fr.radi3nt.animations.importing.anim.animation.spline.handle;
+package fr.radi3nt.spline.imports.spline.handle;
 
 import fr.radi3nt.maths.components.vectors.Vector2f;
 
