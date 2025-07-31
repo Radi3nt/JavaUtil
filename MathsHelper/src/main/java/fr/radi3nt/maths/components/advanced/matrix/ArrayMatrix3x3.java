@@ -144,6 +144,17 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
     }
 
     @Override
+    public boolean isZero() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (get(i, j)!=0)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public Quaternion getRotation() {
         return getCopySignRotation();
     }
