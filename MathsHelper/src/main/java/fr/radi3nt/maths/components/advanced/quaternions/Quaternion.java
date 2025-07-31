@@ -27,6 +27,8 @@ public interface Quaternion {
 
     void normalise();
 
+    void normaliseSafely();
+
     void add(Quaternion quaternion);
 
     void multiply(Quaternion quaternion);

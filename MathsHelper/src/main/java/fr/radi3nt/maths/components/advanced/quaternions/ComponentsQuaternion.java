@@ -62,7 +62,7 @@ public class ComponentsQuaternion implements Quaternion {
         }
 
         Quaternion quaternion = new ComponentsQuaternion(w.getX(), w.getY(), w.getZ(), real_part);
-        quaternion.normalise();
+        quaternion.normaliseSafely();
         return quaternion;
     }
 
@@ -195,6 +195,17 @@ public class ComponentsQuaternion implements Quaternion {
     @Override
     public void normalise() {
         float magnitude = getMagnitude();
+        this.x /= magnitude;
+        this.y /= magnitude;
+        this.z /= magnitude;
+        this.w /= magnitude;
+    }
+
+    @Override
+    public void normaliseSafely() {
+        float magnitude = getMagnitude();
+        if (magnitude==0)
+            return;
         this.x /= magnitude;
         this.y /= magnitude;
         this.z /= magnitude;
