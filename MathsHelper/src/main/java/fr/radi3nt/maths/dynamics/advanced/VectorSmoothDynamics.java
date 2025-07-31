@@ -1,4 +1,4 @@
-package fr.radi3nt.maths.dynamics;
+package fr.radi3nt.maths.dynamics.advanced;
 
 import fr.radi3nt.maths.components.arbitrary.OperatingVectorNf;
 
@@ -8,6 +8,7 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
     protected T inputPrevious, inputCurrent;
     protected T response, responseDerivative;
 
+    private final T inputVelocity;
     private final T inputDerivativeCache;
     private final T responseDerivativeCache;
 
@@ -20,6 +21,7 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
         this.inputPrevious = (T) start.duplicate();
         responseDerivative = (T) start.duplicate().mul(0);
         inputDerivativeCache = (T) start.duplicate().mul(0);
+        inputVelocity = (T) start.duplicate().mul(0);
         responseDerivativeCache = (T) start.duplicate().mul(0);
     }
 
@@ -28,11 +30,14 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
             return;
         inputDerivativeCache.copy(inputCurrent);
         inputDerivativeCache.sub(inputPrevious).div(step);
+        inputDerivativeCache.add(inputVelocity);
+        inputVelocity.mul(0);
+
         inputPrevious.copy(inputCurrent);
         float k1Stable, k2Stable;
         if (systemIsAtHighSpeed(constants, step)) {
             k1Stable = constants.getK1();
-            k2Stable = Math.max(constants.getK2(), Math.max(step*step/2 + step*k1Stable/2, step*k1Stable));
+            k2Stable = Math.max(constants.getK2(), Math.max(step*step/2 + step*k1Stable/2, step*k1Stable)); //todo use pole matching
         } else {
             k1Stable = constants.getK1();
             k2Stable = Math.max(constants.getK2(), Math.max(step*step/2 + step*k1Stable/2, step*k1Stable));
@@ -92,6 +97,10 @@ public class VectorSmoothDynamics<T extends OperatingVectorNf> {
 
     public T getInputPrevious() {
         return inputPrevious;
+    }
+
+    public T getInputVelocity() {
+        return inputVelocity;
     }
 
     public void setInputPrevious(T inputPrevious) {

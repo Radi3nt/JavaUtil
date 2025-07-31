@@ -1,4 +1,4 @@
-package fr.radi3nt.maths.dynamics;
+package fr.radi3nt.maths.dynamics.advanced;
 
 public class FloatSmoothDynamics {
 
@@ -71,5 +71,9 @@ public class FloatSmoothDynamics {
         inputCurrent = currentLocalPos;
         inputPrevious = currentLocalPos;
         this.responseDerivative = responseDerivative;
+    }
+
+    public void setResponseDerivative(float derivative) {
+        this.responseDerivative = derivative;
     }
 }

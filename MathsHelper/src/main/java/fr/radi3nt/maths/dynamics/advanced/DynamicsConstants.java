@@ -1,4 +1,4 @@
-package fr.radi3nt.maths.dynamics;
+package fr.radi3nt.maths.dynamics.advanced;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
@@ -22,6 +22,16 @@ public class DynamicsConstants {
         this.d = d;
     }
 
+    /**
+     * @param f frequency, speed at which the system responds to inputs
+     * @param z damping coefficient, it controls the vibration
+     * @param r initial response,
+     *          <ul>
+     *          <li><b>r>0</b> imply that the system reacts instantly</li>
+     *          <li><b>r>1</b> overshoots the input</li>
+     *          <li><b>r<0</b> anticipate the motion</li>
+     *          </ul>
+     */
     public static DynamicsConstants from(float f, float z, float r) {
         float w = (float) (2f*PI*f);
 

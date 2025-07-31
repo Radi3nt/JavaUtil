@@ -1,4 +1,4 @@
-package fr.radi3nt.maths.dynamics;
+package fr.radi3nt.maths.dynamics.advanced;
 
 import fr.radi3nt.maths.components.vectors.Vector4f;
 import fr.radi3nt.maths.components.vectors.implementations.SimpleVector4f;
