@@ -1,6 +1,7 @@
 package fr.radi3nt.maths.colour.colors;
 
 import fr.radi3nt.maths.components.vectors.Vector3f;
+import fr.radi3nt.maths.components.vectors.implementations.SimpleVector3f;
 
 import java.util.Objects;
 
@@ -37,6 +38,10 @@ public class BasicColour implements Colour {
         this.red = red/255f;
         this.green = green/255f;
         this.blue = blue/255f;
+    }
+
+    public BasicColour(Colour color, float intensity) {
+        this(color.getRed(), color.getGreen(), color.getBlue(), intensity);
     }
 
     @Override
@@ -79,5 +84,9 @@ public class BasicColour implements Colour {
     @Override
     public Colour duplicate() {
         return new BasicColour(getRed(), getGreen(), getBlue());
+    }
+
+    public Vector3f toVector() {
+        return new SimpleVector3f(red, green, blue);
     }
 }
