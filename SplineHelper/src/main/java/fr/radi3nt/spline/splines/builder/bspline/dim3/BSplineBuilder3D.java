@@ -26,6 +26,16 @@ public class BSplineBuilder3D {
         splineBuilders[2] = new BSplineBuilder(zPos);
     }
 
+    public BSplineBuilder3D(int count) {
+        float[] xPos = new float[count];
+        float[] yPos = new float[count];
+        float[] zPos = new float[count];
+
+        splineBuilders[0] = new BSplineBuilder(xPos);
+        splineBuilders[1] = new BSplineBuilder(yPos);
+        splineBuilders[2] = new BSplineBuilder(zPos);
+    }
+
     public Spline3D build() {
         return new EncapsulatingSpline3D(splineBuilders[0].build(), splineBuilders[1].build(), splineBuilders[2].build());
     }
