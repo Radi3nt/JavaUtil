@@ -319,6 +319,13 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
+    public void translation(float x, float y, float z) {
+        m[3][0] = x;
+        m[3][1] = y;
+        m[3][2] = z;
+    }
+
+    @Override
     public void add(Matrix4x4 rotation) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {

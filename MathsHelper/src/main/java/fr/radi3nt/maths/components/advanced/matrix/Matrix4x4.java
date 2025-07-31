@@ -15,6 +15,8 @@ public interface Matrix4x4 extends Matrix {
 
     void translation(Vector3f translation);
 
+    void translation(float x, float y, float z);
+
     void add(Matrix4x4 rotation);
 
     void scale(Vector3f scale);
