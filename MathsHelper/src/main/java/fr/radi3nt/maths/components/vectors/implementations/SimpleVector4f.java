@@ -102,6 +102,14 @@ public class SimpleVector4f implements Vector4f {
     }
 
     @Override
+    public void mul(Vector4f other) {
+        this.x *= other.getX();
+        this.y *= other.getY();
+        this.z *= other.getZ();
+        this.w *= other.getW();
+    }
+
+    @Override
     public float get(int row) {
         if (row==0)
             return x;
@@ -160,6 +168,16 @@ public class SimpleVector4f implements Vector4f {
         this.y -= other.get(1);
         this.z -= other.get(2);
         this.w -= other.get(3);
+        return this;
+    }
+
+    public Vector4f sub(Vector4f other) {
+        if (other.size()!=this.size())
+            throw new IllegalArgumentException();
+        this.x -= other.getX();
+        this.y -= other.getY();
+        this.z -= other.getZ();
+        this.w -= other.getW();
         return this;
     }
 

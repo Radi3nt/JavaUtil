@@ -20,6 +20,7 @@ public interface Vector4f extends Vector, OperatingVectorNf {
 
     void set(Vector3f vector3f, float w);
     void set(float x, float y, float z, float w);
+    void mul(Vector4f other);
 
     Vector4f duplicate();
 
