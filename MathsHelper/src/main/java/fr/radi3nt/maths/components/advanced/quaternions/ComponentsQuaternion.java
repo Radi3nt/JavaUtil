@@ -15,6 +15,7 @@ import static java.lang.Math.sqrt;
 
 public class ComponentsQuaternion implements Quaternion {
 
+    private static final Vector3f UP = new SimpleVector3f(0, 1, 0);
     private float x;
     private float y;
     private float z;
@@ -96,6 +97,10 @@ public class ComponentsQuaternion implements Quaternion {
 
     public static Quaternion fromVec4(Vector4f response) {
         return new ComponentsQuaternion(response.getX(), response.getY(), response.getZ(), response.getW());
+    }
+
+    public static Quaternion fromUpVector(Vector3f other) {
+        return fromTwoVectors(UP, other);
     }
 
     @Override
