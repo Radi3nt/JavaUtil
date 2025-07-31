@@ -342,6 +342,13 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
+    public void scale(float x, float y, float z) {
+        m[0][0] = x;
+        m[1][1] = y;
+        m[2][2] = z;
+    }
+
+    @Override
     public void rotationX(Angle angle) {
         m[1][1] = angle.cos();
         m[1][2] = angle.sin();

@@ -21,6 +21,8 @@ public interface Matrix4x4 extends Matrix {
 
     void scale(Vector3f scale);
 
+    void scale(float x, float y, float z);
+
     void rotationX(Angle angle);
 
     void rotationY(Angle angle);
