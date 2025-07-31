@@ -21,4 +21,12 @@ public class ColorData {
     public float getAlpha() {
         return alpha;
     }
+
+    @Override
+    public String toString() {
+        return "ColorData{" +
+                "colour=" + colour +
+                ", alpha=" + alpha +
+                '}';
+    }
 }
