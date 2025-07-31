@@ -43,6 +43,17 @@ public class SimpleVector3f implements Vector3f {
         this((float) v, (float) v1, (float) v2);
     }
 
+    public static float distanceSquared(Vector3f first, Vector3f second) {
+        float x = (first.getX()-second.getX());
+        float y = (first.getY()-second.getY());
+        float z = (first.getZ()-second.getZ());
+        return x*x + y*y + z*z;
+    }
+
+    public static float distance(Vector3f first, Vector3f second) {
+        return (float) Math.sqrt(distanceSquared(first, second));
+    }
+
     @Override
     public float getX() {
         return x;

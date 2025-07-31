@@ -28,6 +28,18 @@ public class SimpleVector2f implements Vector2f {
         this.copy(vector);
     }
 
+    public static float distanceSquared(Vector2f first, Vector2f second) {
+        float x = (first.getX()-second.getX());
+        float y = (first.getY()-second.getY());
+        return x*x + y*y;
+    }
+
+    public static float distance(float x, float y, float xo, float yo) {
+        float xd = x-xo;
+        float yd = y-yo;
+        return (float) Math.sqrt(xd*xd+yd*yd);
+    }
+
     @Override
     public float getX() {
         return x;
