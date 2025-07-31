@@ -26,6 +26,13 @@ public class SimpleVector4f implements Vector4f {
         this.w = w;
     }
 
+    public SimpleVector4f(float vec, float w) {
+        this.x = vec;
+        this.y = vec;
+        this.z = vec;
+        this.w = w;
+    }
+
     public SimpleVector4f() {
     }
 
