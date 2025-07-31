@@ -485,6 +485,7 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
 
     @Override
     public void perspective(float fov, float aspect, float near, float far) {
+        //https://www.songho.ca/opengl/gl_projectionmatrix.html under "Perspective projection with horizontal FOV"
         identity();
 
         float y_scale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))));
