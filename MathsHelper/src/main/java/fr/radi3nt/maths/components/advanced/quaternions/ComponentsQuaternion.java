@@ -103,6 +103,14 @@ public class ComponentsQuaternion implements Quaternion {
         return fromTwoVectors(UP, other);
     }
 
+    public static float distanceSquared(Quaternion orientation, Quaternion targetOrientation) {
+        float x = (orientation.getX()-targetOrientation.getX());
+        float y = (orientation.getY()-targetOrientation.getY());
+        float z = (orientation.getZ()-targetOrientation.getZ());
+        float w = (orientation.getW()-targetOrientation.getW());
+        return x*x + y*y + z*z + w*w;
+    }
+
     @Override
     public Quaternion getRotationComponentAboutAxis(
             Vector3f direction) {
