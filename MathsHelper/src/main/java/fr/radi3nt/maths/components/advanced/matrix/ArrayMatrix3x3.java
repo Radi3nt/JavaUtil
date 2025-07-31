@@ -29,6 +29,15 @@ public class ArrayMatrix3x3 implements Matrix3x3 {
         this.m = m;
     }
 
+    public ArrayMatrix3x3(Matrix4x4 copy) {
+        m = new float[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                set(i, j, copy.get(i, j));
+            }
+        }
+    }
+
     public static ArrayMatrix3x3 newIdentity() {
         ArrayMatrix3x3 arrayMatrix4x4 = new ArrayMatrix3x3();
         arrayMatrix4x4.identity();
