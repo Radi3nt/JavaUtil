@@ -2,6 +2,7 @@ package fr.radi3nt.armatures.armature.bone;
 
 import fr.radi3nt.armatures.armature.driver.BoneDriver;
 import fr.radi3nt.armatures.armature.driver.BoneRestData;
+import fr.radi3nt.armatures.armature.driver.DriverResult;
 import fr.radi3nt.armatures.armature.driver.ParentedBoneDriver;
 import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix4x4;
 import fr.radi3nt.maths.components.advanced.matrix.Matrix4x4;
@@ -31,13 +32,14 @@ public class ParentBone implements Bone {
     }
 
     @Override
-    public void update(Matrix4x4 parentModelSpace) {
-        modelSpaceTransform.copy(boneDriver.getModelSpaceTransform(parentModelSpace));
+    public void update(DriverResult parentModelSpace) {
+        DriverResult result = boneDriver.getModelSpaceForParentTransform(parentModelSpace);
 
         for (Bone child : children) {
-            child.update(modelSpaceTransform);
+            child.update(result);
         }
 
+        modelSpaceTransform.copy(result.getCurrent());
         jointSpaceTransform.copy(modelSpaceTransform);
         jointSpaceTransform.multiply(worldInverseBindTransform);
     }

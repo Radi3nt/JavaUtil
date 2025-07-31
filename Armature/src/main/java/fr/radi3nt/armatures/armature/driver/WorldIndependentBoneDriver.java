@@ -13,6 +13,7 @@ public class WorldIndependentBoneDriver implements BoneDriver {
     private final Matrix4x4 localTransform = ArrayMatrix4x4.newIdentity();
 
     private final Vector3f translation = new SimpleVector3f();
+    private final Vector3f scale = new SimpleVector3f(1f, 1f, 1f);
     private final Quaternion rotation = ComponentsQuaternion.zero();
 
     public WorldIndependentBoneDriver() {
@@ -20,41 +21,66 @@ public class WorldIndependentBoneDriver implements BoneDriver {
     }
 
     @Override
-    public void set(Vector3f position) {
+    public void setPosition(Vector3f position) {
         this.translation.copy(position);
     }
 
     @Override
-    public void set(Quaternion quaternion) {
+    public void setScale(Vector3f scale) {
+        this.scale.copy(scale);
+    }
+
+    @Override
+    public void setRotation(Quaternion quaternion) {
         this.rotation.copy(quaternion);
     }
 
     @Override
-    public void set(Vector3f translation, Quaternion rotation) {
-        set(translation);
-        set(rotation);
+    public void addRotation(Quaternion quaternion) {
+        rotation.multiply(quaternion);
     }
 
     @Override
-    public void set(Vector3f translate, Quaternion rotate, Vector3f scale) {
-        set(translate, rotate);
+    public void setPositionAndRotation(Vector3f translation, Quaternion rotation) {
+        setPosition(translation);
+        setRotation(rotation);
     }
 
-    public Quaternion getRotation() {
+    @Override
+    public void setAll(Vector3f translate, Quaternion rotate, Vector3f scale) {
+        setPositionAndRotation(translate, rotate);
+        setScale(scale);
+    }
+
+    @Override
+    public DriverResult getModelSpaceForParentTransform(DriverResult parent) {
+        localTransform.quaternionRotation(getLocalRotation());
+        localTransform.translation(getTranslation());
+        localTransform.scalar(getScale());
+
+        resultTransform.copy(localTransform);
+        return new SetDriverResult(resultTransform);
+    }
+
+    public Quaternion getLocalRotation() {
         return rotation;
+    }
+
+    @Override
+    public Vector3f getLocalTranslation() {
+        return translation;
+    }
+
+    @Override
+    public Vector3f getLocalSize() {
+        return scale;
     }
 
     public Vector3f getTranslation() {
         return translation;
     }
 
-    @Override
-    public Matrix4x4 getModelSpaceTransform(Matrix4x4 parentModelSpace) {
-        localTransform.quaternionRotation(getRotation());
-        localTransform.translation(getTranslation());
-
-        resultTransform.copy(localTransform);
-
-        return resultTransform;
+    public Vector3f getScale() {
+        return scale;
     }
 }

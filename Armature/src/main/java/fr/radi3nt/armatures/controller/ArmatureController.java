@@ -8,22 +8,22 @@ import java.util.Map;
 
 public class ArmatureController {
 
-    private final Map<String, BoneDriver> driverMap;
+    private final Map<String, Bone> driverMap;
 
-    public ArmatureController(Map<String, BoneDriver> driverMap) {
+    public ArmatureController(Map<String, Bone> driverMap) {
         this.driverMap = driverMap;
     }
 
     public static ArmatureController from(Map<String, Bone> bones) {
-        Map<String, BoneDriver> driverMap = new HashMap<>();
-        for (Map.Entry<String, Bone> entry : bones.entrySet()) {
-            driverMap.put(entry.getKey(), entry.getValue().getBoneDriver());
-        }
-        return new ArmatureController(driverMap);
+        return new ArmatureController(bones);
     }
 
     public BoneDriver getDriver(String boneName) {
-        return driverMap.get(boneName);
+        return driverMap.get(boneName).getBoneDriver();
+    }
+
+    public void setDriver(String boneName, BoneDriver driver) {
+        driverMap.get(boneName).setBoneDriver(driver);
     }
 
 }

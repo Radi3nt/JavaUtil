@@ -23,14 +23,17 @@ public class ArmatureAnimationController {
                 System.err.println("Unable to find object '" + availableObject + "' referenced in the animation clip, ignoring");
                 continue;
             }
-            Quaternion rotate = animationTimeline.getAnimatedPropertyOrDefault(ChannelIdentifier.rotation(availableObject), null);
-            Vector3f translate = animationTimeline.getAnimatedPropertyOrDefault(ChannelIdentifier.translation(availableObject), null);
-            Vector3f scale = animationTimeline.getAnimatedPropertyOrDefault(ChannelIdentifier.scale(availableObject), null);
+
+            Quaternion rotate = animationTimeline.get(ChannelIdentifier.rotation(availableObject), null);
+            Vector3f translate = animationTimeline.get(ChannelIdentifier.translation(availableObject), null);
+            Vector3f scale = animationTimeline.get(ChannelIdentifier.scale(availableObject), null);
 
             if (rotate!=null)
-                driver.set(rotate);
+                driver.setRotation(rotate);
             if (translate!=null)
-                driver.set(translate);
+                driver.setPosition(translate);
+            if (scale!=null)
+                driver.setScale(scale);
         }
     }
 }

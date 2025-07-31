@@ -1,7 +1,11 @@
 package fr.radi3nt.armatures.armature;
 
 import fr.radi3nt.armatures.armature.bone.Bone;
+import fr.radi3nt.armatures.armature.driver.DriverResult;
+import fr.radi3nt.armatures.armature.driver.SetDriverResult;
+import fr.radi3nt.maths.components.advanced.matrix.ArrayMatrix4x4;
 import fr.radi3nt.maths.components.advanced.matrix.Matrix4x4;
+import fr.radi3nt.maths.components.vectors.Vector3f;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -36,7 +40,7 @@ public class ListArmature implements Armature {
 
     public void update() {
         for (Bone rootBone : rootBones) {
-            rootBone.update(armatureTransform);
+            rootBone.update(new SetDriverResult(armatureTransform));
         }
     }
 

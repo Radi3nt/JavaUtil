@@ -6,11 +6,16 @@ import fr.radi3nt.maths.components.vectors.Vector3f;
 
 public interface BoneDriver {
 
-    void set(Vector3f position);
-    void set(Quaternion quaternion);
-    void set(Vector3f translation, Quaternion rotation);
-    void set(Vector3f translate, Quaternion rotate, Vector3f scale);
+    void setPosition(Vector3f position);
+    void setScale(Vector3f scale);
+    void setRotation(Quaternion quaternion);
+    void addRotation(Quaternion quaternion);
+    void setPositionAndRotation(Vector3f translation, Quaternion rotation);
+    void setAll(Vector3f translate, Quaternion rotate, Vector3f scale);
 
-    Matrix4x4 getModelSpaceTransform(Matrix4x4 parentModelSpace);
+    DriverResult getModelSpaceForParentTransform(DriverResult parent);
 
+    Quaternion getLocalRotation();
+    Vector3f getLocalTranslation();
+    Vector3f getLocalSize();
 }
