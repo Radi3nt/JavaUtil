@@ -512,6 +512,16 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
     }
 
     @Override
+    public void transform(Vector3f toTransform, float w) {
+        float x = m[0][0] * toTransform.getX() + m[1][0] * toTransform.getY() + m[2][0] * toTransform.getZ() + m[3][0] * w;
+        float y = m[0][1] * toTransform.getX() + m[1][1] * toTransform.getY() + m[2][1] * toTransform.getZ() + m[3][1] * w;
+        float z = m[0][2] * toTransform.getX() + m[1][2] * toTransform.getY() + m[2][2] * toTransform.getZ() + m[3][2] * w;
+        toTransform.setX(x);
+        toTransform.setY(y);
+        toTransform.setZ(z);
+    }
+
+    @Override
     public void multiply(Matrix matrix) {
         Matrix result = new ArrayMatrix4x4();
         for (int x = 0; x < 4; x++) {

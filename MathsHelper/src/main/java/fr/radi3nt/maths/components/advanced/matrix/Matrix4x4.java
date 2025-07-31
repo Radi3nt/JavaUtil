@@ -39,6 +39,7 @@ public interface Matrix4x4 extends Matrix {
     void perspective(float fov, float aspect, float near, float far);
 
     void transform(Vector4f toTransform);
+    void transform(Vector3f toTransform, float w);
 
     void multiply(Matrix matrix);
 
