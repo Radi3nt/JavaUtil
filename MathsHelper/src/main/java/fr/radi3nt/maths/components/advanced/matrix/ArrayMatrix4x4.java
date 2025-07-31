@@ -46,6 +46,69 @@ public class ArrayMatrix4x4 implements Matrix4x4 {
         return arrayMatrix4x4;
     }
 
+    public static Matrix4x4 transform(Vector3f translation) {
+        ArrayMatrix4x4 arrayMatrix4x4 = newIdentity();
+        arrayMatrix4x4.translation(translation);
+        return arrayMatrix4x4;
+    }
+
+    public static Matrix4x4 transform(Vector3f translation, Quaternion rotation) {
+        ArrayMatrix4x4 arrayMatrix4x4 = new ArrayMatrix4x4();
+        arrayMatrix4x4.quaternionRotation(rotation);
+        arrayMatrix4x4.translation(translation);
+        return arrayMatrix4x4;
+    }
+
+    public static Matrix4x4 transform(Vector3f translation, Quaternion rotation, Vector3f scale) {
+        ArrayMatrix4x4 result = new ArrayMatrix4x4();
+        transform(result, translation, rotation, scale);
+        return result;
+    }
+
+
+    public static void transform(Matrix4x4 result, Vector3f translation, Quaternion rotation, Vector3f scale) {
+        result.quaternionRotation(rotation);
+        result.translation(translation);
+
+        Matrix4x4 scaling = ArrayMatrix4x4.newIdentity();
+        scaling.scale(scale);
+        result.multiply(scaling);
+
+    }
+
+    public static Matrix4x4 transform(Vector3f translation, Vector3f scale) {
+        ArrayMatrix4x4 result = ArrayMatrix4x4.newIdentity();
+
+        Matrix4x4 scaling = ArrayMatrix4x4.newIdentity();
+        scaling.scale(scale);
+        result.multiply(scaling);
+        result.translation(translation);
+
+
+        return result;
+    }
+
+    public static Matrix4x4 fromScale(Vector3f scale) {
+        ArrayMatrix4x4 arrayMatrix4x4 = new ArrayMatrix4x4();
+        arrayMatrix4x4.m[3][3] = 1f;
+        arrayMatrix4x4.scale(scale);
+        return arrayMatrix4x4;
+    }
+
+    public static Matrix4x4 mul(Matrix4x4... matrices) {
+        Matrix4x4 result = ArrayMatrix4x4.newIdentity();
+        for (Matrix4x4 matrix : matrices) {
+            result.multiply(matrix);
+        }
+        return result;
+    }
+
+    public static Matrix4x4 fromRotation(Quaternion rotation) {
+        Matrix4x4 result = ArrayMatrix4x4.newIdentity();
+        result.quaternionRotation(rotation);
+        return result;
+    }
+
     @Override
     public void identity() {
         for (int i = 0; i < 4; i++) {
