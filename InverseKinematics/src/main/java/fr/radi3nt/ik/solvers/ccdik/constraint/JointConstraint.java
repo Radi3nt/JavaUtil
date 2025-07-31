@@ -1,7 +1,7 @@
 package fr.radi3nt.ik.solvers.ccdik.constraint;
 
-import fr.radi3nt.ik.solvers.ccdik.CCDJoint;
+import fr.radi3nt.maths.components.advanced.quaternions.Quaternion;
 
 public interface JointConstraint {
-    void constrain(CCDJoint ccdJoint);
+    void constrain(Quaternion rotation);
 }

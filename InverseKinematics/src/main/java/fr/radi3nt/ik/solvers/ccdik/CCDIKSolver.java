@@ -56,9 +56,11 @@ public class CCDIKSolver extends IkIterativeSolver {
         invLinkRot.inverse();
 
         Vector3f localEi = convertToBoneLocalSpace(ei, bonePos, invLinkRot);
-        localEi.normalize();
+        localEi.normalizeSafely();
         Vector3f localEt = convertToBoneLocalSpace(et, bonePos, invLinkRot);
-        localEt.normalize();
+        localEt.normalizeSafely();
+        if (localEt.lengthSquared()==0 || localEi.lengthSquared()==0)
+            return ComponentsQuaternion.zero();
 
         return ComponentsQuaternion.fromTwoVectors(localEi, localEt);
     }
@@ -77,6 +79,7 @@ public class CCDIKSolver extends IkIterativeSolver {
             Quaternion rotation = joint.rotation;
             float length = joint.getLength();
 
+            //rotation.multiply(joint.baseRot);
             cumulatedRotation.multiply(rotation);
             Vector3f localTranslation = upAxis.duplicate();
             cumulatedRotation.transform(localTranslation);
@@ -93,7 +96,9 @@ public class CCDIKSolver extends IkIterativeSolver {
     private Quaternion getAllPreviousRotation(int index) {
         Quaternion localSpaceRotation = ComponentsQuaternion.zero();
         for (int i = 0; i < index; i++) {
-            Quaternion linkInverseRot = joints[i].rotation;
+            Quaternion linkInverseRot = joints[i].rotation.duplicate();
+            Quaternion baseRotInv = joints[i].baseRot;
+            //linkInverseRot.multiply(baseRotInv);
             localSpaceRotation.multiply(linkInverseRot);
         }
         return localSpaceRotation;

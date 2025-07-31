@@ -14,15 +14,15 @@ public class HingeJointConstraint implements JointConstraint {
     }
 
     @Override
-    public void constrain(CCDJoint ccdJoint) {
-        Quaternion invRot = ccdJoint.rotation.duplicate();
+    public void constrain(Quaternion rotation) {
+        Quaternion invRot = rotation.duplicate();
         invRot.inverse();
 
         Vector3f parentAxis = constrainedAxis.duplicate();
         invRot.transform(parentAxis);
 
         Quaternion quaternion = ComponentsQuaternion.fromTwoVectors(constrainedAxis, parentAxis);
-        ccdJoint.rotation.multiply(quaternion);
+        rotation.multiply(quaternion);
     }
 
     public Vector3f getConstrainedAxis() {
