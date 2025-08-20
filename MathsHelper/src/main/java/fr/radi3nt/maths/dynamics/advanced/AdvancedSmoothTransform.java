@@ -129,4 +129,13 @@ public class AdvancedSmoothTransform implements SmoothTransform<DynamicsConstant
         positionDynamics.setConstants(constants);
         rotationDynamics.setConstants(constants);
     }
+
+    public void setPositionConstants(DynamicsConstants constants) {
+        positionDynamics.setConstants(constants);
+    }
+
+    public void setRotationConstants(DynamicsConstants constants) {
+        rotationDynamics.setConstants(constants);
+    }
+
 }
